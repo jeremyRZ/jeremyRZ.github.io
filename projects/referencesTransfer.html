@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>输出参考文献信息</title>
+    <style>
+      /* CSS 样式 */
+      body {
+        font-family: sans-serif;
+        background-color: #f7f7f7;
+        margin: 0;
+        padding: 0;
+      }
+
+      #header {
+        background-color: #212121;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+      }
+
+      #main {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #e0e0e0;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      form {
+        margin: 20px 0;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      textarea {
+        display: block;
+        margin-bottom: 20px;
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+
+      button {
+        padding: 10px 20px;
+        background-color: #212121;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #000;
+      }
+
+      h1 {
+        margin: 0 0 20px;
+        font-size: 24px;
+      }
+
+      h2 {
+        margin: 20px 0 10px;
+        font-size: 20px;
+      }
+
+      p {
+        margin: 0;
+        font-size: 16px;
+      }
+
+      #output {
+        background-color: #f0f0f0;
+        padding: 20px;
+        border-radius: 5px;
+        font-size: 16px;
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="header">
+      <h1>参考文献信息输出</h1>
+    </div>
+    <div id="main">
+      <h2>输入参考文献信息</h2>
+      <form>
+        <label for="citation">请输入您的参考文献:</label>
+        <textarea id="citation" name="citation" rows="4" cols="50"></textarea>
+        <button type="button" onclick="displayCitation()">显示参考文献信息</button>
+      </form>
+      <h2>参考文献信息</h2>
+      <p id="output"></p>
+    </div>
+
+    <script>
+      function displayCitation() {
+        const citation = document.getElementById("citation").value;
+
+        const regex = /(.+)\((\d{4})\)\.(.+)\.(.+),\s(\d+),\s(\d+-\d+)/;
+        const match = regex.exec(citation);
+
+        const authorNames = match[1];
+        const year = match[2];
+        const title = match[3];
+        const journal = match[4];
+        const volume = match[5];
+        const pages = match[6];
+
+        const authors = authorNames.split('.,').map(name => name.trim()).join('.; ').replace(/&/g, "");
+
+        const output = [
+          `Author: ${authors}`,
+          `Title: ${title}`,
+          `Journal Name: ${journal}`,
+          `Years: ${year}`,
+          `Volume: ${volume}`,
+          `Pages: ${pages}`
+        ];
+
+        const outputList = document.getElementById("output");
+        outputList.innerHTML = '';
+        output.forEach(item => {
+          const li = document.createElement('li');
+          li.innerText = item;
+          outputList.appendChild(li);
+        });
+      }
+    </script>
+  </body>
+</html>
