@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <title>Web 交互演示：登录与系统跳转</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
     <style>
       body {
         font-family: "Segoe UI", sans-serif;
@@ -33,7 +37,7 @@
       /* 通用卡片样式 */
       .box {
         width: 400px;
-        height: 500px;
+        height: 520px; /* 稍微加高一点以容纳更多日志 */
         border-radius: 12px;
         padding: 20px;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -52,6 +56,9 @@
         border-bottom: 2px solid #eee;
         padding-bottom: 10px;
         margin-top: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
       }
 
       /* 浏览器视窗 */
@@ -81,6 +88,7 @@
         border-radius: 4px;
         width: 100%;
         border: 1px solid #ccc;
+        font-family: monospace;
       }
       .viewport {
         padding: 15px;
@@ -174,29 +182,50 @@
         font-weight: bold;
       }
 
-      /* 后端样式 */
+      /* 后端样式 - Spring Boot 风格 */
       .backend {
         background: #2c3e50;
         color: #ecf0f1;
-        border-top: 5px solid #27ae60;
+        border-top: 5px solid #6db33f; /* Spring Green */
       }
       .backend h2 {
-        color: #27ae60;
+        color: #6db33f;
         border-bottom: 1px solid #555;
         padding-bottom: 10px;
         margin-top: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
       }
       .server-log {
         font-family: "Consolas", monospace;
-        font-size: 12px;
-        color: #00ff00;
+        font-size: 11px; /* 稍微调小一点，像真实控制台 */
+        color: #cccccc;
         margin-top: 10px;
-        height: 380px;
+        height: 400px;
         overflow-y: auto;
-        background: #1a252f;
-        padding: 10px;
-        border-radius: 4px;
+        background: #1e1e1e; /* VS Code terminal dark */
+        padding: 12px;
+        border-radius: 6px;
+        line-height: 1.4;
+        box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
       }
+      .log-info {
+        color: #4ec9b0;
+      } /* Spring log level color */
+      .log-warn {
+        color: #dcdcaa;
+      }
+      .log-error {
+        color: #f44747;
+      }
+      .log-time {
+        color: #569cd6;
+        margin-right: 8px;
+      }
+      .log-class {
+        color: #b5cea8;
+      } /* Class name color */
 
       /* 传输动画小球 */
       .packet {
@@ -281,12 +310,12 @@
     </style>
   </head>
   <body>
-    <h1>Web Architecture Simulator v2.0</h1>
-    <p>Login & Redirect & Interaction</p>
+    <h1>Web Architecture Simulator v2.1</h1>
+    <p>Spring Boot Backend Integration Demo</p>
 
     <div class="container">
       <div class="box frontend">
-        <h2>🖥️ Browser (Client)</h2>
+        <h2><i class="fa-solid fa-laptop-code"></i> Browser (Client)</h2>
 
         <div class="browser-window">
           <div class="url-bar">
@@ -389,25 +418,57 @@
       <div id="packet" class="packet"></div>
 
       <div class="box backend">
-        <h2>⚙️ Server (Tomcat)</h2>
+        <h2><i class="fa-brands fa-envira"></i> Server (Spring Boot)</h2>
         <div class="server-log" id="serverLog">
-          > Server started on port 8080...<br />
-          > Database Connection Pool: Active<br />
-          > Waiting for HTTP requests...<br />
+          <div>
+            <span class="log-time">10:00:00</span>
+            <span class="log-info">INFO</span>
+            <span class="log-class">main</span> Starting Application v1.0...
+          </div>
+          <div>
+            <span class="log-time">10:00:01</span>
+            <span class="log-info">INFO</span>
+            <span class="log-class">Tomcat</span> Tomcat initialized with
+            port(s): 8080 (http)
+          </div>
+          <div>
+            <span class="log-time">10:00:02</span>
+            <span class="log-info">INFO</span>
+            <span class="log-class">Servlet</span> Initializing Spring
+            DispatcherServlet
+          </div>
+          <div>
+            <span class="log-time">10:00:02</span>
+            <span class="log-info">INFO</span>
+            <span class="log-class">main</span> Started Application in 2.13
+            seconds
+          </div>
+          <div style="color: #888; margin-top: 5px">
+            --- Ready for requests ---
+          </div>
         </div>
       </div>
     </div>
 
     <script>
-      // Helper: Write log to server console
-      function logServer(msg, type = "info") {
+      // Helper: Write log to server console (Spring Boot Style)
+      function logServer(msg, type = "INFO", className = "Dispatcher") {
         const log = document.getElementById("serverLog");
         const time = new Date().toLocaleTimeString();
-        let color = "#00ff00";
-        if (type === "error") color = "#ff5555";
-        if (type === "db") color = "#f1c40f";
 
-        log.innerHTML += `<div style="margin-bottom:2px;"><span style="color:#666">[${time}]</span> <span style="color:${color}">${msg}</span></div>`;
+        let typeClass = "log-info";
+        if (type === "ERROR") typeClass = "log-error";
+        if (type === "WARN") typeClass = "log-warn";
+
+        const logLine = `
+                <div style="margin-top:2px; animation: fadeIn 0.3s;">
+                    <span class="log-time">${time}</span> 
+                    <span class="${typeClass}">${type}</span> 
+                    <span class="log-class">${className}</span> 
+                    ${msg}
+                </div>`;
+
+        log.innerHTML += logLine;
         log.scrollTop = log.scrollHeight;
       }
 
@@ -423,14 +484,16 @@
 
         setTimeout(() => {
           // 2. Server receives
-          logServer(`<strong>REQUEST:</strong> ${actionName}`);
-          if (payload) logServer(`Payload: ${payload}`);
+          logServer(
+            `Received Request: ${actionName}`,
+            "INFO",
+            "DispatcherServlet",
+          );
+          if (payload) logServer(`Payload: [${payload}]`, "INFO", "HttpInput");
 
           // Simulate Server Processing
           setTimeout(() => {
             // 3. Server sends response
-            logServer(`Processing logic...`, "db");
-
             packet.style.animation = "sendResponse 1.0s forwards";
 
             setTimeout(() => {
@@ -452,10 +515,17 @@
         btn.disabled = true;
         msg.innerText = "";
 
-        simulateNetworkRequest(`POST /login`, `user=${user}`, () => {
+        // Spring Boot style logic simulation
+        simulateNetworkRequest(`POST /api/login`, `username=${user}`, () => {
           if (user === "admin") {
-            logServer(`> User authenticated. SessionID created.`);
-            logServer(`<strong>RESPONSE:</strong> 302 Redirect -> /dashboard`);
+            // Server Logic Log
+            logServer(
+              `Authenticating user '${user}'...`,
+              "INFO",
+              "AuthController",
+            );
+            logServer(`Session created: SESS_9A8B`, "INFO", "SessionManager");
+            logServer(`Returning 200 OK`, "INFO", "DispatcherServlet");
 
             // Client Side Logic: Redirect
             document.getElementById("loginView").style.display = "none";
@@ -463,8 +533,9 @@
             document.getElementById("urlDisplay").innerText =
               "https://must.edu.mo/dashboard";
           } else {
-            logServer(`> Auth Failed. User not found.`, "error");
-            logServer(`<strong>RESPONSE:</strong> 401 Unauthorized`);
+            // Error Logic Log
+            logServer(`User '${user}' not found.`, "WARN", "UserService");
+            logServer(`Returning 401 Unauthorized`, "INFO", "DispatcherServlet");
             msg.innerText = "Invalid credentials. Please try 'admin'.";
             btn.disabled = false;
           }
@@ -474,11 +545,16 @@
       // Action: Select Course
       function selectCourse(courseCode) {
         simulateNetworkRequest(
-          `POST /select_course`,
+          `POST /api/courses/select`,
           `code=${courseCode}`,
           () => {
-            logServer(`> Course ${courseCode} added to Student DB.`, "db");
-            logServer(`<strong>RESPONSE:</strong> 200 OK (Updated)`);
+            logServer(
+              `Request to add course: ${courseCode}`,
+              "INFO",
+              "CourseController",
+            );
+            logServer(`Executing SQL: INSERT INTO...`, "INFO", "Hibernate");
+            logServer(`Returning 200 OK`, "INFO", "DispatcherServlet");
             alert(`Success! ${courseCode} has been added to your schedule.`);
           },
         );
