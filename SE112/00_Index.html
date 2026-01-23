@@ -13,13 +13,6 @@
         .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .card-hover:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
         
-        /* 渐变背景文字 */
-        .gradient-text {
-            background: linear-gradient(to right, #2563eb, #06b6d4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
         /* 装饰背景 */
         .bg-pattern {
             background-color: #1e293b;
@@ -154,20 +147,36 @@
                 </div>
             </a>
 
-            <a href="07_Backend_SpringBoot_Flow.html" class="block group md:col-span-2 lg:col-span-3">
-                <div class="bg-white rounded-xl overflow-hidden border border-green-200 card-hover h-full flex flex-row items-center relative">
-                    <div class="absolute top-0 left-0 bottom-0 w-2 bg-green-500"></div>
+            <a href="07_Backend_SpringBoot_Flow.html" class="block group">
+                <div class="bg-white rounded-xl overflow-hidden border border-green-200 card-hover h-full flex flex-col relative">
+                    <div class="p-6 flex-grow">
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4 text-green-600">
+                            <i class="fa-solid fa-server text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-2 group-hover:text-green-600 transition-colors">07. Backend Pipeline</h3>
+                        <p class="text-slate-500 text-sm">Spring Boot Architecture. Controller -> Service -> Repository visualization.</p>
+                    </div>
+                    <div class="bg-slate-50 px-6 py-3 border-t border-slate-100 flex justify-between items-center">
+                        <span class="text-xs font-mono text-slate-400">07_Backend_SpringBoot_Flow.html</span>
+                        <i class="fa-solid fa-arrow-right text-slate-300 group-hover:text-green-500 group-hover:translate-x-1 transition-all"></i>
+                    </div>
+                </div>
+            </a>
+
+            <a href="08_Ad_Tracking.html" class="block group md:col-span-2 lg:col-span-2">
+                <div class="bg-white rounded-xl overflow-hidden border border-red-200 card-hover h-full flex flex-row items-center relative">
+                    <div class="absolute top-0 left-0 bottom-0 w-2 bg-red-500"></div>
                     <div class="p-6 flex-grow flex items-center gap-6">
-                        <div class="w-16 h-16 bg-green-100 rounded-lg flex-shrink-0 flex items-center justify-center text-green-600">
-                            <i class="fa-solid fa-server text-3xl"></i>
+                        <div class="w-16 h-16 bg-red-100 rounded-lg flex-shrink-0 flex items-center justify-center text-red-600">
+                            <i class="fa-solid fa-user-secret text-3xl"></i>
                         </div>
                         <div>
-                            <h3 class="text-xl font-bold text-slate-800 mb-1 group-hover:text-green-600 transition-colors">07. Backend Pipeline (Spring Boot)</h3>
-                            <p class="text-slate-500 text-sm">Visualizing the Controller -> Service -> Repository flow. From JSON payload to Database record.</p>
+                            <h3 class="text-xl font-bold text-slate-800 mb-1 group-hover:text-red-600 transition-colors">08. The Ad Stalker (Cookies)</h3>
+                            <p class="text-slate-500 text-sm">"Why does my phone know what I want?" A demonstration of Cross-Site Tracking and Third-Party Cookies.</p>
                         </div>
                     </div>
                     <div class="px-6">
-                        <i class="fa-solid fa-chevron-right text-slate-300 group-hover:text-green-500 group-hover:translate-x-1 transition-all text-xl"></i>
+                        <i class="fa-solid fa-chevron-right text-slate-300 group-hover:text-red-500 group-hover:translate-x-1 transition-all text-xl"></i>
                     </div>
                 </div>
             </a>
