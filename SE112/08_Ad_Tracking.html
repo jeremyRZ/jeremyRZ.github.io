@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Ad Stalker: Why ads follow you</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        
+        .main-stage { flex: 1; display: flex; padding: 20px; gap: 20px; }
+        
+        /* 模拟浏览器窗口 */
+        .browser { 
+            flex: 1; background: white; border: 1px solid #ddd; border-radius: 12px; 
+            display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.5s;
+        }
+        
+        .url-bar { background: #eee; padding: 10px; border-bottom: 1px solid #ccc; display: flex; align-items: center; gap: 10px; font-size: 13px; color: #555; }
+        .viewport { flex: 1; padding: 20px; position: relative; }
+
+        /* 网站内容 */
+        .site-content { display: none; animation: fadeIn 0.5s; }
+        .site-content.active { display: block; }
+
+        /* 广告位 */
+        .ad-banner {
+            position: absolute; bottom: 20px; right: 20px; width: 250px; 
+            background: #fff; border: 2px dashed #ccc; padding: 10px; 
+            text-align: center; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .ad-img { width: 100%; height: 120px; object-fit: cover; border-radius: 4px; margin-bottom: 5px; }
+        
+        /* 后台数据中心 (The Ad Network) */
+        .data-center { 
+            width: 300px; background: #2d3436; color: #dfe6e9; border-radius: 12px; 
+            padding: 20px; display: flex; flex-direction: column; 
+        }
+        .log-entry { font-family: monospace; font-size: 12px; margin-bottom: 8px; border-bottom: 1px solid #444; padding-bottom: 4px; }
+        .tag { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; margin-right: 5px; }
+        .tag-site { background: #0984e3; color: white; }
+        .tag-ad { background: #e17055; color: white; }
+
+        /* 动画 */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* 隐私模式 */
+        .incognito .browser { border: 4px solid #2d3436; filter: grayscale(100%); }
+        .incognito .ad-banner { display: none !important; }
+
+    </style>
+</head>
+<body>
+
+    <nav class="bg-gray-800 text-white p-4 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <i class="fa-solid fa-user-secret text-2xl text-red-400"></i>
+            <div>
+                <h1 class="font-bold text-lg">Third-Party Cookie Demo</h1>
+                <p class="text-xs text-gray-400">"Why does my phone know what I want?"</p>
+            </div>
+        </div>
+        <button onclick="toggleIncognito()" id="incognito-btn" class="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded text-sm border border-gray-500">
+            <i class="fa-solid fa-glasses"></i> Toggle Incognito (Block Cookies)
+        </button>
+    </nav>
+
+    <div class="main-stage" id="stage">
+        
+        <div class="browser">
+            <div class="url-bar">
+                <i class="fa-solid fa-lock text-green-500"></i>
+                <span id="url-text" class="flex-1 bg-white border px-2 py-1 rounded">http://www.google.com</span>
+            </div>
+
+            <div class="viewport">
+                
+                <div id="site-search" class="site-content active text-center mt-10">
+                    <h1 class="text-4xl font-bold text-blue-600 mb-6">Gooooogle</h1>
+                    <input type="text" class="border-2 border-gray-300 rounded-full px-6 py-3 w-3/4 shadow-sm focus:outline-none focus:border-blue-500" placeholder="Search anything...">
+                    <div class="mt-8 flex justify-center gap-4">
+                        <button onclick="visit('shoe')" class="bg-gray-100 hover:bg-gray-200 px-6 py-2 rounded text-gray-700">Search "Nike Shoes"</button>
+                        <button onclick="visit('cat')" class="bg-gray-100 hover:bg-gray-200 px-6 py-2 rounded text-gray-700">Search "Cat Food"</button>
+                    </div>
+                </div>
+
+                <div id="site-shoe" class="site-content">
+                    <div class="border-b pb-4 mb-4 flex justify-between items-center">
+                        <h2 class="text-2xl font-bold text-gray-800">👟 Nike Official Store</h2>
+                        <button onclick="visit('search')" class="text-blue-500 underline">Back to Search</button>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="border p-2 rounded"><img src="https://via.placeholder.com/150/000000/FFFFFF?text=Air+Jordan" class="w-full"></div>
+                        <div class="border p-2 rounded"><img src="https://via.placeholder.com/150/FF0000/FFFFFF?text=Running" class="w-full"></div>
+                    </div>
+                    <div class="mt-4 text-xs text-gray-400 text-center border-t pt-2">
+                        <i class="fa-solid fa-eye"></i> Hidden Tracker: <span class="font-mono text-red-400">ad-network.com/tracker.js</span> loaded
+                    </div>
+                </div>
+
+                <div id="site-news" class="site-content">
+                    <div class="border-b pb-4 mb-4 flex justify-between items-center">
+                        <h2 class="text-2xl font-bold text-gray-800">📰 Daily News</h2>
+                        <button onclick="visit('search')" class="text-blue-500 underline">Back to Search</button>
+                    </div>
+                    <p class="mb-4 text-gray-600">Today's headlines: Coding is fun! SE112 is the best class ever.</p>
+                    <p class="text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+                    
+                    <div class="ad-banner" id="ad-slot">
+                        <div class="text-xs text-gray-400 mb-1">Advertisement</div>
+                        <img id="ad-image" src="https://via.placeholder.com/200x120?text=Generic+Ad" class="ad-img">
+                        <p id="ad-text" class="font-bold text-sm text-blue-600">Buy Soap!</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="data-center">
+            <h3 class="text-xl font-bold mb-4 border-b border-gray-600 pb-2">
+                <i class="fa-solid fa-server"></i> Ad Network DB
+            </h3>
+            <div class="mb-4 bg-gray-800 p-2 rounded">
+                <div class="text-xs text-gray-400">User Profile (Cookie ID: <span id="cookie-id" class="text-yellow-400">---</span>)</div>
+                <div id="user-interest" class="text-lg font-bold text-green-400 mt-1">Unknown</div>
+            </div>
+            <div id="server-logs" class="flex-1 overflow-y-auto">
+                <div class="text-gray-500 text-xs italic">Waiting for tracking data...</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let currentInterest = "Generic";
+        let isIncognito = false;
+        const cookieID = "USER_" + Math.floor(Math.random() * 9999);
+
+        function toggleIncognito() {
+            isIncognito = !isIncognito;
+            const stage = document.getElementById('stage');
+            const btn = document.getElementById('incognito-btn');
+            
+            if(isIncognito) {
+                stage.classList.add('incognito');
+                btn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Exit Incognito';
+                btn.classList.add('bg-green-600');
+                log("🚫 User switched to Incognito. Tracking blocked.");
+                document.getElementById('cookie-id').innerText = "BLOCKED";
+                document.getElementById('user-interest').innerText = "Unknown";
+            } else {
+                stage.classList.remove('incognito');
+                btn.innerHTML = '<i class="fa-solid fa-glasses"></i> Toggle Incognito';
+                btn.classList.remove('bg-green-600');
+                log("✅ User back online. Resume tracking.");
+                document.getElementById('cookie-id').innerText = cookieID;
+            }
+        }
+
+        function visit(page) {
+            // 1. Hide all pages
+            document.querySelectorAll('.site-content').forEach(el => el.classList.remove('active'));
+            
+            // 2. Logic
+            if(page === 'shoe') {
+                document.getElementById('site-shoe').classList.add('active');
+                document.getElementById('url-text').innerText = "http://www.nike-shop.com";
+                trackUser("Shoes");
+            } 
+            else if (page === 'cat') {
+                // Simulate just searching/interest but sticking to shoe page logic for demo simplicity
+                // For this demo, let's say 'cat' leads to News directly to show the effect
+                document.getElementById('site-news').classList.add('active');
+                document.getElementById('url-text').innerText = "http://www.daily-news.com";
+                updateAd();
+            }
+            else if (page === 'search') {
+                document.getElementById('site-search').classList.add('active');
+                document.getElementById('url-text').innerText = "http://www.google.com";
+            }
+        }
+
+        function trackUser(interest) {
+            if(isIncognito) return;
+
+            // Update Server Data
+            currentInterest = interest;
+            document.getElementById('cookie-id').innerText = cookieID;
+            document.getElementById('user-interest').innerText = interest;
+            
+            log(`📥 Received data from nike-shop.com`);
+            log(`🍪 Updated Profile: Loves ${interest}`);
+            
+            setTimeout(() => {
+                alert("The Ad Network now knows you like Shoes! \nNow go visit the News Site.");
+                // Switch to News site automatically to show the effect
+                document.querySelectorAll('.site-content').forEach(el => el.classList.remove('active'));
+                document.getElementById('site-news').classList.add('active');
+                document.getElementById('url-text').innerText = "http://www.daily-news.com";
+                updateAd();
+            }, 500);
+        }
+
+        function updateAd() {
+            if(isIncognito) return;
+
+            const adImg = document.getElementById('ad-image');
+            const adText = document.getElementById('ad-text');
+            
+            log(`📤 Serving Ad to daily-news.com`);
+
+            if (currentInterest === 'Shoes') {
+                adImg.src = "https://via.placeholder.com/200x120/000000/FFFFFF?text=NIKE+SALE";
+                adText.innerText = "50% OFF Jordans!";
+                log(`🎯 Targeted Ad: Shoes`);
+            } else {
+                adImg.src = "https://via.placeholder.com/200x120/CCCCCC/000000?text=Soap";
+                adText.innerText = "Buy generic soap.";
+                log(`⚪ Generic Ad served`);
+            }
+        }
+
+        function log(msg) {
+            const logs = document.getElementById('server-logs');
+            const div = document.createElement('div');
+            div.className = 'log-entry';
+            div.innerHTML = `<span class="text-gray-500">[${new Date().toLocaleTimeString()}]</span> ${msg}`;
+            logs.insertBefore(div, logs.firstChild);
+        }
+        
+        // Init
+        if(!isIncognito) document.getElementById('cookie-id').innerText = cookieID;
+    </script>
+</body>
+</html>
