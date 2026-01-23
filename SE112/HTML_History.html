@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>The HTML Museum v2.0: Keyword Focus</title>
+    <style>
+      /* 全局样式 */
+      body {
+        margin: 0;
+        font-family: "Segoe UI", sans-serif;
+        display: flex;
+        height: 100vh;
+        background: #2d3436;
+        color: white;
+        overflow: hidden;
+      }
+
+      /* === 左侧时间轴 === */
+      .timeline {
+        width: 220px;
+        background: #1e272e;
+        padding: 20px;
+        border-right: 1px solid #444;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        z-index: 10;
+      }
+      .era-btn {
+        padding: 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+        border: 2px solid transparent;
+        opacity: 0.6;
+        text-align: left;
+      }
+      .era-btn:hover {
+        opacity: 1;
+        background: #353b48;
+      }
+      .era-btn.active {
+        opacity: 1;
+        border-color: #0984e3;
+        background: #2d3436;
+        box-shadow: 0 0 10px rgba(9, 132, 227, 0.4);
+      }
+      .year {
+        font-size: 24px;
+        font-weight: 900;
+        color: #74b9ff;
+        margin-bottom: 2px;
+      }
+      .title {
+        font-size: 14px;
+        font-weight: bold;
+        color: #dfe6e9;
+      }
+
+      /* === 右侧展示区 === */
+      .main-stage {
+        flex: 1;
+        display: flex;
+        gap: 20px;
+        padding: 20px;
+        background: #b2bec3;
+      }
+
+      /* 左半部分：浏览器预览 */
+      .left-col {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+      .browser-window {
+        flex: 1;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+      .browser-bar {
+        background: #dfe6e9;
+        padding: 8px 15px;
+        border-bottom: 1px solid #b2bec3;
+        display: flex;
+        gap: 5px;
+        align-items: center;
+      }
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+      .url-text {
+        font-family: monospace;
+        color: #636e72;
+        font-size: 12px;
+        margin-left: 10px;
+      }
+      #viewport {
+        flex: 1;
+        overflow-y: auto;
+        position: relative;
+      }
+
+      /* 右半部分：教学重点 (Keywords) + 代码 */
+      .right-col {
+        width: 400px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      /* 1. 关键词看板 (Core Feature) */
+      .info-panel {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        color: #333;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+      .panel-header {
+        font-size: 12px;
+        font-weight: bold;
+        color: #b2bec3;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        letter-spacing: 1px;
+      }
+      .era-name {
+        font-size: 28px;
+        font-weight: 800;
+        color: #2d3436;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 10px;
+      }
+
+      /* 标签墙 */
+      .tags-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 20px;
+      }
+      .tag {
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 13px;
+        font-weight: bold;
+      }
+      .tag.bad {
+        background: #fab1a0;
+        color: #d63031;
+        text-decoration: line-through;
+      } /* 红色删除线 */
+      .tag.good {
+        background: #55efc4;
+        color: #00b894;
+      } /* 绿色 */
+      .tag.neutral {
+        background: #dfe6e9;
+        color: #636e72;
+      } /* 灰色 */
+
+      /* 重点列表 */
+      .bullet-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .bullet-list li {
+        margin-bottom: 8px;
+        font-size: 14px;
+        padding-left: 20px;
+        position: relative;
+        line-height: 1.4;
+      }
+      .bullet-list li::before {
+        content: "•";
+        color: #0984e3;
+        position: absolute;
+        left: 0;
+        font-weight: bold;
+        font-size: 18px;
+        line-height: 18px;
+      }
+
+      /* 2. 代码预览 */
+      .code-viewer {
+        flex: 1;
+        background: #1e1e1e;
+        color: #a29bfe;
+        padding: 15px;
+        font-family: "Consolas", monospace;
+        font-size: 12px;
+        overflow: auto;
+        border-radius: 8px;
+        border: 1px solid #444;
+      }
+      .code-label {
+        color: #6c5ce7;
+        font-weight: bold;
+        font-size: 11px;
+        margin-bottom: 5px;
+        display: block;
+      }
+
+      /* === 注入内容的样式 === */
+      .era-1995 {
+        background-color: #c0c0c0;
+        color: #000;
+        font-family: "Times New Roman", serif;
+        padding: 20px;
+      }
+      .era-1995 h1 {
+        border-bottom: none;
+        font-size: 24px;
+      }
+
+      .era-1997 {
+        background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36zwjjgzjIHFBMkUFycvJ/XrAMPwAAqywvW/AmCngAAAAASUVORK5CYII=");
+        font-family: Arial, sans-serif;
+        color: #ffff00;
+        padding: 10px;
+      }
+      .era-1997 table {
+        border: 5px ridge #888;
+        background: #000080;
+        width: 100%;
+      }
+      .era-1997 td {
+        padding: 10px;
+        color: white;
+      }
+
+      .era-2000 {
+        background: #f0f0f0;
+        font-family: Verdana, sans-serif;
+        font-size: 12px;
+        padding: 20px;
+      }
+      .era-2000 .container {
+        background: white;
+        border: 1px solid #ccc;
+        padding: 15px;
+      }
+      .era-2000 .header {
+        background: #eee;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #ccc;
+      }
+
+      .era-2026 {
+        background: #fdfdfd;
+        font-family: "Segoe UI", sans-serif;
+        color: #333;
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+        height: 100%;
+        box-sizing: border-box;
+      }
+      .era-2026 article {
+        width: 100%;
+        background: white;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        border-radius: 12px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+      .era-2026 header {
+        background: #3498db;
+        color: white;
+        padding: 20px;
+        text-align: center;
+      }
+      .era-2026 nav {
+        background: #2980b9;
+        padding: 8px;
+        color: white;
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        font-size: 12px;
+      }
+      .era-2026 main {
+        padding: 20px;
+        flex: 1;
+      }
+      .era-2026 .btn {
+        display: inline-block;
+        padding: 8px 20px;
+        background: #e74c3c;
+        color: white;
+        border-radius: 50px;
+        text-decoration: none;
+        font-size: 12px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="timeline">
+      <div
+        style="
+          font-size: 14px;
+          font-weight: bold;
+          color: #b2bec3;
+          margin-bottom: 10px;
+        "
+      >
+        TIMELINE
+      </div>
+
+      <div class="era-btn active" onclick="travelTime('1995')">
+        <div class="year">1995</div>
+        <div class="title">HTML 2.0</div>
+      </div>
+
+      <div class="era-btn" onclick="travelTime('1997')">
+        <div class="year">1997</div>
+        <div class="title">HTML 3.2</div>
+      </div>
+
+      <div class="era-btn" onclick="travelTime('2000')">
+        <div class="year">2000</div>
+        <div class="title">XHTML 1.0</div>
+      </div>
+
+      <div class="era-btn" onclick="travelTime('2026')">
+        <div class="year">2026</div>
+        <div class="title">HTML5</div>
+      </div>
+    </div>
+
+    <div class="main-stage">
+      <div class="left-col">
+        <div class="browser-window">
+          <div class="browser-bar">
+            <div class="dot" style="background: #ff5f56"></div>
+            <div class="dot" style="background: #ffbd2e"></div>
+            <div class="dot" style="background: #27c93f"></div>
+            <span class="url-text" id="addr-bar">http://must.edu.mo</span>
+          </div>
+          <div id="viewport"></div>
+        </div>
+      </div>
+
+      <div class="right-col">
+        <div class="info-panel">
+          <div class="panel-header">Era Highlights</div>
+          <div class="era-name" id="era-title">HTML 2.0</div>
+
+          <div class="tags-container" id="tags-wall"></div>
+
+          <ul class="bullet-list" id="bullet-points"></ul>
+        </div>
+
+        <div class="code-viewer">
+          <span class="code-label">&lt;/&gt; SOURCE CODE STYLE</span>
+          <pre id="code-display"></pre>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const contentData = {
+        1995: {
+          title: "HTML 2.0 (The Dawn)",
+          tags: [
+            { text: "No CSS", type: "neutral" },
+            { text: "Structure Only", type: "neutral" },
+            { text: "Grey Background", type: "neutral" },
+          ],
+          bullets: [
+            "Web was just digital documents",
+            "Hyperlinks were the only interaction",
+            "Tags like &lt;H1&gt;, &lt;P&gt; used for logic, not looks",
+          ],
+          html: `
+<div class="era-1995">
+    <H1>My Home Page</H1>
+    <HR>
+    <P>Welcome to the World Wide Web.</P>
+    <UL>
+        <LI><A HREF="#">File 1</A></LI>
+        <LI><A HREF="#">File 2</A></LI>
+    </UL>
+    <P>Under Construction</P>
+</div>`,
+          code: `<HTML>
+<BODY>
+  <H1>Header</H1>
+  <P>Just text.</P>
+  <P>No colors.</P>
+</BODY>
+</HTML>`,
+        },
+        1997: {
+          title: "HTML 3.2 (The Chaos)",
+          tags: [
+            { text: "Table Layout", type: "bad" },
+            { text: "<font> Tags", type: "bad" },
+            { text: "Tag Soup", type: "bad" },
+            { text: "<marquee>", type: "bad" },
+          ],
+          bullets: [
+            "Design mixed with Content (Bad!)",
+            "Using Tables for layout (Nightmare)",
+            "Hard to maintain",
+            "Not accessible for screen readers",
+          ],
+          html: `
+<div class="era-1997">
+    <center>
+        <table border="1" cellspacing="0" width="100%">
+            <tr>
+                <td bgcolor="red" colspan="2" align="center">
+                    <font size="5" color="yellow"><marquee>COOL SITE!!!</marquee></font>
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="blue" width="30%">
+                    <font color="white">Menu<br><br>Links</font>
+                </td>
+                <td bgcolor="white">
+                    <font color="black">
+                    <center><b>Welcome</b></center>
+                    <p>We use Tables to layout!</p>
+                    </font>
+                </td>
+            </tr>
+        </table>
+    </center>
+</div>`,
+          code: `<TABLE BORDER="1">
+  <TR>
+    <TD BGCOLOR="RED">
+      <FONT COLOR="YELLOW">
+         <MARQUEE>Text</MARQUEE>
+      </FONT>
+    </TD>
+  </TR>
+</TABLE>`,
+        },
+        2000: {
+          title: "XHTML 1.0 (The Rules)",
+          tags: [
+            { text: "CSS Born", type: "good" },
+            { text: "Separation", type: "good" },
+            { text: "<div> Overload", type: "neutral" },
+            { text: "Strict Syntax", type: "neutral" },
+          ],
+          bullets: [
+            "HTML for Structure, CSS for Style",
+            "Strict closing tags (/>)",
+            "Lots of <div id='header'>",
+            "Cleaner code, but generic tags",
+          ],
+          html: `
+<div class="era-2000">
+    <div class="container">
+        <div class="header">XHTML Layout</div>
+        <div class="content">
+            <p>Structure is separated from style.</p>
+            <div style="border:1px solid #999; padding:5px; background:#eee;">
+                Generic Div Box
+            </div>
+        </div>
+    </div>
+</div>`,
+          code: `<div id="header">...</div>
+<div id="nav">...</div>
+<div class="content">
+   Structure separated from CSS.
+</div>`,
+        },
+        2026: {
+          title: "HTML5 (The Standard)",
+          tags: [
+            { text: "Semantic Tags", type: "good" },
+            { text: "Mobile First", type: "good" },
+            { text: "No Plugins", type: "good" },
+            { text: "Clean API", type: "good" },
+          ],
+          bullets: [
+            "Tags have meaning (<nav>, <article>)",
+            "SEO Friendly",
+            "Multimedia support (Video/Audio)",
+            "Works on Phones & PC",
+          ],
+          html: `
+<div class="era-2026">
+    <article>
+        <header>
+            <h3>Modern Semantic Web</h3>
+        </header>
+        <nav>
+            <span>Home</span><span>About</span>
+        </nav>
+        <main>
+            <p><strong>This is HTML5.</strong></p>
+            <p>Clean, readable, powerful.</p>
+            <a href="#" class="btn">Action</a>
+        </main>
+    </article>
+</div>`,
+          code: `<article>
+  <header>Title</header>
+  <nav>Links</nav>
+  <main>
+    Content goes here...
+  </main>
+</article>`,
+        },
+      };
+
+      function travelTime(year) {
+        // 1. Update Buttons
+        document
+          .querySelectorAll(".era-btn")
+          .forEach((b) => b.classList.remove("active"));
+        event.currentTarget.classList.add("active");
+
+        const data = contentData[year];
+
+        // 2. Update Title
+        document.getElementById("era-title").innerText = data.title;
+
+        // 3. Update Tags (Clear and Rebuild)
+        const tagContainer = document.getElementById("tags-wall");
+        tagContainer.innerHTML = "";
+        data.tags.forEach((tag) => {
+          const span = document.createElement("span");
+          span.className = `tag ${tag.type}`;
+          span.innerText = tag.text;
+          tagContainer.appendChild(span);
+        });
+
+        // 4. Update Bullets
+        const listContainer = document.getElementById("bullet-points");
+        listContainer.innerHTML = "";
+        data.bullets.forEach((txt) => {
+          const li = document.createElement("li");
+          li.innerHTML = txt; // Use innerHTML to allow <b> or <i>
+          listContainer.appendChild(li);
+        });
+
+        // 5. Inject HTML Preview
+        document.getElementById("viewport").innerHTML = data.html;
+
+        // 6. Inject Code
+        document.getElementById("code-display").innerText = data.code;
+      }
+
+      // Init
+      document.querySelector(".era-btn.active").click();
+    </script>
+  </body>
+</html>

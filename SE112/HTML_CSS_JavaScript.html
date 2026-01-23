@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Trinity: HTML, CSS, JS</title>
+    <style>
+        /* === 演示系统的 UI (老师的操作台) === */
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #2d3436; color: white; display: flex; height: 100vh; overflow: hidden; }
+        
+        /* 左侧控制栏 */
+        .sidebar { width: 280px; background: #1e272e; padding: 20px; border-right: 1px solid #444; z-index: 10; display: flex; flex-direction: column; gap: 15px; }
+        .stage-btn { 
+            padding: 15px; border-radius: 8px; cursor: pointer; transition: 0.3s; 
+            background: #2d3436; border: 2px solid #444; text-align: left; opacity: 0.5;
+        }
+        .stage-btn:hover { opacity: 1; border-color: #74b9ff; }
+        .stage-btn.active { opacity: 1; background: #0984e3; border-color: #74b9ff; box-shadow: 0 0 15px rgba(9, 132, 227, 0.4); transform: scale(1.02); }
+        .btn-title { font-weight: bold; font-size: 18px; margin-bottom: 5px; }
+        .btn-desc { font-size: 12px; color: #dfe6e9; }
+        .icon { font-size: 24px; margin-right: 10px; }
+
+        /* 右侧展示区 */
+        .main-stage { flex: 1; background: #f5f6fa; position: relative; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        
+        /* 代码预览窗 (浮动) */
+        .code-preview { 
+            position: absolute; bottom: 20px; right: 20px; width: 350px; 
+            background: rgba(0,0,0,0.8); color: #00ff00; padding: 15px; 
+            border-radius: 8px; font-family: 'Consolas', monospace; font-size: 12px;
+            backdrop-filter: blur(5px); border: 1px solid #444;
+            transition: all 0.5s;
+        }
+        .code-tag { color: #ff79c6; }
+        .code-attr { color: #f1fa8c; }
+        .code-val { color: #8be9fd; }
+
+        /* === 机器人的内部样式 (动态注入区) === */
+        
+        /* 1. HTML 阶段 (原始样式) */
+        #robot-container { color: black; } /* 默认 */
+
+        /* 2. CSS 阶段 (美化样式) */
+        .css-active #robot-container {
+            width: 300px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 20px;
+            text-align: center;
+            transition: all 0.5s;
+            position: relative;
+        }
+        .css-active img { width: 150px; height: 150px; border-radius: 50%; border: 5px solid #0984e3; object-fit: cover; margin-bottom: 15px; }
+        .css-active h1 { color: #2d3436; margin: 0; font-size: 24px; }
+        .css-active p { color: #636e72; font-size: 14px; }
+        .css-active button {
+            background: #0984e3; color: white; border: none; padding: 10px 20px;
+            border-radius: 50px; font-size: 14px; cursor: pointer; margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(9, 132, 227, 0.4);
+            transition: 0.3s;
+        }
+        .css-active button:hover { transform: translateY(-2px); }
+
+        /* 3. JS 阶段 (交互样式) */
+        .js-active #robot-container.dark-mode {
+            background: #2d3436;
+            color: white;
+            border: 2px solid #00cec9;
+            transform: scale(1.1);
+        }
+        .js-active #robot-container.dark-mode h1 { color: #00cec9; }
+        .js-active #robot-container.dark-mode p { color: #dfe6e9; }
+        .js-active #robot-container.dark-mode img { border-color: #00cec9; animation: spin 2s linear infinite; }
+        
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2 style="color:#dfe6e9; border-bottom:1px solid #555; padding-bottom:10px;">🛠️ Web Builder</h2>
+
+        <div class="stage-btn active" onclick="setStage(1)" id="btn-1">
+            <div class="btn-title">1. HTML Only</div>
+            <div class="btn-desc">Structure & Content. Just the bones.</div>
+        </div>
+
+        <div class="stage-btn" onclick="setStage(2)" id="btn-2">
+            <div class="btn-title">2. + CSS</div>
+            <div class="btn-desc">Style & Layout. The skin and clothes.</div>
+        </div>
+
+        <div class="stage-btn" onclick="setStage(3)" id="btn-3">
+            <div class="btn-title">3. + JavaScript</div>
+            <div class="btn-desc">Behavior & Logic. The brain and muscles.</div>
+        </div>
+        
+        <div style="margin-top:auto; font-size:12px; color:#aaa; line-height:1.5;">
+            👨‍🏫 <b>Tip:</b> <br>
+            Click the buttons to add layers one by one.
+        </div>
+    </div>
+
+    <div class="main-stage" id="stage-wrapper">
+        
+        <div id="robot-container">
+            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Jeremy" alt="Robot Avatar" width="100">
+            <h1>Jeremy Bot 3000</h1>
+            <p>Status: Online</p>
+            <p>Function: Teaching Helper</p>
+            <button id="action-btn" onclick="alert('I cannot move without JS!')">Activate Mode</button>
+        </div>
+
+        <div class="code-preview" id="code-box">
+            &lt;!-- HTML Structure --&gt;<br>
+            &lt;img src="..."&gt;<br>
+            &lt;h1&gt;Jeremy Bot&lt;/h1&gt;<br>
+            &lt;button&gt;Activate&lt;/button&gt;
+        </div>
+
+    </div>
+
+    <script>
+        const wrapper = document.getElementById('stage-wrapper');
+        const robotBtn = document.getElementById('action-btn');
+        const codeBox = document.getElementById('code-box');
+
+        function setStage(step) {
+            // 1. Update Buttons UI
+            document.querySelectorAll('.stage-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('btn-' + step).classList.add('active');
+
+            // 2. Reset Everything
+            wrapper.classList.remove('css-active', 'js-active');
+            const container = document.getElementById('robot-container');
+            container.classList.remove('dark-mode'); // Reset JS effect
+            
+            // 3. Apply Stages
+            if (step === 1) {
+                // HTML ONLY
+                robotBtn.onclick = () => alert("🚫 No JS loaded. I am just a static button.");
+                robotBtn.innerText = "Activate Mode";
+                
+                codeBox.innerHTML = `
+<span style="color:#888">&lt;!-- 1. HTML (Structure) --&gt;</span><br>
+<span class="code-tag">&lt;div&gt;</span><br>
+  <span class="code-tag">&lt;h1&gt;</span>Jeremy Bot<span class="code-tag">&lt;/h1&gt;</span><br>
+  <span class="code-tag">&lt;button&gt;</span>Click Me<span class="code-tag">&lt;/button&gt;</span><br>
+<span class="code-tag">&lt;/div&gt;</span>`;
+            } 
+
+            if (step >= 2) {
+                // ADD CSS
+                wrapper.classList.add('css-active');
+                
+                // Still no JS logic
+                if(step === 2) {
+                    robotBtn.onclick = () => alert("🚫 CSS makes me look good, but I still have no brain (JS)!");
+                    robotBtn.innerText = "Activate Mode";
+                    
+                    codeBox.innerHTML = `
+<span style="color:#888">&lt;!-- 2. CSS (Presentation) --&gt;</span><br>
+<span class="code-tag">&lt;style&gt;</span><br>
+  <span class="code-attr">#robot</span> { <br>
+    <span class="code-val">background</span>: white; <br>
+    <span class="code-val">border-radius</span>: 20px; <br>
+    <span class="code-val">box-shadow</span>: ...;<br>
+  }<br>
+<span class="code-tag">&lt;/style&gt;</span>`;
+                }
+            }
+
+            if (step === 3) {
+                // ADD JS
+                wrapper.classList.add('js-active');
+                robotBtn.innerText = "⚡ Toggle Super Mode";
+                
+                // Real Interaction
+                robotBtn.onclick = () => {
+                    const box = document.getElementById('robot-container');
+                    box.classList.toggle('dark-mode');
+                };
+
+                codeBox.innerHTML = `
+<span style="color:#888">&lt;!-- 3. JavaScript (Behavior) --&gt;</span><br>
+<span class="code-tag">&lt;script&gt;</span><br>
+  function <span class="code-attr">toggleMode</span>() {<br>
+    robot.<span class="code-val">classList</span>.toggle('dark');<br>
+    // Logic: Change state & animate<br>
+  }<br>
+<span class="code-tag">&lt;/script&gt;</span>`;
+            }
+        }
+
+        // Init
+        setStage(1);
+    </script>
+</body>
+</html>

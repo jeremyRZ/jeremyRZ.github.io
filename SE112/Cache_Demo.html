@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Data Inspector: Cookie vs Session vs Cache</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        
+        /* 布局 */
+        .main-container { flex: 1; display: flex; padding: 20px; gap: 20px; height: 100%; }
+        .panel { background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); overflow: hidden; display: flex; flex-direction: column; }
+        .panel-header { padding: 15px; font-weight: bold; font-size: 16px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        
+        /* 特定颜色主题 */
+        .theme-cookie { border-top: 4px solid #f59e0b; }
+        .theme-session { border-top: 4px solid #3b82f6; }
+        .theme-cache { border-top: 4px solid #10b981; }
+
+        /* 动画元素 */
+        .data-item { padding: 10px; border-bottom: 1px solid #f3f4f6; font-family: monospace; font-size: 13px; animation: fadeIn 0.5s; display: flex; justify-content: space-between; }
+        .data-key { color: #666; font-weight: bold; }
+        .data-val { color: #333; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes flash { 0% { background: white; } 50% { background: #fff3cd; } 100% { background: white; } }
+        
+        .flash-update { animation: flash 1s; }
+
+        /* 咖啡店 UI */
+        .coffee-shop { padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+        .coffee-img { width: 100%; height: 120px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd; }
+        .btn { width: 100%; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s; border: none; color: white; margin-bottom: 5px; }
+        .btn:hover { opacity: 0.9; transform: scale(1.02); }
+        .btn-login { background: #3b82f6; }
+        .btn-add { background: #f59e0b; }
+        .btn-reload { background: #10b981; }
+        .btn-danger { background: #ef4444; font-size: 12px; padding: 5px 10px; width: auto; }
+
+        /* 状态指示灯 */
+        .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+        .online { background: #10b981; }
+        .offline { background: #ef4444; }
+
+    </style>
+</head>
+<body>
+
+    <nav class="bg-gray-800 text-white p-4 flex justify-between items-center shadow-lg z-10">
+        <div class="flex items-center gap-3">
+            <i class="fa-solid fa-layer-group text-xl text-yellow-400"></i>
+            <div>
+                <h1 class="font-bold text-lg">Web Data Inspector</h1>
+                <p class="text-xs text-gray-400">SE112 Teaching Demo</p>
+            </div>
+        </div>
+        <div class="text-sm bg-gray-700 px-4 py-2 rounded">
+            Current Status: <span id="user-status">Guest</span> <span class="status-dot offline" id="status-light"></span>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        
+        <div class="panel w-1/4">
+            <div class="panel-header bg-gray-50">
+                <span>📱 User Actions</span>
+            </div>
+            <div class="coffee-shop">
+                <div class="relative">
+                    <img id="banner-img" src="https://via.placeholder.com/400x200/333/fff?text=Coffee+Shop+Logo" class="coffee-img">
+                    <div class="absolute top-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 rounded" id="load-time-badge">Not Loaded</div>
+                </div>
+                
+                <button onclick="userAction('reloadImg')" class="btn btn-reload">
+                    <i class="fa-solid fa-rotate"></i> Reload Logo (Test Cache)
+                </button>
+                <hr class="border-gray-200 my-2">
+
+                <div id="login-form">
+                    <input type="text" id="username" placeholder="Enter Name..." class="w-full border p-2 rounded mb-2 text-sm" value="Jeremy">
+                    <button onclick="userAction('login')" class="btn btn-login">
+                        <i class="fa-solid fa-right-to-bracket"></i> Login (Set Cookie)
+                    </button>
+                </div>
+
+                <div id="shop-controls" class="hidden">
+                    <button onclick="userAction('addCart')" class="btn btn-add">
+                        <i class="fa-solid fa-cart-plus"></i> Add Latte ($5)
+                    </button>
+                    <button onclick="userAction('logout')" class="btn bg-gray-500 mt-2">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    </button>
+                </div>
+            </div>
+            
+            <div class="p-4 mt-auto bg-blue-50 text-xs text-blue-800 border-t border-blue-100">
+                <strong>👨‍🏫 Prof. Zhao's Guide:</strong><br>
+                1. <b>Login</b> creates a Session & Cookie.<br>
+                2. <b>Add Latte</b> updates Server Session.<br>
+                3. <b>Reload Logo</b> tests Browser Cache.
+            </div>
+        </div>
+
+        <div class="flex-1 flex flex-col gap-4">
+            
+            <div class="panel theme-cookie flex-1" id="panel-cookie">
+                <div class="panel-header">
+                    <span>🍪 Browser Cookies (Identity)</span>
+                    <button onclick="clearData('cookie')" class="btn-danger">Clear Cookies</button>
+                </div>
+                <div class="p-4 overflow-y-auto" id="view-cookie">
+                    <div class="text-gray-400 text-center text-sm mt-4">No Cookies found.</div>
+                </div>
+            </div>
+
+            <div class="panel theme-session flex-1" id="panel-session">
+                <div class="panel-header">
+                    <span>📂 Server Session (State)</span>
+                    <button onclick="clearData('session')" class="btn-danger">Destroy Session</button>
+                </div>
+                <div class="p-4 overflow-y-auto" id="view-session">
+                    <div class="text-gray-400 text-center text-sm mt-4">Memory is empty.</div>
+                </div>
+            </div>
+
+            <div class="panel theme-cache flex-1" id="panel-cache">
+                <div class="panel-header">
+                    <span>⚡ Browser Cache (Performance)</span>
+                    <button onclick="clearData('cache')" class="btn-danger">Empty Cache</button>
+                </div>
+                <div class="p-4 overflow-y-auto" id="view-cache">
+                    <div class="text-gray-400 text-center text-sm mt-4">Cache is empty.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 模拟后端存储 ---
+        const serverMemory = {}; // 模拟服务器 Session 内存
+        let currentSessionId = null;
+
+        // --- 模拟前端状态 ---
+        const browserCookies = {};
+        const browserCache = {};
+        let cartTotal = 0;
+
+        // --- 核心逻辑 ---
+
+        function userAction(action) {
+            if (action === 'login') {
+                const user = document.getElementById('username').value || 'User';
+                
+                // 1. 生成 Session ID (Server Side)
+                const sessionId = 'SESS_' + Math.floor(Math.random() * 10000);
+                currentSessionId = sessionId;
+                
+                // 2. 初始化 Session 数据 (Server Side)
+                serverMemory[sessionId] = {
+                    username: user,
+                    loginTime: new Date().toLocaleTimeString(),
+                    cart: [],
+                    balance: 100
+                };
+
+                // 3. 设置 Cookie (Client Side)
+                browserCookies['JSESSIONID'] = sessionId;
+                browserCookies['theme'] = 'light'; // 模拟非敏感 Cookie
+
+                // 4. 更新 UI
+                updateUI(true);
+                renderAll();
+                highlightPanel('panel-cookie');
+                highlightPanel('panel-session');
+            } 
+            
+            else if (action === 'logout') {
+                // 清除 Session 和 Cookie
+                delete serverMemory[currentSessionId];
+                currentSessionId = null;
+                delete browserCookies['JSESSIONID'];
+                updateUI(false);
+                renderAll();
+            }
+
+            else if (action === 'addCart') {
+                if (!currentSessionId || !serverMemory[currentSessionId]) {
+                    alert("Error: Session Expired! Please login again.");
+                    return;
+                }
+                
+                // 更新服务器数据
+                serverMemory[currentSessionId].cart.push("Latte ($5)");
+                serverMemory[currentSessionId].balance -= 5;
+                
+                renderAll();
+                highlightPanel('panel-session');
+            }
+
+            else if (action === 'reloadImg') {
+                const img = document.getElementById('banner-img');
+                const badge = document.getElementById('load-time-badge');
+                
+                // 模拟网络延迟 vs 缓存读取
+                const filename = "logo_hq.png";
+                
+                if (browserCache[filename]) {
+                    // Hit Cache
+                    badge.innerText = "⚡ Cache Hit (0ms)";
+                    badge.className = "absolute top-2 right-2 bg-green-600 text-white text-xs px-2 rounded";
+                    browserCache[filename].hits++;
+                } else {
+                    // Miss Cache (Network Load)
+                    badge.innerText = "⏳ Network Load (500ms)";
+                    badge.className = "absolute top-2 right-2 bg-red-600 text-white text-xs px-2 rounded";
+                    
+                    // Add to cache
+                    browserCache[filename] = { size: '150KB', type: 'image/png', hits: 1 };
+                }
+                
+                renderAll();
+                highlightPanel('panel-cache');
+            }
+        }
+
+        // --- 破坏性操作 (教学重点) ---
+        function clearData(type) {
+            if (type === 'cookie') {
+                delete browserCookies['JSESSIONID'];
+                alert("Alert: You lost your ID card (Cookie)!");
+            }
+            if (type === 'session') {
+                if(currentSessionId) delete serverMemory[currentSessionId];
+                alert("Alert: Server rebooted (Memory wiped)!");
+            }
+            if (type === 'cache') {
+                for (let key in browserCache) delete browserCache[key];
+            }
+            renderAll();
+        }
+
+        // --- 渲染视图 ---
+        function renderAll() {
+            // 1. Render Cookies
+            const cookieDiv = document.getElementById('view-cookie');
+            cookieDiv.innerHTML = Object.keys(browserCookies).length === 0 
+                ? '<div class="text-gray-400 text-center text-sm">No Cookies.</div>' 
+                : '';
+            
+            for (let [key, val] of Object.entries(browserCookies)) {
+                let icon = key === 'JSESSIONID' ? '🆔' : '🍪';
+                cookieDiv.innerHTML += `
+                    <div class="data-item">
+                        <span class="data-key">${icon} ${key}</span>
+                        <span class="data-val font-mono bg-yellow-100 px-1 rounded">${val}</span>
+                    </div>`;
+            }
+
+            // 2. Render Session
+            const sessionDiv = document.getElementById('view-session');
+            const userSession = serverMemory[currentSessionId]; // 尝试用当前的 ID 去找
+            
+            if (currentSessionId && userSession) {
+                sessionDiv.innerHTML = `
+                    <div class="data-item"><span class="data-key">👤 User</span> <span>${userSession.username}</span></div>
+                    <div class="data-item"><span class="data-key">💰 Balance</span> <span>$${userSession.balance}</span></div>
+                    <div class="data-item block">
+                        <div class="data-key mb-1">🛒 CartItems:</div>
+                        <div class="bg-gray-100 p-2 rounded text-xs">${userSession.cart.join(', ') || '(Empty)'}</div>
+                    </div>
+                `;
+            } else if (currentSessionId && !userSession) {
+                // 有 Cookie ID，但服务器没数据了 (Session 失效场景)
+                sessionDiv.innerHTML = `<div class="p-3 bg-red-100 text-red-700 text-sm rounded">
+                    <i class="fa-solid fa-triangle-exclamation"></i> <b>Error:</b><br>
+                    Client has ID [${currentSessionId}]<br>
+                    But Server has no data!<br>
+                    (Session Timeout / Deleted)
+                </div>`;
+            } else {
+                sessionDiv.innerHTML = '<div class="text-gray-400 text-center text-sm">Waiting for Login...</div>';
+            }
+
+            // 3. Render Cache
+            const cacheDiv = document.getElementById('view-cache');
+            cacheDiv.innerHTML = Object.keys(browserCache).length === 0 
+                ? '<div class="text-gray-400 text-center text-sm">Cache Empty.</div>' 
+                : '';
+
+            for (let [key, val] of Object.entries(browserCache)) {
+                cacheDiv.innerHTML += `
+                    <div class="data-item">
+                        <span class="data-key">🖼️ ${key}</span>
+                        <div class="text-right">
+                            <div class="text-xs text-gray-500">${val.size}</div>
+                            <div class="text-xs font-bold text-green-600">Hits: ${val.hits}</div>
+                        </div>
+                    </div>`;
+            }
+        }
+
+        // --- 辅助函数 ---
+        function updateUI(isLoggedIn) {
+            const loginForm = document.getElementById('login-form');
+            const shopControls = document.getElementById('shop-controls');
+            const userStatus = document.getElementById('user-status');
+            const statusLight = document.getElementById('status-light');
+
+            if (isLoggedIn) {
+                loginForm.classList.add('hidden');
+                shopControls.classList.remove('hidden');
+                userStatus.innerText = serverMemory[currentSessionId].username;
+                statusLight.className = "status-dot online";
+            } else {
+                loginForm.classList.remove('hidden');
+                shopControls.classList.add('hidden');
+                userStatus.innerText = "Guest";
+                statusLight.className = "status-dot offline";
+            }
+        }
+
+        function highlightPanel(id) {
+            const el = document.getElementById(id);
+            el.classList.remove('flash-update');
+            void el.offsetWidth; // trigger reflow
+            el.classList.add('flash-update');
+        }
+
+    </script>
+</body>
+</html>
