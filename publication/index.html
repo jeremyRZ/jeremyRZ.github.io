@@ -178,7 +178,43 @@
   >
     <script src="/js/wowchemy-init.min.ec9d49ca50e4b80bdb08f0417a28ed84.js"></script>
 
-    
+    <aside class="search-modal" id="search">
+      <div class="container">
+        <section class="search-header">
+          <div class="row no-gutters justify-content-between mb-3">
+            <div class="col-6">
+              <h1>Search</h1>
+            </div>
+            <div class="col-6 col-search-close">
+              <a class="js-search" href="#" aria-label="Close"
+                ><i
+                  class="fas fa-times-circle text-muted"
+                  aria-hidden="true"
+                ></i
+              ></a>
+            </div>
+          </div>
+
+          <div id="search-box">
+            <input
+              name="q"
+              id="search-query"
+              placeholder="Search..."
+              autocapitalize="off"
+              autocomplete="off"
+              autocorrect="off"
+              spellcheck="false"
+              type="search"
+              class="form-control"
+              aria-label="Search..."
+            />
+          </div>
+        </section>
+        <section class="section-search-results">
+          <div id="search-hits"></div>
+        </section>
+      </div>
+    </aside>
 
     <div class="page-header header--fixed">
       <header>
@@ -226,7 +262,11 @@
                 </li>
                 
 
-              
+              <li class="nav-item">
+                <a class="nav-link js-search" href="#" aria-label="Search"
+                  ><i class="fas fa-search" aria-hidden="true"></i
+                ></a>
+              </li>
 
               <li class="nav-item dropdown theme-dropdown">
                 <a
