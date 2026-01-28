@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!-- This site was created with Wowchemy. https://www.wowchemy.com -->
 <!-- Last Published: March 26, 2025 -->
 <html lang="en-us">
@@ -23,6 +23,8 @@
       onload="this.media='all'"
     />
 
+    <script src="/js/mathjax-config.js"></script>
+
     <link
       rel="stylesheet"
       href="/css/vendor-bundle.min.047268c6dd09ad74ba54a0ba71837064.css"
@@ -38,6 +40,13 @@
       media="print"
       onload="this.media='all'"
     />
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
+      integrity=""
+      crossorigin="anonymous"
+      async
+    ></script>
 
     <link
       rel="stylesheet"
@@ -109,14 +118,18 @@
 
     <meta name="author" content="Rui ZHAO" />
 
-    <meta name="description" content="Rui ZHAO&#39;s Homepage" />
+    <meta
+      name="description"
+      content="List of news.
+"
+    />
 
     <link
       rel="alternate"
       hreflang="en-us"
-      href="https://jeremyRZ.github.io/404.html"
+      href="https://jeremyrz.github.io/news/"
     />
-    <link rel="canonical" href="https://jeremyRZ.github.io/404.html" />
+    <link rel="canonical" href="https://jeremyrz.github.io/news/" />
 
     <link rel="manifest" href="/manifest.webmanifest" />
 
@@ -142,19 +155,29 @@
       content="https://jeremyRZ.github.io/media/Web_Logo.png"
     />
     <meta property="og:site_name" content="Rui ZHAO&#39;s homepage" />
-    <meta property="og:url" content="https://jeremyRZ.github.io/404.html" />
+    <meta property="og:url" content="https://jeremyrz.github.io/" />
+    <meta property="og:title" content="Rui ZHAO's homepage" />
     <meta
-      property="og:title"
-      content="404 Page not found | Rui ZHAO&#39;s homepage"
+      property="og:description"
+      content="Rui ZHAO's personal homepage"
     />
-    <meta property="og:description" content="Rui ZHAO&#39;s Homepage" />
     <meta
       property="og:image"
       content="https://jeremyRZ.github.io/media/Web_Logo.png"
     />
     <meta property="og:locale" content="en-us" />
 
-    <title>404 Page not found | Rui ZHAO&#39;s homepage</title>
+    <meta
+      property="article:published_time"
+      content="2017-12-01T00:00:00&#43;00:00"
+    />
+
+    <meta
+      property="article:modified_time"
+      content="2017-12-01T00:00:00&#43;00:00"
+    />
+
+    <title>Rui ZHAO&#39;s homepage</title>
   </head>
 
   <body
@@ -163,6 +186,7 @@
     data-offset="70"
     data-target="#TableOfContents"
     class="page-wrapper"
+    data-wc-page-id="a0812ae5f3c926fea6faf4472cefc8e2"
   >
     <script src="/js/wowchemy-init.min.ec9d49ca50e4b80bdb08f0417a28ed84.js"></script>
 
@@ -201,7 +225,7 @@
             >
               <ul class="navbar-nav d-md-inline-flex">
                 <li class="nav-item">
-                  <a class="nav-link" href="/#about"><span>Home</span></a>
+                  <a class="nav-link" href="/#about" data-target="#about"><span>Home</span></a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="/news/"><span>News</span></a>
@@ -212,9 +236,6 @@
                 <li class="nav-item">
                   <a class="nav-link" href="/project/"><span>Projects</span></a>
                 </li>
-                
-
-              
 
               <li class="nav-item dropdown theme-dropdown">
                 <a
@@ -245,84 +266,50 @@
     </div>
 
     <div class="page-body">
-      <div class="universal-wrapper pt-3">
-        <h1>Page not found</h1>
-
-        <form class="d-flex align-items-center mb-3">
-          <input
-            name="q"
-            type="search"
-            class="form-control"
-            placeholder="Search..."
-            autocomplete="off"
-          />
-        </form>
-
-        <p>Perhaps you were looking for one of these?</p>
-
-        <h2>Latest</h2>
-        <ul>
-          <li><a href="/event/">Recent &amp; Upcoming Talks</a></li>
-
-          <li><a href="/talk/example-talk/">Example Talk</a></li>
-
-          <li><a href="/publication/">Publications</a></li>
-
-          <li>
-            <a href="/publication/conference-paper/zhang-icpads/"
-              >OSIS: Obstacle-Sensitive and Initial-Solution-First Path
-              Planning</a
-            >
-          </li>
-
-          <li>
-            <a href="/publication/conference-paper/lu-cecct/"
-              >A Framework for Moving Target Defense based on Federated
-              Semi-Supervised Learning</a
-            >
-          </li>
-
-          <li>
-            <a href="/publication/conference-paper/guo-iccc/"
-              >EKR: An Efficient K-anycast Routing in UAV Networks</a
-            >
-          </li>
-
-          <li>
-            <a href="/publication/conference-paper/zhou-cdics/"
-              >Power-Aware Path Planning for Vehicle-Assisted Heterogeneous UAVs
-              in Mobile Crowd Sensing</a
-            >
-          </li>
-
-          <li>
-            <a href="/publication/conference-paper/lu-ispa/"
-              >HBC: Combining Lossy and Lossless Hybrid Bilayer Compression
-              Framework on Time-Series Data</a
-            >
-          </li>
-
-          <li>
-            <a href="/publication/preprint/feds3a/"
-              >Federated Semi-Supervised and Semi-Asynchronous Learning for
-              Anomaly Detection in IoT Networks</a
-            >
-          </li>
-
-          <li>
-            <a href="/publication/preprint/esta/"
-              >ESTA: An Efficient Spatial-Temporal Range Aggregation Query
-              Processing Algorithm for UAV Networks</a
-            >
-          </li>
-        </ul>
-      </div>
+      <section id="about" class="home-section wg-about">
+        <div class="home-section-bg"></div>
+        <div class="container">
+          <div class="row">
+            <div class="col-12 col-lg-4">
+              <div id="profile">
+                <img
+                  class="avatar avatar-circle"
+                  src="/authors/admin/avatar.png"
+                  alt="Rui ZHAO"
+                />
+                <div class="portrait-title">
+                  <h2>Rui ZHAO</h2>
+                  <h3>Ph.D. Candidate</h3>
+                  <h3>
+                    <a href="https://www.hku.hk/" target="_blank" rel="noopener">
+                      The University of Hong Kong
+                    </a>
+                  </h3>
+                </div>
+                <ul class="network-icon" aria-hidden="true">
+                </ul>
+              </div>
+            </div>
+            <div class="col-12 col-lg-8">
+              <h1>Biography</h1>
+              <div class="article-style">
+                <p>
+                  I hold a Ph.D. from The University of Hong Kong and an M.S. degree in Information System from The Hong Kong Polytechnic University. Prior to joining HKU, I served as a FinTech Engineer at the Hong Kong Applied Science and Technology Research Institute for three years, where I gained hands-on experience in financial technology applications and blockchain development.
+                </p>
+                <p>
+                  My research interests include Blockchain, Digital Twin, and Construction Management.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
 
     <div class="page-footer">
       <div class="container">
         <footer class="site-footer">
-          <p class="powered-by copyright-license-text">漏 2025 Rui ZHAO</p>
+          <p class="powered-by copyright-license-text">© 2025 Rui ZHAO</p>
 
           <p class="powered-by">
             Published with
@@ -332,7 +319,7 @@
               rel="noopener"
               >Wowchemy</a
             >
-            鈥?the free,
+            — the free,
             <a
               href="https://github.com/wowchemy/wowchemy-hugo-themes"
               target="_blank"
@@ -425,4 +412,3 @@
     ></script>
   </body>
 </html>
-
