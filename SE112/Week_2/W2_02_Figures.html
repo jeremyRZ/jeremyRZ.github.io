@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Image and Link Demo</title>
+  </head>
+  <body>
+    <h1>HTML5 Images & Links Demo</h1>
+
+    <hr />
+
+    <h2>1. Images (img)</h2>
+
+    <p>这是一个正常的图片：</p>
+    <img
+      src="https://api.dicebear.com/7.x/pixel-art/svg?seed=Jeremy"
+      alt="Jeremy的像素头像"
+      width="150"
+    />
+
+    <p>这是一个地址错误的图片（请看 alt 的效果）：</p>
+    <img
+      src="nonexistent.jpg"
+      alt="❌ 图片加载失败，但你依然能看到这段文字 (Accessibility)"
+      width="150"
+    />
+
+    <hr />
+
+    <h2>2. Hyperlinks (a)</h2>
+
+    <p>
+      访问学校官网 (覆盖当前页):
+      <a href="https://www.must.edu.mo">澳门科技大学</a>
+    </p>
+
+    <p>
+      搜索一下 (在新窗口打开):
+      <a href="https://www.google.com" target="_blank">Google Search</a>
+    </p>
+
+    <hr />
+
+    <h2>3. Image as a Link (组合技)</h2>
+    <p>点击下面的图片跳转：</p>
+
+    <a href="https://www.must.edu.mo" target="_blank">
+      <img
+        src="https://www.must.edu.mo/images/logo.png"
+        alt="MUST Logo"
+        width="200"
+        style="border: 2px solid blue"
+      />
+    </a>
+  </body>
+</html>

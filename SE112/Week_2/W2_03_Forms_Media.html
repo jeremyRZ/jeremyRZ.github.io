@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTML5 Interaction Lab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* 模拟原生验证的气泡样式 (为了演示好看，实际是浏览器自带的) */
+      input:invalid:not(:placeholder-shown) {
+        border-color: #ef4444;
+      }
+      input:valid:not(:placeholder-shown) {
+        border-color: #22c55e;
+      }
+
+      /* 视频容器 */
+      .video-wrapper {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+        border-radius: 8px;
+        background: black;
+      }
+      .video-wrapper video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body class="bg-slate-100 min-h-screen p-8 font-sans text-slate-800">
+    <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+      <section
+        class="bg-white p-8 rounded-2xl shadow-xl border-t-4 border-blue-500"
+      >
+        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+          <span class="bg-blue-100 text-blue-600 p-2 rounded-lg text-xl"
+            >📝</span
+          >
+          Event Registration
+        </h2>
+        <p class="text-sm text-gray-500 mb-6">
+          Try submitting invalid data to see HTML5 validation in action.
+        </p>
+
+        <form
+          action="#"
+          onsubmit="
+            alert('Form Submitted! (This is mostly HTML5 magic)');
+            return false;
+          "
+        >
+          <div class="mb-4">
+            <label class="block text-sm font-bold mb-1">MUST Email</label>
+            <input
+              type="email"
+              required
+              placeholder="example@must.edu.mo"
+              pattern=".+@must\.edu\.mo"
+              title="Must be a @must.edu.mo address"
+              class="w-full border p-2 rounded focus:ring-2 focus:ring-blue-500 outline-none"
+            />
+            <p class="text-xs text-gray-400 mt-1">
+              Requires valid email format + 'must.edu.mo' domain.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 mb-4">
+            <div>
+              <label class="block text-sm font-bold mb-1">Date</label>
+              <input type="date" required class="w-full border p-2 rounded" />
+            </div>
+            <div>
+              <label class="block text-sm font-bold mb-1">Time</label>
+              <input type="time" class="w-full border p-2 rounded" />
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="block text-sm font-bold mb-1"
+              >Favorite Framework (Datalist)</label
+            >
+            <input
+              list="frameworks"
+              placeholder="Type 'R' or 'V'..."
+              class="w-full border p-2 rounded"
+            />
+            <datalist id="frameworks">
+              <option value="React"></option>
+              <option value="Vue"></option>
+              <option value="Angular"></option>
+              <option value="Spring Boot"></option>
+              <option value="Django"></option>
+            </datalist>
+          </div>
+
+          <div class="mb-6 grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-bold mb-1">Skill Level</label>
+              <input
+                type="range"
+                min="1"
+                max="100"
+                class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-bold mb-1">Theme Color</label>
+              <input
+                type="color"
+                class="w-full h-10 p-1 rounded cursor-pointer border bg-white"
+                value="#3b82f6"
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition transform active:scale-95"
+          >
+            Register Now
+          </button>
+        </form>
+      </section>
+
+      <div class="space-y-8">
+        <section class="bg-white p-6 rounded-2xl shadow-lg">
+          <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+            <span class="bg-red-100 text-red-600 p-2 rounded-lg text-lg"
+              >🎬</span
+            >
+            HTML5 Video
+          </h2>
+          <div class="video-wrapper">
+            <video
+              controls
+              poster="https://via.placeholder.com/640x360/000/fff?text=Click+to+Play"
+            >
+              <source
+                src="https://www.w3schools.com/html/mov_bbb.mp4"
+                type="video/mp4"
+              />
+              Your browser does not support HTML5 video.
+            </video>
+          </div>
+          <p class="text-xs text-gray-500 mt-2">
+            Native player with <code>controls</code> and
+            <code>poster</code> attributes.
+          </p>
+        </section>
+
+        <section class="bg-white p-6 rounded-2xl shadow-lg">
+          <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+            <span class="bg-purple-100 text-purple-600 p-2 rounded-lg text-lg"
+              >🎵</span
+            >
+            HTML5 Audio
+          </h2>
+          <audio controls class="w-full">
+            <source
+              src="https://www.w3schools.com/html/horse.mp3"
+              type="audio/mpeg"
+            />
+          </audio>
+        </section>
+
+        <section class="bg-white p-6 rounded-2xl shadow-lg">
+          <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+            <span class="bg-green-100 text-green-600 p-2 rounded-lg text-lg"
+              >✨</span
+            >
+            Native Accordion
+          </h2>
+
+          <details class="mb-2 group">
+            <summary
+              class="list-none flex justify-between items-center cursor-pointer bg-slate-50 p-3 rounded-lg font-bold text-slate-700 group-open:bg-blue-50 group-open:text-blue-700"
+            >
+              What is this?
+              <span class="transition group-open:rotate-180">▼</span>
+            </summary>
+            <div class="p-4 text-sm text-gray-600">
+              This is the <code>&lt;details&gt;</code> and
+              <code>&lt;summary&gt;</code> tag. It creates an interactive
+              dropdown without writing a single line of JavaScript!
+            </div>
+          </details>
+
+          <details class="group">
+            <summary
+              class="list-none flex justify-between items-center cursor-pointer bg-slate-50 p-3 rounded-lg font-bold text-slate-700 group-open:bg-blue-50 group-open:text-blue-700"
+            >
+              Why use it?
+              <span class="transition group-open:rotate-180">▼</span>
+            </summary>
+            <div class="p-4 text-sm text-gray-600">
+              It's semantic, accessible, and works even if JS is disabled.
+            </div>
+          </details>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>

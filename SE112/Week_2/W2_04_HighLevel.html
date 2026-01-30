@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTML5 Storage & Responsive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* 2. Responsive Image Example */
+      .art-direction-img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body class="bg-stone-100 min-h-screen p-6 font-sans text-stone-800">
+    <header class="max-w-4xl mx-auto mb-8 text-center">
+      <h1 class="text-3xl font-bold mb-2">HTML5 Storage & Responsive Lab</h1>
+      <p class="text-sm text-gray-500">
+        Feature: LocalStorage + Picture Tag + Grid Layout
+      </p>
+    </header>
+
+    <main class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+      <section class="bg-white p-6 rounded-xl shadow-md">
+        <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+          📱 Responsive Art Direction
+        </h2>
+        <p class="text-sm text-gray-500 mb-4">
+          Resize your browser! The browser downloads different images based on
+          screen width (`srcset`).
+        </p>
+
+        <picture>
+          <source
+            media="(min-width: 800px)"
+            srcset="
+              https://via.placeholder.com/800x400/3b82f6/fff?text=Desktop+Image+(Wide)
+            "
+          />
+          <source
+            media="(min-width: 400px)"
+            srcset="
+              https://via.placeholder.com/500x300/10b981/fff?text=Tablet+Image
+            "
+          />
+          <img
+            src="https://via.placeholder.com/300x300/ef4444/fff?text=Mobile+Image"
+            class="art-direction-img"
+            alt="Responsive Demo"
+          />
+        </picture>
+
+        <div
+          class="mt-4 p-3 bg-yellow-50 text-xs text-yellow-800 rounded border border-yellow-200"
+        >
+          <strong>Why?</strong> Saves data for mobile users. Don't load a 4K
+          image on an iPhone SE.
+        </div>
+      </section>
+
+      <section
+        class="bg-white p-6 rounded-xl shadow-md border-t-4 border-yellow-400"
+      >
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-bold flex items-center gap-2">
+            💾 Auto-Save Notepad
+          </h2>
+          <span id="save-status" class="text-xs font-mono text-gray-400"
+            >Ready</span
+          >
+        </div>
+
+        <p class="text-sm text-gray-500 mb-4">
+          Type something below. Then <strong>Refresh</strong> the page. Your
+          text will stay! (Powered by <code>localStorage</code>)
+        </p>
+
+        <textarea
+          id="notepad"
+          class="w-full h-40 p-4 border-2 border-yellow-200 rounded-lg bg-yellow-50 focus:outline-none focus:border-yellow-400 font-mono text-sm resize-none"
+          placeholder="Write your ideas here..."
+        ></textarea>
+
+        <div class="mt-4 flex gap-2">
+          <button
+            onclick="clearNote()"
+            class="text-xs text-red-500 underline hover:text-red-700"
+          >
+            Clear Storage
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      // HTML5 LocalStorage Logic
+      const noteArea = document.getElementById("notepad");
+      const statusSpan = document.getElementById("save-status");
+
+      // 1. Load data on page open
+      window.onload = function () {
+        const savedText = localStorage.getItem("se112_draft");
+        if (savedText) {
+          noteArea.value = savedText;
+          statusSpan.innerText = "Loaded from Storage";
+          statusSpan.classList.add("text-green-600");
+        }
+      };
+
+      // 2. Save data on typing
+      noteArea.addEventListener("input", function () {
+        const text = noteArea.value;
+        localStorage.setItem("se112_draft", text);
+
+        // UI Feedback
+        statusSpan.innerText = "Saved locally...";
+        statusSpan.classList.remove("text-green-600");
+      });
+
+      // 3. Clear logic
+      function clearNote() {
+        localStorage.removeItem("se112_draft");
+        noteArea.value = "";
+        statusSpan.innerText = "Storage Cleared";
+      }
+    </script>
+  </body>
+</html>

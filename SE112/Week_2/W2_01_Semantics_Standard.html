@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A demo page for SE112 Web Technology course showcasing HTML5 semantic elements."
+    />
+    <meta name="author" content="Prof. Jeremy Zhao" />
+    <title>The Semantic Weekly | SE112 Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* 辅助线：上课时开启，让学生看清盒子边界 */
+      .debug-mode * {
+        outline: 1px dashed rgba(255, 0, 0, 0.3);
+      }
+      .semantic-label {
+        display: none;
+        position: absolute;
+        background: #ffeb3b;
+        color: black;
+        font-size: 10px;
+        padding: 2px 4px;
+        z-index: 10;
+        font-family: monospace;
+        font-weight: bold;
+        border: 1px solid #333;
+      }
+      .debug-mode .semantic-label {
+        display: block;
+      }
+
+      /* 简单布局 */
+      body {
+        font-family: "Georgia", serif;
+        background: #fdfbf7;
+        color: #333;
+        line-height: 1.6;
+      }
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+        gap: 40px;
+      }
+      @media (max-width: 768px) {
+        .container {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body class="relative">
+    <button
+      onclick="document.body.classList.toggle('debug-mode')"
+      class="fixed top-4 right-4 bg-red-600 text-white px-4 py-2 rounded shadow-lg z-50 text-sm font-sans font-bold hover:bg-red-700 transition"
+    >
+      👁️ Toggle X-Ray Mode
+    </button>
+
+    <header class="bg-black text-white p-8 text-center relative mb-8">
+      <span class="semantic-label top-0 left-0">&lt;header&gt;</span>
+      <h1 class="text-4xl font-bold tracking-widest uppercase mb-2">
+        The Semantic Weekly
+      </h1>
+      <p class="text-gray-400 text-sm italic">
+        "Code is Poetry, Structure is Logic"
+      </p>
+    </header>
+
+    <nav
+      class="bg-gray-200 border-t border-b border-gray-300 py-3 sticky top-0 z-40 relative"
+    >
+      <span class="semantic-label top-0 left-0">&lt;nav&gt;</span>
+      <ul
+        class="flex justify-center gap-8 font-sans font-bold text-sm uppercase text-gray-600 list-none m-0"
+      >
+        <li><a href="#" class="hover:text-black">Tech</a></li>
+        <li><a href="#" class="hover:text-black">Science</a></li>
+        <li><a href="#" class="hover:text-black">Culture</a></li>
+        <li><a href="#" class="hover:text-black">About</a></li>
+      </ul>
+    </nav>
+
+    <div class="container relative">
+      <main class="relative">
+        <span class="semantic-label top-0 left-0">&lt;main&gt;</span>
+
+        <article class="mb-12 border-b border-gray-200 pb-12 relative">
+          <span class="semantic-label top-0 left-0">&lt;article&gt;</span>
+          <header class="mb-4">
+            <span
+              class="text-blue-600 font-bold text-xs uppercase tracking-wide"
+              >Web Development</span
+            >
+            <h2 class="text-3xl font-bold mt-2 mb-2">
+              Why &lt;div&gt; is Not Enough
+            </h2>
+            <div
+              class="text-gray-500 text-sm font-sans flex items-center gap-2"
+            >
+              <span>By Prof. Zhao</span> •
+              <time datetime="2026-02-01">Feb 1, 2026</time>
+            </div>
+          </header>
+
+          <figure class="my-6 relative">
+            <span class="semantic-label top-0 left-0">&lt;figure&gt;</span>
+            <img
+              src="https://via.placeholder.com/800x400/333/fff?text=Semantic+HTML+Structure"
+              alt="Diagram showing semantic layout"
+              class="w-full rounded"
+            />
+            <figcaption
+              class="text-sm text-gray-500 text-center mt-2 italic relative"
+            >
+              <span class="semantic-label top-0 left-0"
+                >&lt;figcaption&gt;</span
+              >
+              Figure 1: Anatomy of a perfect webpage.
+            </figcaption>
+          </figure>
+
+          <div class="prose max-w-none text-gray-800">
+            <p class="mb-4">
+              When we started building websites in the 90s, we used tables. Then
+              we moved to divs. Now, we use <strong>Semantic HTML</strong>.
+            </p>
+            <p class="mb-4">
+              Why does it matter? Because machines read your code. Google needs
+              to know what is the <em>Main Content</em> and what is just a
+              <em>Sidebar</em>.
+            </p>
+
+            <section
+              class="bg-blue-50 p-6 rounded-lg my-6 relative border-l-4 border-blue-500"
+            >
+              <span class="semantic-label top-0 left-0">&lt;section&gt;</span>
+              <h3 class="text-xl font-bold mb-2 text-blue-900">Key Takeaway</h3>
+              <p class="text-blue-800 m-0">
+                Always use the most specific tag available. Don't use a generic
+                container when a specific one exists.
+              </p>
+            </section>
+          </div>
+        </article>
+
+        <article class="relative">
+          <span class="semantic-label top-0 left-0">&lt;article&gt;</span>
+          <h2 class="text-2xl font-bold mb-2">The Rise of WebAssembly</h2>
+          <p class="text-gray-600">
+            The web is getting faster. Let's explore how...
+          </p>
+          <a href="#" class="text-blue-600 font-bold text-sm hover:underline"
+            >Read more →</a
+          >
+        </article>
+      </main>
+
+      <aside class="relative">
+        <span class="semantic-label top-0 left-0">&lt;aside&gt;</span>
+
+        <div class="bg-gray-100 p-6 rounded mb-8">
+          <h3
+            class="font-bold border-b border-gray-300 pb-2 mb-4 uppercase text-xs text-gray-500"
+          >
+            About Author
+          </h3>
+          <img
+            src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jeremy"
+            class="w-20 h-20 rounded-full mx-auto mb-4"
+          />
+          <p class="text-sm text-center">
+            Prof. Jeremy loves clean code and coffee.
+          </p>
+        </div>
+
+        <div class="bg-white border border-gray-200 p-6 rounded">
+          <h3
+            class="font-bold border-b border-gray-300 pb-2 mb-4 uppercase text-xs text-gray-500"
+          >
+            Trending Tags
+          </h3>
+          <div class="flex flex-wrap gap-2">
+            <span class="bg-gray-200 text-xs px-2 py-1 rounded">#HTML5</span>
+            <span class="bg-gray-200 text-xs px-2 py-1 rounded">#CSS3</span>
+            <span class="bg-gray-200 text-xs px-2 py-1 rounded">#MUST</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <footer
+      class="bg-gray-900 text-gray-400 py-10 text-center relative mt-12 font-sans text-sm"
+    >
+      <span class="semantic-label top-0 left-0">&lt;footer&gt;</span>
+      <p>&copy; 2026 SE112 Course Material. Built for educational purposes.</p>
+      <p class="mt-2">Macau University of Science and Technology</p>
+    </footer>
+  </body>
+</html>
