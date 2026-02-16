@@ -1,195 +1,442 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SE112 Web Technology - Courseware</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SE112 Web Technology - Course Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <style>
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: #f3f4f6; }
-        
-        /* 卡片悬浮特效 */
-        .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
-        
-        /* 装饰背景 */
-        .bg-pattern {
-            background-color: #1e293b;
-            background-image: radial-gradient(#334155 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
-    </style>
-</head>
-<body class="min-h-screen flex flex-col">
+      body {
+        font-family: "Segoe UI", system-ui, sans-serif;
+        background-color: #f3f4f6;
+      }
 
+      /* 卡片悬浮特效 */
+      .card-hover {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow:
+          0 10px 25px -5px rgba(0, 0, 0, 0.1),
+          0 8px 10px -6px rgba(0, 0, 0, 0.1);
+      }
+
+      /* 装饰背景 */
+      .bg-pattern {
+        background-color: #1e293b;
+        background-image: radial-gradient(#334155 1px, transparent 1px);
+        background-size: 20px 20px;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col">
     <header class="bg-pattern text-white shadow-lg border-b-4 border-blue-500">
-        <div class="container mx-auto px-6 py-10">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-                <div>
-                    <div class="flex items-center gap-3 mb-2">
-                        <i class="fa-solid fa-graduation-cap text-3xl text-blue-400"></i>
-                        <span class="bg-blue-600 text-xs font-bold px-2 py-1 rounded text-blue-100 tracking-wider">SE112</span>
-                    </div>
-                    <h1 class="text-4xl font-extrabold tracking-tight">Web Technology</h1>
-                    <p class="text-slate-400 mt-2 text-lg">Interactive Courseware & Demos</p>
-                </div>
-                <div class="text-right hidden md:block">
-                    <p class="font-bold text-xl">Prof. Rui (Jeremy) Zhao</p>
-                    <p class="text-sm text-slate-400">Macau University of Science and Technology</p>
-                </div>
+      <div class="container mx-auto px-6 py-10">
+        <div
+          class="flex flex-col md:flex-row justify-between items-center gap-4"
+        >
+          <div>
+            <div class="flex items-center gap-3 mb-2">
+              <i class="fa-solid fa-graduation-cap text-3xl text-blue-400"></i>
+              <span
+                class="bg-blue-600 text-xs font-bold px-2 py-1 rounded text-blue-100 tracking-wider"
+                >SE112</span
+              >
             </div>
+            <h1 class="text-4xl font-extrabold tracking-tight">
+              Web Technology
+            </h1>
+            <p class="text-slate-400 mt-2 text-lg">Course Materials & Demos</p>
+          </div>
+          <div class="text-right hidden md:block">
+            <p class="font-bold text-xl">Prof. Rui (Jeremy) Zhao</p>
+            <p class="text-sm text-slate-400">
+              Macau University of Science and Technology
+            </p>
+          </div>
         </div>
+      </div>
     </header>
 
     <main class="container mx-auto px-6 py-12 flex-grow">
-        
-        <div class="flex items-center gap-2 mb-6 text-slate-500 text-sm font-semibold uppercase tracking-wider">
-            <i class="fa-solid fa-folder-open"></i> Course Modules
+      <div
+        class="mb-16 bg-white p-8 rounded-2xl shadow-sm border border-slate-200"
+      >
+        <div
+          class="flex items-center gap-3 mb-8 border-b-2 border-slate-100 pb-4"
+        >
+          <span
+            class="bg-slate-700 text-white font-bold px-4 py-1.5 rounded-full text-sm uppercase tracking-wide shadow-md"
+            >Week 01</span
+          >
+          <div>
+            <h2 class="text-2xl font-bold text-slate-800">Web Fundamentals</h2>
+            <p class="text-slate-500 text-sm">
+              HTTP, HTML History, Basic Tags & Architecture
+            </p>
+          </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-            <a href="01_Final_Project.html" class="block group">
-                <div class="bg-white rounded-xl overflow-hidden border border-slate-200 card-hover h-full flex flex-col relative">
-                    <div class="absolute top-0 right-0 bg-yellow-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg z-10">GOAL</div>
-                    <div class="p-6 flex-grow">
-                        <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4 text-yellow-600">
-                            <i class="fa-solid fa-trophy text-2xl"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">01. Final Project</h3>
-                        <p class="text-slate-500 text-sm">The ultimate goal. A comprehensive showcase of what we will build by the end of the semester.</p>
-                    </div>
-                    <div class="bg-slate-50 px-6 py-3 border-t border-slate-100 flex justify-between items-center">
-                        <span class="text-xs font-mono text-slate-400">01_Final_Project.html</span>
-                        <i class="fa-solid fa-arrow-right text-slate-300 group-hover:text-blue-500 group-hover:translate-x-1 transition-all"></i>
-                    </div>
+          <a href="01_Final_Project.html" class="block group">
+            <div
+              class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 card-hover h-full flex flex-col relative"
+            >
+              <div
+                class="absolute top-0 right-0 bg-yellow-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg z-10"
+              >
+                GOAL
+              </div>
+              <div class="p-5 flex-grow">
+                <div class="flex items-center gap-4 mb-3">
+                  <div
+                    class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center text-yellow-600"
+                  >
+                    <i class="fa-solid fa-trophy text-lg"></i>
+                  </div>
+                  <h3
+                    class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors"
+                  >
+                    01. Final Project
+                  </h3>
                 </div>
-            </a>
+                <p class="text-slate-500 text-sm pl-14">Course Goal preview.</p>
+              </div>
+              <div
+                class="bg-white px-5 py-2 border-t border-slate-100 text-xs font-mono text-slate-400"
+              >
+                01_Final_Project.html
+              </div>
+            </div>
+          </a>
 
-            <a href="02_HTTP_Journey.html" class="block group">
-                <div class="bg-white rounded-xl overflow-hidden border border-slate-200 card-hover h-full flex flex-col">
-                    <div class="p-6 flex-grow">
-                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4 text-blue-600">
-                            <i class="fa-solid fa-globe text-2xl"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">02. HTTP Protocol</h3>
-                        <p class="text-slate-500 text-sm">Understanding the Web's language. Requests, Responses, Methods, and Status Codes.</p>
-                    </div>
-                    <div class="bg-slate-50 px-6 py-3 border-t border-slate-100 flex justify-between items-center">
-                        <span class="text-xs font-mono text-slate-400">02_HTTP_Journey.html</span>
-                        <i class="fa-solid fa-arrow-right text-slate-300 group-hover:text-blue-500 group-hover:translate-x-1 transition-all"></i>
-                    </div>
+          <a href="02_HTTP_Journey.html" class="block group">
+            <div
+              class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 card-hover h-full flex flex-col"
+            >
+              <div class="p-5 flex-grow">
+                <div class="flex items-center gap-4 mb-3">
+                  <div
+                    class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600"
+                  >
+                    <i class="fa-solid fa-globe text-lg"></i>
+                  </div>
+                  <h3
+                    class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors"
+                  >
+                    02. HTTP Protocol
+                  </h3>
                 </div>
-            </a>
+                <p class="text-slate-500 text-sm pl-14">
+                  Req/Res & Status Codes.
+                </p>
+              </div>
+              <div
+                class="bg-white px-5 py-2 border-t border-slate-100 text-xs font-mono text-slate-400"
+              >
+                02_HTTP_Journey.html
+              </div>
+            </div>
+          </a>
 
-            <a href="03_HTML_Evolution.html" class="block group">
-                <div class="bg-white rounded-xl overflow-hidden border border-slate-200 card-hover h-full flex flex-col">
-                    <div class="p-6 flex-grow">
-                        <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4 text-orange-600">
-                            <i class="fa-brands fa-html5 text-2xl"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">03. HTML History</h3>
-                        <p class="text-slate-500 text-sm">Interactive timeline. From the "Tag Soup" of 1997 to the semantic beauty of HTML5.</p>
-                    </div>
-                    <div class="bg-slate-50 px-6 py-3 border-t border-slate-100 flex justify-between items-center">
-                        <span class="text-xs font-mono text-slate-400">03_HTML_Evolution.html</span>
-                        <i class="fa-solid fa-arrow-right text-slate-300 group-hover:text-blue-500 group-hover:translate-x-1 transition-all"></i>
-                    </div>
+          <a href="03_HTML_Evolution.html" class="block group">
+            <div
+              class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 card-hover h-full flex flex-col"
+            >
+              <div class="p-5 flex-grow">
+                <div class="flex items-center gap-4 mb-3">
+                  <div
+                    class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center text-orange-600"
+                  >
+                    <i class="fa-brands fa-html5 text-lg"></i>
+                  </div>
+                  <h3
+                    class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors"
+                  >
+                    03. HTML History
+                  </h3>
                 </div>
-            </a>
+                <p class="text-slate-500 text-sm pl-14">
+                  From Tag Soup to Semantic.
+                </p>
+              </div>
+              <div
+                class="bg-white px-5 py-2 border-t border-slate-100 text-xs font-mono text-slate-400"
+              >
+                03_HTML_Evolution.html
+              </div>
+            </div>
+          </a>
 
-            <a href="04_HTML_CSS_JavaScript.html" class="block group">
-                <div class="bg-white rounded-xl overflow-hidden border border-slate-200 card-hover h-full flex flex-col">
-                    <div class="p-6 flex-grow">
-                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4 text-purple-600">
-                            <i class="fa-solid fa-cubes text-2xl"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">04. The Trinity</h3>
-                        <p class="text-slate-500 text-sm">HTML + CSS + JavaScript. Building a robot layer by layer to understand their roles.</p>
-                    </div>
-                    <div class="bg-slate-50 px-6 py-3 border-t border-slate-100 flex justify-between items-center">
-                        <span class="text-xs font-mono text-slate-400">04_HTML_CSS_JavaScript.html</span>
-                        <i class="fa-solid fa-arrow-right text-slate-300 group-hover:text-blue-500 group-hover:translate-x-1 transition-all"></i>
-                    </div>
+          <a href="04_HTML_CSS_JavaScript.html" class="block group">
+            <div
+              class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 card-hover h-full flex flex-col"
+            >
+              <div class="p-5 flex-grow">
+                <div class="flex items-center gap-4 mb-3">
+                  <div
+                    class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600"
+                  >
+                    <i class="fa-solid fa-cubes text-lg"></i>
+                  </div>
+                  <h3
+                    class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors"
+                  >
+                    04. The Trinity
+                  </h3>
                 </div>
-            </a>
+                <p class="text-slate-500 text-sm pl-14">
+                  HTML + CSS + JS relationship.
+                </p>
+              </div>
+              <div
+                class="bg-white px-5 py-2 border-t border-slate-100 text-xs font-mono text-slate-400"
+              >
+                04_HTML_CSS_JavaScript.html
+              </div>
+            </div>
+          </a>
 
-            <a href="05_Encoding_Lab.html" class="block group">
-                <div class="bg-white rounded-xl overflow-hidden border border-slate-200 card-hover h-full flex flex-col">
-                    <div class="p-6 flex-grow">
-                        <div class="w-12 h-12 bg-cyan-100 rounded-lg flex items-center justify-center mb-4 text-cyan-600">
-                            <i class="fa-solid fa-language text-2xl"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">05. Encoding Lab</h3>
-                        <p class="text-slate-500 text-sm">Visualizing UTF-8 bytes and understanding why "Mojibake" (乱码) happens.</p>
-                    </div>
-                    <div class="bg-slate-50 px-6 py-3 border-t border-slate-100 flex justify-between items-center">
-                        <span class="text-xs font-mono text-slate-400">05_Encoding_Lab.html</span>
-                        <i class="fa-solid fa-arrow-right text-slate-300 group-hover:text-blue-500 group-hover:translate-x-1 transition-all"></i>
-                    </div>
+          <a href="05_Encoding_Lab.html" class="block group">
+            <div
+              class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 card-hover h-full flex flex-col"
+            >
+              <div class="p-5 flex-grow">
+                <div class="flex items-center gap-4 mb-3">
+                  <div
+                    class="w-10 h-10 bg-cyan-100 rounded-lg flex items-center justify-center text-cyan-600"
+                  >
+                    <i class="fa-solid fa-language text-lg"></i>
+                  </div>
+                  <h3
+                    class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors"
+                  >
+                    05. Encoding Lab
+                  </h3>
                 </div>
-            </a>
+                <p class="text-slate-500 text-sm pl-14">
+                  UTF-8 vs GBK & Mojibake.
+                </p>
+              </div>
+              <div
+                class="bg-white px-5 py-2 border-t border-slate-100 text-xs font-mono text-slate-400"
+              >
+                05_Encoding_Lab.html
+              </div>
+            </div>
+          </a>
 
-             <a href="06_Cache.html" class="block group">
-                <div class="bg-white rounded-xl overflow-hidden border border-slate-200 card-hover h-full flex flex-col">
-                    <div class="p-6 flex-grow">
-                        <div class="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center mb-4 text-pink-600">
-                            <i class="fa-solid fa-cookie-bite text-2xl"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">06. State Inspector</h3>
-                        <p class="text-slate-500 text-sm">Cookies vs. Session vs. Cache. Visualizing user state and data storage.</p>
-                    </div>
-                    <div class="bg-slate-50 px-6 py-3 border-t border-slate-100 flex justify-between items-center">
-                        <span class="text-xs font-mono text-slate-400">06_Cache.html</span>
-                        <i class="fa-solid fa-arrow-right text-slate-300 group-hover:text-blue-500 group-hover:translate-x-1 transition-all"></i>
-                    </div>
+          <a href="06_Cache.html" class="block group">
+            <div
+              class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 card-hover h-full flex flex-col"
+            >
+              <div class="p-5 flex-grow">
+                <div class="flex items-center gap-4 mb-3">
+                  <div
+                    class="w-10 h-10 bg-pink-100 rounded-lg flex items-center justify-center text-pink-600"
+                  >
+                    <i class="fa-solid fa-cookie-bite text-lg"></i>
+                  </div>
+                  <h3
+                    class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors"
+                  >
+                    06. State Inspector
+                  </h3>
                 </div>
-            </a>
+                <p class="text-slate-500 text-sm pl-14">
+                  Cookies, Session & Cache.
+                </p>
+              </div>
+              <div
+                class="bg-white px-5 py-2 border-t border-slate-100 text-xs font-mono text-slate-400"
+              >
+                06_Cache.html
+              </div>
+            </div>
+          </a>
 
-            <a href="07_Backend_SpringBoot_Flow.html" class="block group">
-                <div class="bg-white rounded-xl overflow-hidden border border-green-200 card-hover h-full flex flex-col relative">
-                    <div class="p-6 flex-grow">
-                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4 text-green-600">
-                            <i class="fa-solid fa-server text-2xl"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-800 mb-2 group-hover:text-green-600 transition-colors">07. Backend Pipeline</h3>
-                        <p class="text-slate-500 text-sm">Spring Boot Architecture. Controller -> Service -> Repository visualization.</p>
-                    </div>
-                    <div class="bg-slate-50 px-6 py-3 border-t border-slate-100 flex justify-between items-center">
-                        <span class="text-xs font-mono text-slate-400">07_Backend_SpringBoot_Flow.html</span>
-                        <i class="fa-solid fa-arrow-right text-slate-300 group-hover:text-green-500 group-hover:translate-x-1 transition-all"></i>
-                    </div>
+          <a href="07_Backend_SpringBoot_Flow.html" class="block group">
+            <div
+              class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 card-hover h-full flex flex-col relative"
+            >
+              <div
+                class="absolute top-0 left-0 bottom-0 w-1 bg-green-500"
+              ></div>
+              <div class="p-5 flex-grow">
+                <div class="flex items-center gap-4 mb-3">
+                  <div
+                    class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-green-600"
+                  >
+                    <i class="fa-solid fa-server text-lg"></i>
+                  </div>
+                  <h3
+                    class="text-lg font-bold text-slate-800 group-hover:text-green-600 transition-colors"
+                  >
+                    07. Backend Flow
+                  </h3>
                 </div>
-            </a>
+                <p class="text-slate-500 text-sm pl-14">
+                  Spring Boot Architecture.
+                </p>
+              </div>
+              <div
+                class="bg-white px-5 py-2 border-t border-slate-100 text-xs font-mono text-slate-400"
+              >
+                07_Backend...html
+              </div>
+            </div>
+          </a>
 
-            <a href="08_Ad_Tracking.html" class="block group md:col-span-2 lg:col-span-2">
-                <div class="bg-white rounded-xl overflow-hidden border border-red-200 card-hover h-full flex flex-row items-center relative">
-                    <div class="absolute top-0 left-0 bottom-0 w-2 bg-red-500"></div>
-                    <div class="p-6 flex-grow flex items-center gap-6">
-                        <div class="w-16 h-16 bg-red-100 rounded-lg flex-shrink-0 flex items-center justify-center text-red-600">
-                            <i class="fa-solid fa-user-secret text-3xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold text-slate-800 mb-1 group-hover:text-red-600 transition-colors">08. The Ad Stalker (Cookies)</h3>
-                            <p class="text-slate-500 text-sm">"Why does my phone know what I want?" A demonstration of Cross-Site Tracking and Third-Party Cookies.</p>
-                        </div>
-                    </div>
-                    <div class="px-6">
-                        <i class="fa-solid fa-chevron-right text-slate-300 group-hover:text-red-500 group-hover:translate-x-1 transition-all text-xl"></i>
-                    </div>
+          <a href="08_Ad_Tracking.html" class="block group">
+            <div
+              class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 card-hover h-full flex flex-col relative"
+            >
+              <div class="absolute top-0 left-0 bottom-0 w-1 bg-red-500"></div>
+              <div class="p-5 flex-grow">
+                <div class="flex items-center gap-4 mb-3">
+                  <div
+                    class="w-10 h-10 bg-red-100 rounded-lg flex-shrink-0 flex items-center justify-center text-red-600"
+                  >
+                    <i class="fa-solid fa-user-secret text-lg"></i>
+                  </div>
+                  <h3
+                    class="text-lg font-bold text-slate-800 group-hover:text-red-600 transition-colors"
+                  >
+                    08. Ad Tracking
+                  </h3>
                 </div>
-            </a>
+                <p class="text-slate-500 text-sm pl-14">
+                  Privacy & Cookies Demo.
+                </p>
+              </div>
+              <div
+                class="bg-white px-5 py-2 border-t border-slate-100 text-xs font-mono text-slate-400"
+              >
+                08_Ad_Tracking.html
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
 
+      <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+        <div
+          class="flex items-center gap-3 mb-8 border-b-2 border-slate-100 pb-4"
+        >
+          <span
+            class="bg-blue-600 text-white font-bold px-4 py-1.5 rounded-full text-sm uppercase tracking-wide shadow-md shadow-blue-200"
+            >Week 02</span
+          >
+          <div>
+            <h2 class="text-2xl font-bold text-slate-800">HTML5 Deep Dive</h2>
+            <p class="text-slate-500 text-sm">
+              Semantics, Multimedia, Forms & Responsive Design
+            </p>
+          </div>
         </div>
 
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+          <a href="Week_2/W2_01_Semantics_Standard.html" class="block group">
+            <div
+              class="bg-white rounded-xl overflow-hidden border border-indigo-200 card-hover h-full flex flex-col"
+            >
+              <div class="p-6 flex-grow">
+                <div
+                  class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4 text-indigo-600"
+                >
+                  <i class="fa-solid fa-layer-group text-2xl"></i>
+                </div>
+                <h3
+                  class="text-xl font-bold text-slate-800 mb-2 group-hover:text-indigo-600 transition-colors"
+                >
+                  01. Semantic Standard
+                </h3>
+                <p class="text-slate-500 text-sm">
+                  Correct layout: Header, Nav, Main, Aside, Footer.
+                </p>
+              </div>
+              <div
+                class="bg-slate-50 px-6 py-3 border-t border-slate-100 text-xs font-mono text-slate-400"
+              >
+                W2_01_Semantics_Standard.html
+              </div>
+            </div>
+          </a>
+
+          <a href="Week_2/W2_02_Figures.html" class="block group">
+            <div
+              class="bg-white rounded-xl overflow-hidden border border-indigo-200 card-hover h-full flex flex-col"
+            >
+              <div class="p-6 flex-grow">
+                <div
+                  class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4 text-indigo-600"
+                >
+                  <i class="fa-regular fa-image text-2xl"></i>
+                </div>
+                <h3
+                  class="text-xl font-bold text-slate-800 mb-2 group-hover:text-indigo-600 transition-colors"
+                >
+                  02. Figures & Captions
+                </h3>
+                <p class="text-slate-500 text-sm">
+                  Handling images with semantic meaning.
+                </p>
+              </div>
+              <div
+                class="bg-slate-50 px-6 py-3 border-t border-slate-100 text-xs font-mono text-slate-400"
+              >
+                W2_02_Figures.html
+              </div>
+            </div>
+          </a>
+
+          <a href="Week_2/W2_03_Forms_Media.html" class="block group">
+            <div
+              class="bg-white rounded-xl overflow-hidden border border-teal-200 card-hover h-full flex flex-col"
+            >
+              <div class="p-6 flex-grow">
+                <div
+                  class="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mb-4 text-teal-600"
+                >
+                  <i class="fa-regular fa-circle-play text-2xl"></i>
+                </div>
+                <h3
+                  class="text-xl font-bold text-slate-800 mb-2 group-hover:text-teal-600 transition-colors"
+                >
+                  03. Forms & Media
+                </h3>
+                <p class="text-slate-500 text-sm">
+                  Intelligent inputs (Email, Date) & Native Video/Audio.
+                </p>
+              </div>
+              <div
+                class="bg-slate-50 px-6 py-3 border-t border-slate-100 text-xs font-mono text-slate-400"
+              >
+                W2_03_Forms_Media.html
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
     </main>
 
-    <footer class="bg-slate-800 text-slate-400 py-6 border-t border-slate-700">
-        <div class="container mx-auto px-6 text-center text-sm">
-            <p>&copy; 2026 Faculty of Innovation Engineering, MUST. All Rights Reserved.</p>
-        </div>
+    <footer
+      class="bg-slate-800 text-slate-400 py-8 border-t border-slate-700 mt-12"
+    >
+      <div class="container mx-auto px-6 text-center text-sm">
+        <p>
+          &copy; 2026 Faculty of Innovation Engineering, MUST. All Rights
+          Reserved.
+        </p>
+        <p class="mt-2 text-slate-500">
+          Designed for SE112 Web Technology Course
+        </p>
+      </div>
     </footer>
-
-</body>
+  </body>
 </html>
