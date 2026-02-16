@@ -1270,6 +1270,30 @@
       }
     </script>
 
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var container = document.getElementById("container-publications");
+        if (!container) return;
+
+        var items = Array.prototype.slice.call(
+          container.querySelectorAll(".isotope-item")
+        );
+
+        function getYear(el) {
+          var match = el.className.match(/year-(\d{4})/);
+          return match ? parseInt(match[1], 10) : 0;
+        }
+
+        items.sort(function (a, b) {
+          return getYear(b) - getYear(a);
+        });
+
+        items.forEach(function (item) {
+          container.appendChild(item);
+        });
+      });
+    </script>
+
     <script
       src="/js/wowchemy-headroom.db4755770454eb63685f8de785c0a172.js"
       type="module"
