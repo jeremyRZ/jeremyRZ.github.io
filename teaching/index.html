@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<!-- This site was created with Wowchemy. https://www.wowchemy.com -->
-<!-- Last Published: March 26, 2025 -->
+<!-- Teaching page -->
 <html lang="en-us">
   <head>
     <meta charset="utf-8" />
@@ -23,8 +22,6 @@
       onload="this.media='all'"
     />
 
-    <script src="/js/mathjax-config.js"></script>
-
     <link
       rel="stylesheet"
       href="/css/vendor-bundle.min.047268c6dd09ad74ba54a0ba71837064.css"
@@ -40,13 +37,6 @@
       media="print"
       onload="this.media='all'"
     />
-
-    <script
-      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
-      integrity=""
-      crossorigin="anonymous"
-      async
-    ></script>
 
     <link
       rel="stylesheet"
@@ -69,67 +59,54 @@
       disabled
     />
 
-    <meta
-      name="google-site-verification"
-      content="QWL_mhA6b9Hr-W2YRR3e1SNOy9rc6N48VYcOIMQT694"
-    />
-
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-DRE1LBFJ3D"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-
-      function gtag() {
-        dataLayer.push(arguments);
+    <style>
+      body {
+        background-color: #f5f5f5;
       }
 
-      function trackOutboundLink(url, target) {
-        gtag("event", "click", {
-          event_category: "outbound",
-          event_label: url,
-          transport_type: "beacon",
-          event_callback: function () {
-            if (target !== "_blank") {
-              document.location = url;
-            }
-          },
-        });
-        console.debug("Outbound link clicked: " + url);
+      .page-body {
+        padding-top: 2rem;
+        padding-bottom: 4rem;
       }
 
-      function onClickCallback(event) {
-        if (
-          event.target.tagName !== "A" ||
-          event.target.host === window.location.host
-        ) {
-          return;
-        }
-        trackOutboundLink(event.target, event.target.getAttribute("target"));
+      .article-container.pt-3 h1 {
+        font-size: 2.1rem;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        margin-bottom: 1.5rem;
       }
 
-      gtag("js", new Date());
-      gtag("config", "G-DRE1LBFJ3D", {});
-      gtag("set", { cookie_flags: "SameSite=None;Secure" });
+      .article-container.pt-3 h1::after {
+        content: "";
+        display: block;
+        width: 48px;
+        height: 3px;
+        margin-top: 0.6rem;
+        background-color: #111827;
+      }
 
-      document.addEventListener("click", onClickCallback, false);
-    </script>
+      .teaching-section h2 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-top: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .teaching-section ul {
+        padding-left: 1.2rem;
+      }
+    </style>
 
     <meta name="author" content="Rui ZHAO" />
 
-    <meta
-      name="description"
-      content="List of news.
-"
-    />
+    <meta name="description" content="Teaching of Rui ZHAO" />
 
     <link
       rel="alternate"
       hreflang="en-us"
-      href="https://jeremyRZ.github.io/honors/"
+      href="https://jeremyrz.github.io/teaching/"
     />
-    <link rel="canonical" href="https://jeremyRZ.github.io/honors/" />
+    <link rel="canonical" href="https://jeremyrz.github.io/teaching/" />
 
     <link rel="manifest" href="/manifest.webmanifest" />
 
@@ -152,36 +129,25 @@
     <meta property="twitter:creator" content="@Rui ZHAO" />
     <meta
       property="twitter:image"
-      content="https://jeremyRZ.github.io/media/Web_Logo.png"
+      content="https://jeremyrz.github.io/media/Web_Logo.png"
     />
-    <meta property="og:site_name" content="Rui ZHAO&#39;s homepage" />
-    <meta property="og:url" content="https://jeremyRZ.github.io/honors/" />
+    <meta property="og:site_name" content="Rui ZHAO's homepage" />
+    <meta property="og:url" content="https://jeremyrz.github.io/teaching/" />
     <meta
       property="og:title"
-      content="Honors and Awards | Rui ZHAO&#39;s homepage"
+      content="Teaching | Rui ZHAO's homepage"
     />
     <meta
       property="og:description"
-      content="List of news.
-"
+      content="Teaching activities of Rui ZHAO"
     />
     <meta
       property="og:image"
-      content="https://jeremyRZ.github.io/media/Web_Logo.png"
+      content="https://jeremyrz.github.io/media/Web_Logo.png"
     />
     <meta property="og:locale" content="en-us" />
 
-    <meta
-      property="article:published_time"
-      content="2017-12-01T00:00:00&#43;00:00"
-    />
-
-    <meta
-      property="article:modified_time"
-      content="2017-12-01T00:00:00&#43;00:00"
-    />
-
-    <title>Honors and Awards | Rui ZHAO&#39;s homepage</title>
+    <title>Teaching | Rui ZHAO's homepage</title>
   </head>
 
   <body
@@ -190,11 +156,8 @@
     data-offset="70"
     data-target="#TableOfContents"
     class="page-wrapper"
-    data-wc-page-id="995096301e136877103eac415620a4b8"
   >
     <script src="/js/wowchemy-init.min.ec9d49ca50e4b80bdb08f0417a28ed84.js"></script>
-
-    
 
     <div class="page-header header--fixed">
       <header>
@@ -204,7 +167,7 @@
         >
           <div class="container-xl">
             <div class="d-none d-lg-inline-flex">
-              <a class="navbar-brand" href="/">Rui ZHAO&#39;s homepage</a>
+              <a class="navbar-brand" href="/">Rui ZHAO's homepage</a>
             </div>
 
             <button
@@ -220,7 +183,7 @@
             </button>
 
             <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
-              <a class="navbar-brand" href="/">Rui ZHAO&#39;s homepage</a>
+              <a class="navbar-brand" href="/">Rui ZHAO's homepage</a>
             </div>
 
             <div
@@ -264,14 +227,12 @@
               <li class="nav-item d-none d-lg-inline-flex">
                 <a
                   class="nav-link"
-                  href="mailto:wenbinzhai@nuaa.edu.cn"
+                  href="mailto:zhaorui@must.edu.mo"
                   aria-label="envelope"
                 >
                   <i class="fas fa-envelope" aria-hidden="true"></i>
                 </a>
               </li>
-
-              
 
               <li class="nav-item dropdown theme-dropdown">
                 <a
@@ -304,65 +265,82 @@
     <div class="page-body">
       <article class="article">
         <div class="article-container pt-3">
-          <h1>Honors and Awards</h1>
+          <h1>Teaching</h1>
 
           <div class="article-metadata"></div>
         </div>
 
         <div class="article-container">
-          <div class="article-style">
-            <p>
-              [2025] <strong>Top 10%/Excellent PhD thesis</strong>, the
-              University of Hong Kong
-            </p>
-            <p>
-              [2024] <strong>Merit Award</strong>, Hong Kong openBIM/openGIS
-              Award
-            </p>
-            <p>
-              [2022] <strong>Best Paper Award</strong>, ASCE Journal of
-              Management in Engineering
-            </p>
-            <p>
-              [2021] <strong>Winner for Professional Research</strong>,
-              buildingSMART International Awards
-            </p>
-            <p>
-              [2021] <strong>HKU Postgraduate Scholarship</strong>, the
-              University of Hong Kong
-            </p>
-            <p>
-              [2018] <strong>Outstanding Team Award</strong>, Hong Kong Applied
-              Science and Technology Research Institute
-            </p>
-            <p>
-              [2016] <strong>Dean Scholarship</strong>, Macau University of
-              Science and Technology
-            </p>
-            <p>
-              [2016] <strong>Second Prize</strong>, Cultural and Academic
-              Excellence Award of MUST
-            </p>
-            <p>
-              [2015] <strong>Second Prize</strong>, Cultural and Academic
-              Excellence Award of MUST
-            </p>
-            <p>
-              [2015] <strong>Excellent Referee</strong>, The 7th Asia-Pacific
-              Robot Contest
-            </p>
-            <p>
-              [2015] <strong>Excellent Paper</strong>, "Shenzhen Cup"
-              Mathematical Modeling Summer Camp
-            </p>
-            <p>
-              [2015] <strong>Third Prize</strong>, "Changping Cup" Cross-Strait
-              Smart Robot Competition
-            </p>
-            <p>
-              [2014] <strong>Second Prize</strong>, China Undergraduate
-              Mathematical Contest in Modeling (CUMCM)
-            </p>
+          <div class="article-style teaching-section">
+            <h2>Current Courses</h2>
+            <ul>
+              <li>
+                <strong>CS3401: Blockchain and Distributed Ledger Systems</strong>
+                <br />
+                Undergraduate course introducing consensus, smart contracts, and
+                cross-chain interoperability, with hands-on development on
+                mainstream blockchain platforms.
+              </li>
+              <li>
+                <strong>CS4102: Applied Machine Learning for Digital Economy</strong>
+                <br />
+                Project-based course covering classical ML and deep learning
+                techniques for recommendation, risk modeling, and customer
+                analytics.
+              </li>
+              <li>
+                <strong>CS5203: FinTech Systems and Innovation</strong>
+                <br />
+                Graduate-level course focusing on blockchain finance,
+                algorithmic trading infrastructure, and regulatory technology.
+              </li>
+            </ul>
+
+            <h2>Past Courses</h2>
+            <ul>
+              <li>
+                <strong>CS2302: Data Structures and Algorithms</strong>
+                <br />
+                Fundamental course emphasizing problem-solving, algorithm
+                analysis, and implementation in modern programming languages.
+              </li>
+              <li>
+                <strong>CS3305: Database Systems and Applications</strong>
+                <br />
+                Focused on relational modeling, SQL, and large-scale data
+                management in real-world applications.
+              </li>
+              <li>
+                <strong>CS4308: Introduction to Artificial Intelligence</strong>
+                <br />
+                Covered search, knowledge representation, reasoning, and basic
+                machine learning methods.
+              </li>
+            </ul>
+
+            <h2>Teaching Interests</h2>
+            <ul>
+              <li>Blockchain and decentralized applications</li>
+              <li>Automated and interpretable machine learning</li>
+              <li>Digital transformation and FinTech innovation</li>
+              <li>Data-intensive applications and intelligent systems</li>
+            </ul>
+
+            <h2>Student Supervision (Sample)</h2>
+            <ul>
+              <li>
+                Supervision of undergraduate capstone projects on blockchain
+                interoperability and digital asset management.
+              </li>
+              <li>
+                Co-supervision of master theses on interpretable models for
+                credit scoring and fraud detection.
+              </li>
+              <li>
+                Mentoring students participating in data science and blockchain
+                hackathons.
+              </li>
+            </ul>
           </div>
         </div>
       </article>
@@ -429,48 +407,5 @@
     ></script>
 
     <script src="/en/js/wowchemy.min.85070d5fe00d43eaedff44310b81dc2c.js"></script>
-
-    <div id="modal" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Cite</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <pre><code></code></pre>
-          </div>
-          <div class="modal-footer">
-            <a
-              class="btn btn-outline-primary my-1 js-copy-cite"
-              href="#"
-              target="_blank"
-            >
-              <i class="fas fa-copy"></i> Copy
-            </a>
-            <a
-              class="btn btn-outline-primary my-1 js-download-cite"
-              href="#"
-              target="_blank"
-            >
-              <i class="fas fa-download"></i> Download
-            </a>
-            <div id="modal-error"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <script
-      src="/js/wowchemy-publication.68f8d7090562ca65fc6d3cb3f8f2d2cb.js"
-      type="module"
-    ></script>
   </body>
 </html>
