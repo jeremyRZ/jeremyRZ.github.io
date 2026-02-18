@@ -234,6 +234,19 @@
     />
 
     <title>Rui ZHAO&#39;s homepage</title>
+
+    <style>
+      @media (min-width: 992px) {
+        .navbar .main-menu-item {
+          flex-grow: 1;
+        }
+
+        .navbar .main-menu-item .navbar-nav {
+          justify-content: space-around;
+          width: 100%;
+        }
+      }
+    </style>
   </head>
 
   <body
@@ -276,7 +289,7 @@
             </div>
 
             <div
-              class="navbar-collapse main-menu-item collapse justify-content-start"
+              class="navbar-collapse main-menu-item collapse justify-content-between"
               id="navbar-content"
             >
               <ul class="navbar-nav d-md-inline-flex">
@@ -303,8 +316,6 @@
                 </li>
               </ul>
             </div>
-
-            <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2"></ul>
           </div>
         </nav>
       </header>
