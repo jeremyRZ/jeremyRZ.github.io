@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>CSS Box & Layout Demo | SE112</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 0;
+        display: flex;
+        height: 100vh;
+        background-color: #f1f5f9;
+      }
+
+      /* 控制面板 */
+      .panel {
+        width: 350px;
+        background: #0f172a;
+        color: white;
+        padding: 20px;
+        overflow-y: auto;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+      }
+      .panel h2 {
+        color: #38bdf8;
+        font-size: 1.1rem;
+        border-bottom: 1px solid #334155;
+        padding-bottom: 5px;
+        margin-top: 20px;
+      }
+      .control-group {
+        margin-bottom: 15px;
+      }
+      .control-group label {
+        display: block;
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+        color: #cbd5e1;
+      }
+      input[type="range"] {
+        width: 100%;
+        cursor: pointer;
+      }
+      button {
+        background: #334155;
+        color: white;
+        border: 1px solid #475569;
+        padding: 6px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-right: 5px;
+        margin-bottom: 5px;
+      }
+      button.active {
+        background: #0ea5e9;
+        border-color: #0ea5e9;
+        font-weight: bold;
+      }
+
+      /* 預覽區 */
+      .preview-area {
+        flex: 1;
+        padding: 40px;
+        overflow-y: auto;
+        position: relative;
+      }
+
+      /* 演示用盒子 (重點講解對象) */
+      .container {
+        background: #e2e8f0;
+        border: 2px dashed #94a3b8;
+        /* Horizontal Align & Max-width */
+        margin: 0 auto;
+        max-width: 800px;
+        width: 100%;
+        position: relative; /* 給 Absolute 子元素做定位參考 */
+      }
+
+      .box {
+        background: #bae6fd;
+        border: 5px solid #0284c7; /* Border */
+        padding: 20px; /* Padding */
+        margin: 20px; /* Margin */
+        transition: all 0.2s;
+      }
+
+      .box-content {
+        background: #0284c7;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        font-weight: bold;
+      }
+
+      /* Float & Clear 演示區 */
+      .float-demo {
+        margin-top: 40px;
+        background: white;
+        padding: 20px;
+        border: 1px solid #ccc;
+      }
+      .float-img {
+        width: 100px;
+        height: 100px;
+        background: #f59e0b;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        margin: 10px;
+      }
+      .clear-box {
+        background: #ef4444;
+        color: white;
+        padding: 10px;
+        margin-top: 10px;
+      }
+
+      /* Fixed 按鈕演示 */
+      .fixed-badge {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #10b981;
+        color: white;
+        padding: 15px;
+        border-radius: 50%;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="panel">
+      <h1>Box & Layout 實驗台</h1>
+
+      <h2>1. 盒模型 (Box Model)</h2>
+      <div class="control-group">
+        <label>Padding: <span id="val-padding">20</span>px</label>
+        <input
+          type="range"
+          id="inp-padding"
+          min="0"
+          max="100"
+          value="20"
+          oninput="updateBox('padding', this.value)"
+        />
+      </div>
+      <div class="control-group">
+        <label>Margin: <span id="val-margin">20</span>px</label>
+        <input
+          type="range"
+          id="inp-margin"
+          min="0"
+          max="100"
+          value="20"
+          oninput="updateBox('margin', this.value)"
+        />
+      </div>
+      <div class="control-group">
+        <label>Border Width: <span id="val-border">5</span>px</label>
+        <input
+          type="range"
+          id="inp-border"
+          min="0"
+          max="50"
+          value="5"
+          oninput="updateBox('borderWidth', this.value)"
+        />
+      </div>
+      <div class="control-group">
+        <label>Width: <span id="val-width">Auto</span></label>
+        <input
+          type="range"
+          id="inp-width"
+          min="100"
+          max="800"
+          value="800"
+          oninput="updateBoxWidth(this.value)"
+        />
+      </div>
+
+      <h2>2. 定位 (Position)</h2>
+      <p style="font-size: 0.8rem; color: #94a3b8">控制藍色盒子的定位方式：</p>
+      <div class="control-group">
+        <button onclick="setPos('static', this)" class="active">Static</button>
+        <button onclick="setPos('relative', this)">Relative (Top 20px)</button>
+        <button onclick="setPos('absolute', this)">
+          Absolute (Top 0, Right 0)
+        </button>
+      </div>
+      <div class="control-group">
+        <button onclick="toggleFixed(this)">Toggle Fixed Button</button>
+      </div>
+
+      <h2>3. 浮動 (Float & Clear)</h2>
+      <div class="control-group">
+        <button onclick="setFloat('none', this)" class="active">
+          Float: None
+        </button>
+        <button onclick="setFloat('left', this)">Float: Left</button>
+        <button onclick="setFloat('right', this)">Float: Right</button>
+      </div>
+      <div class="control-group">
+        <button onclick="setClear('none', this)" class="active">
+          Clear: None
+        </button>
+        <button onclick="setClear('both', this)">Clear: Both</button>
+      </div>
+    </div>
+
+    <div class="preview-area">
+      <div class="container" id="main-container">
+        <span
+          style="
+            color: #94a3b8;
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            font-size: 0.8rem;
+          "
+          >Container (Relative)</span
+        >
+
+        <div class="box" id="demo-box">
+          <div class="box-content">Content Area</div>
+        </div>
+      </div>
+
+      <div class="float-demo">
+        <h3>Float & Clear 演示</h3>
+        <div class="float-img" id="demo-img">IMG</div>
+        <p>
+          這是一段測試文字。當左側的圖片設置為 Float
+          時，這段文字會環繞在圖片的周圍。浮動最初的設計目的就是為了實現這種文字環繞圖片的排版效果。觀察下方的紅色塊在
+          Clear 屬性切換時的表現。
+        </p>
+        <div class="clear-box" id="demo-clear">
+          我是緊跟在後面的元素 (Clear Box)
+        </div>
+      </div>
+
+      <div class="fixed-badge" id="demo-fixed">Fixed!</div>
+    </div>
+
+    <script>
+      const box = document.getElementById("demo-box");
+      const img = document.getElementById("demo-img");
+      const clearBox = document.getElementById("demo-clear");
+
+      function updateBox(prop, val) {
+        box.style[prop] = val + "px";
+        document.getElementById("val-" + prop.replace("Width", "")).innerText =
+          val;
+      }
+      function updateBoxWidth(val) {
+        box.style.width = val + "px";
+        document.getElementById("val-width").innerText = val + "px";
+      }
+      function setPos(type, btn) {
+        updateActive(btn);
+        box.style.position = type;
+        if (type === "static") {
+          box.style.top = "auto";
+          box.style.right = "auto";
+        }
+        if (type === "relative") {
+          box.style.top = "20px";
+          box.style.right = "auto";
+          box.style.left = "20px";
+        }
+        if (type === "absolute") {
+          box.style.top = "0px";
+          box.style.right = "0px";
+          box.style.left = "auto";
+        }
+      }
+      function toggleFixed(btn) {
+        btn.classList.toggle("active");
+        const el = document.getElementById("demo-fixed");
+        el.style.display = el.style.display === "block" ? "none" : "block";
+      }
+      function setFloat(type, btn) {
+        updateActive(btn, btn.parentElement);
+        img.style.float = type;
+      }
+      function setClear(type, btn) {
+        updateActive(btn, btn.parentElement);
+        clearBox.style.clear = type;
+      }
+      function updateActive(btn, parent = btn.parentElement) {
+        Array.from(parent.children).forEach((c) =>
+          c.classList.remove("active"),
+        );
+        btn.classList.add("active");
+      }
+    </script>
+  </body>
+</html>
