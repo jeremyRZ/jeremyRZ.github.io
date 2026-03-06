@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Media Queries & Flexible Media Demo | SE112</title>
+    <style>
+      /* =========================================================
+           👨‍🏫 教學專用：全局 UI 樣式 (不干擾核心教學內容)
+           ========================================================= */
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8fafc;
+        color: #334155;
+        margin: 0;
+        padding: 20px;
+      }
+      .dashboard {
+        background-color: #0f172a;
+        color: white;
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 30px;
+        text-align: center;
+        position: sticky;
+        top: 10px;
+        z-index: 100;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      }
+      .width-display {
+        font-size: 3rem;
+        font-weight: 900;
+        color: #38bdf8;
+        font-family: monospace;
+        text-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+      }
+      .status-badge {
+        display: inline-block;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-weight: bold;
+        margin-top: 10px;
+        background-color: #4ade80;
+        color: #064e3b;
+      }
+      .code-snippet {
+        background: #1e293b;
+        padding: 15px;
+        border-radius: 8px;
+        text-align: left;
+        font-family: monospace;
+        color: #a5b4fc;
+        margin-top: 15px;
+        font-size: 0.9rem;
+      }
+
+      /* =========================================================
+           🎯 核心教學區域：響應式排版與彈性圖片
+           ========================================================= */
+
+      /* 1. 預設排版 (Desktop First) - 橫向三欄佈局 */
+      .layout-container {
+        display: flex;
+        flex-direction: row; /* 電腦端：橫向並排 */
+        gap: 20px;
+        padding: 20px;
+        background-color: #e2e8f0;
+        border-radius: 12px;
+        border: 2px dashed #94a3b8;
+      }
+
+      .card {
+        flex: 1; /* 三個卡片等分空間 */
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+      }
+
+      /* 2. Flexible Media (彈性圖片魔法) 
+           原理：圖片最大寬度不超過父容器，高度自動等比例縮放 */
+      .flexible-img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 6px;
+        display: block;
+        margin-bottom: 15px;
+      }
+
+      /* =========================================================
+           ⚡ Media Queries (媒體查詢斷點)
+           ========================================================= */
+
+      /* 當螢幕寬度小於等於 768px 時 (通常是平板/手機)，執行以下代碼 */
+      @media (max-width: 768px) {
+        .layout-container {
+          flex-direction: column; /* 手機端：改為垂直堆疊 */
+        }
+
+        .card {
+          background-color: #fef08a; /* 為了演示明顯，手機端將卡片變為黃色 */
+          border-left: 5px solid #eab308;
+        }
+
+        /* UI 狀態更新 (純視覺輔助，非核心邏輯) */
+        .status-badge {
+          background-color: #f87171;
+          color: white;
+        }
+        .status-badge::after {
+          content: " (Mobile Layout Activated)";
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dashboard">
+      <h2>
+        <i class="fa-solid fa-mobile-screen"></i> 實時視口偵測 (Viewport
+        Monitor)
+      </h2>
+      <div>當前瀏覽器寬度</div>
+      <div class="width-display"><span id="current-width">0</span> px</div>
+      <div class="status-badge" id="layout-status">Desktop Layout</div>
+
+      <div class="code-snippet">
+        <strong>Active CSS Rule:</strong><br />
+        <span id="active-css">.layout-container { flex-direction: row; }</span>
+      </div>
+    </div>
+
+    <div class="layout-container" id="demo-container">
+      <div class="card">
+        <img
+          src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80"
+          alt="Code"
+          class="flexible-img"
+        />
+        <h3>Flexible Image</h3>
+        <p>
+          觀察上方圖片，它的 CSS 設置了
+          <code>max-width: 100%; height: auto;</code
+          >。這保證了它永遠不會撐破這張白色的卡片，並且保持完美的長寬比。
+        </p>
+      </div>
+
+      <div class="card">
+        <img
+          src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80"
+          alt="Laptop"
+          class="flexible-img"
+        />
+        <h3>Media Query</h3>
+        <p>
+          當您將瀏覽器寬度縮小到 <strong>768px</strong> 以下時，<code
+            >@media</code
+          >
+          查詢將會觸發。父容器的佈局將從橫向 (row) 瞬間轉變為直向 (column)。
+        </p>
+      </div>
+
+      <div class="card">
+        <img
+          src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80"
+          alt="Desk"
+          class="flexible-img"
+        />
+        <h3>Responsive Design</h3>
+        <p>
+          透過彈性媒體與媒體查詢的結合，我們只需要編寫一份 HTML 代碼，就能讓
+          SE112 的期末專案在手機和電腦上都擁有完美的閱讀體驗。
+        </p>
+      </div>
+    </div>
+
+    <script>
+      const widthDisplay = document.getElementById("current-width");
+      const layoutStatus = document.getElementById("layout-status");
+      const activeCss = document.getElementById("active-css");
+
+      function updateWidth() {
+        const currentWidth = window.innerWidth;
+        widthDisplay.innerText = currentWidth;
+
+        // 根據寬度更新儀表板文字，增強教學效果
+        if (currentWidth <= 768) {
+          layoutStatus.innerText = "Mobile Layout";
+          activeCss.innerHTML =
+            "@media (max-width: 768px) {<br>&nbsp;&nbsp;.layout-container { flex-direction: column; }<br>}";
+        } else {
+          layoutStatus.innerText = "Desktop Layout";
+          activeCss.innerHTML = ".layout-container { flex-direction: row; }";
+        }
+      }
+
+      // 監聽視窗縮放事件
+      window.addEventListener("resize", updateWidth);
+
+      // 頁面載入時初始化
+      updateWidth();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS Specificity Calculator | SE112</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #0f172a;
+        color: #f8fafc;
+      }
+      .score-card {
+        transition: all 0.3s ease;
+      }
+      .score-card.active {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+        border-color: #38bdf8;
+      }
+      .glow-text {
+        text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col items-center py-12 px-6">
+    <div class="text-center mb-10">
+      <h1 class="text-4xl font-bold text-sky-400 mb-3 glow-text">
+        <i class="fa-solid fa-scale-balanced"></i> CSS Specificity Calculator
+      </h1>
+      <p class="text-slate-400 text-lg">
+        SE112 Web Technology - 選擇器權重實時演算台
+      </p>
+    </div>
+
+    <div
+      class="w-full max-w-4xl bg-slate-800 p-8 rounded-2xl shadow-2xl border border-slate-700 mb-10"
+    >
+      <label
+        for="selectorInput"
+        class="block text-xl font-semibold mb-4 text-slate-200"
+      >
+        請輸入 CSS 選擇器 (Type your CSS selector here):
+      </label>
+      <div class="flex gap-4 items-center">
+        <input
+          type="text"
+          id="selectorInput"
+          class="flex-1 bg-slate-900 border-2 border-slate-600 text-sky-300 text-2xl p-4 rounded-xl focus:outline-none focus:border-sky-500 font-mono transition-colors"
+          placeholder="e.g. body #content .main .title"
+          autocomplete="off"
+        />
+
+        <label
+          class="flex items-center gap-2 bg-slate-700 px-4 py-4 rounded-xl cursor-pointer hover:bg-slate-600 transition-colors border-2 border-transparent"
+        >
+          <input
+            type="checkbox"
+            id="inlineCheck"
+            class="w-6 h-6 rounded text-sky-500 focus:ring-sky-500"
+          />
+          <span class="text-lg font-semibold select-none">Inline Style</span>
+        </label>
+      </div>
+      <p class="mt-4 text-slate-400" id="breakdown-text">等待輸入...</p>
+    </div>
+
+    <div class="w-full max-w-4xl grid grid-cols-4 gap-6">
+      <div
+        class="score-card bg-slate-800 border-2 border-slate-700 rounded-2xl p-6 text-center"
+        id="card-a"
+      >
+        <div class="text-slate-400 font-bold mb-2 tracking-wider">
+          A: INLINE
+        </div>
+        <div class="text-6xl font-black text-white mb-4" id="score-a">0</div>
+        <div class="text-xs text-slate-500 h-10">
+          Inline styles<br /><code>style="..."</code>
+        </div>
+      </div>
+
+      <div
+        class="score-card bg-slate-800 border-2 border-slate-700 rounded-2xl p-6 text-center"
+        id="card-b"
+      >
+        <div class="text-sky-400 font-bold mb-2 tracking-wider">B: IDs</div>
+        <div class="text-6xl font-black text-white mb-4" id="score-b">0</div>
+        <div class="text-xs text-slate-500 h-10">
+          ID Selectors<br /><code>#navbar</code>
+        </div>
+      </div>
+
+      <div
+        class="score-card bg-slate-800 border-2 border-slate-700 rounded-2xl p-6 text-center"
+        id="card-c"
+      >
+        <div class="text-emerald-400 font-bold mb-2 tracking-wider">
+          C: CLASSES
+        </div>
+        <div class="text-6xl font-black text-white mb-4" id="score-c">0</div>
+        <div class="text-xs text-slate-500 h-10">
+          Classes, Attributes, Pseudo-classes<br /><code
+            >.btn, [type], :hover</code
+          >
+        </div>
+      </div>
+
+      <div
+        class="score-card bg-slate-800 border-2 border-slate-700 rounded-2xl p-6 text-center"
+        id="card-d"
+      >
+        <div class="text-amber-400 font-bold mb-2 tracking-wider">
+          D: ELEMENTS
+        </div>
+        <div class="text-6xl font-black text-white mb-4" id="score-d">0</div>
+        <div class="text-xs text-slate-500 h-10">
+          Elements, Pseudo-elements<br /><code>div, h1, ::before</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-12 text-center">
+      <h2 class="text-2xl text-slate-400 mb-2">
+        最終權重得分 (Final Specificity)
+      </h2>
+      <div
+        class="text-5xl font-mono font-black text-sky-300 tracking-[0.2em]"
+        id="final-score"
+      >
+        (0, 0, 0, 0)
+      </div>
+    </div>
+
+    <script>
+      const input = document.getElementById("selectorInput");
+      const inlineCheck = document.getElementById("inlineCheck");
+
+      function calculateSpecificity() {
+        let selector = input.value.trim();
+        let a = inlineCheck.checked ? 1 : 0;
+        let b = 0,
+          c = 0,
+          d = 0;
+        let breakdown = [];
+
+        if (selector.length > 0) {
+          // 1. 移除全局選擇器 *
+          selector = selector.replace(/\*/g, "");
+
+          // 2. 匹配 Pseudo-elements (::before, ::after等) -> 算 D
+          const pseudoElements = selector.match(/::[a-zA-Z0-9_-]+/g);
+          if (pseudoElements) {
+            d += pseudoElements.length;
+            breakdown.push(`${pseudoElements.length} Pseudo-element(s)`);
+            selector = selector.replace(/::[a-zA-Z0-9_-]+/g, "");
+          }
+
+          // 3. 匹配 IDs (#id) -> 算 B
+          const ids = selector.match(/#[a-zA-Z0-9_-]+/g);
+          if (ids) {
+            b += ids.length;
+            breakdown.push(`${ids.length} ID(s)`);
+            selector = selector.replace(/#[a-zA-Z0-9_-]+/g, "");
+          }
+
+          // 4. 匹配 Classes (.class) -> 算 C
+          const classes = selector.match(/\.[a-zA-Z0-9_-]+/g);
+          if (classes) {
+            c += classes.length;
+            breakdown.push(`${classes.length} Class(es)`);
+            selector = selector.replace(/\.[a-zA-Z0-9_-]+/g, "");
+          }
+
+          // 5. 匹配 Attributes ([type="text"]) -> 算 C
+          const attributes = selector.match(/\[[^\]]+\]/g);
+          if (attributes) {
+            c += attributes.length;
+            breakdown.push(`${attributes.length} Attribute(s)`);
+            selector = selector.replace(/\[[^\]]+\]/g, "");
+          }
+
+          // 6. 匹配 Pseudo-classes (:hover, :first-child) -> 算 C
+          // 排除 :not(), 將其內容視為一般選擇器處理 (簡化版處理)
+          const pseudoClasses = selector.match(/:[a-zA-Z0-9_-]+(?:\(.*?\))?/g);
+          if (pseudoClasses) {
+            c += pseudoClasses.length;
+            breakdown.push(`${pseudoClasses.length} Pseudo-class(es)`);
+            selector = selector.replace(/:[a-zA-Z0-9_-]+(?:\(.*?\))?/g, "");
+          }
+
+          // 7. 匹配 Elements (標籤) -> 算 D
+          // 移除所有組合器 (+, ~, >, 空格)
+          selector = selector.replace(/[\s+>~]+/g, " ").trim();
+          const elements = selector
+            .split(" ")
+            .filter((word) => word.length > 0);
+          if (elements.length > 0) {
+            d += elements.length;
+            breakdown.push(`${elements.length} Element(s)`);
+          }
+        }
+
+        // 更新 UI
+        updateUI("a", a);
+        updateUI("b", b);
+        updateUI("c", c);
+        updateUI("d", d);
+
+        document.getElementById("final-score").innerText =
+          `(${a}, ${b}, ${c}, ${d})`;
+        document.getElementById("breakdown-text").innerHTML =
+          breakdown.length > 0
+            ? `解析包含 (Contains): <span class="text-sky-300">${breakdown.join(" | ")}</span>`
+            : a === 1
+              ? "Inline style applied."
+              : "等待輸入...";
+      }
+
+      function updateUI(id, val) {
+        const el = document.getElementById(`score-${id}`);
+        const card = document.getElementById(`card-${id}`);
+        el.innerText = val;
+        if (val > 0) card.classList.add("active", "border-sky-500");
+        else card.classList.remove("active", "border-sky-500");
+      }
+
+      input.addEventListener("input", calculateSpecificity);
+      inlineCheck.addEventListener("change", calculateSpecificity);
+    </script>
+  </body>
+</html>

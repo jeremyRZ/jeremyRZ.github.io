@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS Inheritance Demo | SE112</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #0f172a;
+        color: #f8fafc;
+        margin: 0;
+        padding: 20px;
+      }
+
+      /* 教學控制面板樣式 */
+      .dashboard {
+        background-color: #1e293b;
+        padding: 25px;
+        border-radius: 12px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        border: 1px solid #334155;
+      }
+      .toggle-btn {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #334155;
+        padding: 12px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s;
+        user-select: none;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .toggle-btn:hover {
+        background: #475569;
+      }
+      .toggle-btn.active.color {
+        background: #7f1d1d;
+        border-color: #ef4444;
+        color: #fca5a5;
+      }
+      .toggle-btn.active.border {
+        background: #1e3a8a;
+        border-color: #3b82f6;
+        color: #93c5fd;
+      }
+      .toggle-btn.active.force {
+        background: #064e3b;
+        border-color: #10b981;
+        color: #6ee7b7;
+      }
+
+      /* =========================================================
+           🎯 核心教學演示區 (DOM Tree)
+           ========================================================= */
+
+      /* 1. 祖父層 (Parent) */
+      .demo-parent {
+        background-color: white;
+        color: #334155; /* 預設深灰色 */
+        padding: 30px;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        /* 邊框預設為淺灰色細線 */
+        border: 2px solid #cbd5e1;
+      }
+
+      /* 2. 父層/子層 (Child) */
+      .demo-child {
+        background-color: #f1f5f9;
+        padding: 20px;
+        margin-top: 20px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        /* 子元素預設沒有邊框，這是一個不繼承的屬性 */
+      }
+
+      /* 3. 特殊子元素：表單按鈕 (Button) */
+      .demo-button {
+        background-color: #0ea5e9;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-size: 1rem;
+        margin-top: 15px;
+        cursor: pointer;
+        /* 瀏覽器預設：表單元素不會繼承父級的 font-family 和 color */
+        font-family: sans-serif;
+      }
+
+      /* =========================================================
+           ⚡ 動態注入的樣式類別 (通過 JS 切換)
+           ========================================================= */
+
+      /* 注入到 Parent：可繼承的屬性 */
+      .apply-color {
+        color: #ef4444 !important;
+        font-family: "Courier New", Courier, monospace !important;
+      }
+
+      /* 注入到 Parent：不可繼承的屬性 */
+      .apply-border {
+        border: 4px dashed #3b82f6 !important;
+      }
+
+      /* 注入到 Child：強制繼承 */
+      .force-inherit-border {
+        border: inherit !important;
+      }
+
+      /* 注入到 Button：強制繼承字體 */
+      .force-inherit-font {
+        font-family: inherit !important;
+        color: inherit !important;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen max-w-5xl mx-auto py-10">
+    <div class="text-center mb-10">
+      <h1 class="text-4xl font-bold text-sky-400 mb-3">
+        <i class="fa-solid fa-sitemap"></i> CSS Inheritance (繼承特性)
+      </h1>
+      <p class="text-slate-400 text-lg">
+        觀察哪些屬性會如瀑布般流下，哪些屬性需要強制繼承。
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div>
+        <div class="dashboard">
+          <h2
+            class="text-xl text-sky-300 font-bold mb-6 border-b border-slate-600 pb-2"
+          >
+            1. 操作父元素 (Parent)
+          </h2>
+
+          <div
+            class="toggle-btn color"
+            id="btn-color"
+            onclick="toggleStyle('parent', 'apply-color', 'btn-color')"
+          >
+            <span
+              ><i class="fa-solid fa-palette mr-2"></i> 設置文字顏色與字體
+              (Color & Font)</span
+            >
+            <i class="fa-solid fa-toggle-off text-2xl" id="icon-btn-color"></i>
+          </div>
+          <p class="text-xs text-slate-400 mb-6 ml-2">
+            ✔️ 這是<strong class="text-red-400">「預設會繼承」</strong
+            >的屬性。觀察裡面的文字是否跟著改變。
+          </p>
+
+          <div
+            class="toggle-btn border"
+            id="btn-border"
+            onclick="toggleStyle('parent', 'apply-border', 'btn-border')"
+          >
+            <span
+              ><i class="fa-solid fa-square mr-2"></i> 設置粗虛線邊框
+              (Border)</span
+            >
+            <i class="fa-solid fa-toggle-off text-2xl" id="icon-btn-border"></i>
+          </div>
+          <p class="text-xs text-slate-400 mb-6 ml-2">
+            ❌ 這是<strong class="text-blue-400">「預設不繼承」</strong
+            >的屬性。觀察裡面的盒子是否會出現邊框。
+          </p>
+        </div>
+
+        <div class="dashboard">
+          <h2
+            class="text-xl text-emerald-300 font-bold mb-6 border-b border-slate-600 pb-2"
+          >
+            2. 強制繼承 (Force Inheritance)
+          </h2>
+
+          <div
+            class="toggle-btn force"
+            id="btn-force-border"
+            onclick="
+              toggleStyle('child', 'force-inherit-border', 'btn-force-border')
+            "
+          >
+            <span
+              ><i class="fa-solid fa-link mr-2"></i> 子盒子：<code
+                >border: inherit</code
+              ></span
+            >
+            <i
+              class="fa-solid fa-toggle-off text-2xl"
+              id="icon-btn-force-border"
+            ></i>
+          </div>
+
+          <div
+            class="toggle-btn force mt-4"
+            id="btn-force-font"
+            onclick="
+              toggleStyle('button', 'force-inherit-font', 'btn-force-font')
+            "
+          >
+            <span
+              ><i class="fa-solid fa-link mr-2"></i> 按鈕：<code
+                >font-family: inherit</code
+              ></span
+            >
+            <i
+              class="fa-solid fa-toggle-off text-2xl"
+              id="icon-btn-force-font"
+            ></i>
+          </div>
+          <p class="text-xs text-slate-400 mt-2 ml-2">
+            💡 表單元素(如按鈕)非常頑固，預設不繼承字體，必須用 inherit
+            強制命令它。
+          </p>
+        </div>
+      </div>
+
+      <div
+        class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-2xl relative"
+      >
+        <span
+          class="absolute top-0 right-0 bg-slate-600 text-xs px-3 py-1 rounded-bl-lg rounded-tr-xl font-mono text-white"
+          >Browser View</span
+        >
+
+        <div id="parent" class="demo-parent mt-4">
+          <div class="font-bold text-lg mb-2 text-slate-400 font-mono">
+            &lt;div class="parent"&gt;
+          </div>
+          <h2 class="text-2xl font-bold mb-2">我是祖父層元素</h2>
+          <p>如果你在這裡設置了顏色，它會像水一樣流向我的子元素。</p>
+
+          <div id="child" class="demo-child">
+            <div class="font-bold text-sm mb-2 text-slate-400 font-mono">
+              &lt;div class="child"&gt;
+            </div>
+            <h3 class="text-xl font-bold mb-2">我是子層元素</h3>
+            <p>
+              我會自動繼承上面的顏色。但我絕對不會繼承邊框 (Border)、內邊距
+              (Padding) 和背景色，除非你用 inherit 逼我。
+            </p>
+
+            <button id="button" class="demo-button">
+              &lt;button&gt; 我是按鈕
+            </button>
+            <span class="text-sm ml-2 opacity-70"
+              >← 注意看我的字體有沒有跟著變！</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function toggleStyle(targetId, className, btnId) {
+        // 切換目標元素的樣式
+        const target = document.getElementById(targetId);
+        target.classList.toggle(className);
+
+        // 切換按鈕的 UI 狀態
+        const btn = document.getElementById(btnId);
+        const icon = document.getElementById("icon-" + btnId);
+
+        btn.classList.toggle("active");
+
+        if (btn.classList.contains("active")) {
+          icon.classList.remove("fa-toggle-off");
+          icon.classList.add("fa-toggle-on");
+        } else {
+          icon.classList.remove("fa-toggle-on");
+          icon.classList.add("fa-toggle-off");
+        }
+      }
+    </script>
+  </body>
+</html>

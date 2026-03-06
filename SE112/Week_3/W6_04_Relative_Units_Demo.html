@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS Relative Units Demo | %, em, rem</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      /* 基礎重置 */
+      :root {
+        /* 預設根字體大小為 16px */
+        font-size: 16px;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8fafc;
+        color: #334155;
+        /* 讓 body 本身維持一個穩定的字體大小，不影響演示區的 em 計算 */
+        font-size: 1rem;
+      }
+
+      /* 演示區通用盒子樣式 */
+      .demo-box {
+        padding: 15px;
+        border: 2px solid rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        margin: 10px 0;
+        background-color: rgba(255, 255, 255, 0.5);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      }
+
+      /* 1. 百分比 (%) 演示：寬度逐層遞減 */
+      .pct-box {
+        width: 80%; /* 每次寬度都是父元素的 80% */
+        background-color: #e0f2fe; /* 淺藍色 */
+        border-color: #38bdf8;
+      }
+
+      /* 2. EM 演示：字體逐層放大 (失控效應) */
+      .em-box {
+        font-size: 1.5em; /* 每次字體都是父元素的 1.5 倍 */
+        background-color: #fce7f3; /* 淺粉色 */
+        border-color: #f472b6;
+        margin-top: 15px;
+      }
+
+      /* 3. REM 演示：字體穩定不變 */
+      .rem-box {
+        font-size: 1.5rem; /* 永遠是根元素的 1.5 倍 */
+        background-color: #dcfce3; /* 淺綠色 */
+        border-color: #4ade80;
+        margin-top: 15px;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col items-center py-10 px-6">
+    <div
+      class="w-full max-w-5xl bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-700 mb-8 text-white sticky top-4 z-10"
+    >
+      <h2 class="text-2xl font-bold text-sky-400 mb-4">
+        <i class="fa-solid fa-sliders"></i> 全局根字體控制器 (Root Font-Size
+        Controller)
+      </h2>
+      <p class="text-slate-400 text-sm mb-4">
+        拖動滑桿改變 <code>&lt;html&gt;</code> 的
+        <code>font-size</code>，觀察哪些單位會跟著動態縮放。
+      </p>
+
+      <div class="flex items-center gap-4">
+        <span class="text-slate-300 font-mono">10px</span>
+        <input
+          type="range"
+          id="root-font-slider"
+          min="10"
+          max="32"
+          value="16"
+          class="flex-1 cursor-pointer"
+        />
+        <span class="text-slate-300 font-mono">32px</span>
+      </div>
+      <div class="mt-4 text-center">
+        當前
+        <code
+          >html { font-size:
+          <span id="current-root-size" class="text-sky-400 font-bold text-xl"
+            >16</span
+          >px; }</code
+        >
+      </div>
+    </div>
+
+    <div class="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+        <h3 class="text-xl font-bold text-sky-600 mb-2">1. Percentage (%)</h3>
+        <p class="text-sm text-slate-500 mb-4 border-b pb-2">
+          <code>width: 80%</code><br />相對於父元素的寬度。產生逐層縮小的效果。
+        </p>
+
+        <div class="demo-box pct-box">
+          Level 1 (80% of container)
+          <div class="demo-box pct-box">
+            Level 2 (80% of Level 1)
+            <div class="demo-box pct-box">Level 3</div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="bg-white p-6 rounded-xl shadow-md border border-slate-200 overflow-hidden"
+      >
+        <h3 class="text-xl font-bold text-pink-600 mb-2">2. The 'em' Unit</h3>
+        <p class="text-sm text-slate-500 mb-4 border-b pb-2">
+          <code>font-size: 1.5em</code
+          ><br />相對於父元素的字體。嵌套會導致<strong class="text-pink-600"
+            >連鎖放大失控</strong
+          >。
+        </p>
+
+        <div class="demo-box em-box">
+          L1 (1.5x)
+          <div class="demo-box em-box">
+            L2 (2.25x)
+            <div class="demo-box em-box">L3 (3.375x)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+        <h3 class="text-xl font-bold text-emerald-600 mb-2">
+          3. The 'rem' Unit
+        </h3>
+        <p class="text-sm text-slate-500 mb-4 border-b pb-2">
+          <code>font-size: 1.5rem</code><br />永遠相對於
+          <code>&lt;html&gt;</code>。嵌套也<strong class="text-emerald-600"
+            >保持尺寸絕對一致</strong
+          >。
+        </p>
+
+        <div class="demo-box rem-box">
+          Level 1 (1.5 * Root)
+          <div class="demo-box rem-box">
+            Level 2 (1.5 * Root)
+            <div class="demo-box rem-box">Level 3 (1.5 * Root)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const slider = document.getElementById("root-font-slider");
+      const display = document.getElementById("current-root-size");
+      const rootElement = document.documentElement; // 獲取 <html> 元素
+
+      slider.addEventListener("input", function () {
+        const newSize = this.value;
+        display.innerText = newSize;
+        // 動態改變 <html> 的 font-size，這會立刻影響所有使用 rem 的元素
+        rootElement.style.fontSize = newSize + "px";
+      });
+    </script>
+  </body>
+</html>

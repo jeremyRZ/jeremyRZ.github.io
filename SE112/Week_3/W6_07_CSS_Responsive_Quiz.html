@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SE112 課堂練習：CSS 權重與響應式單位</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: "Segoe UI", system-ui, sans-serif;
+        background-color: #131314; /* 深色背景 */
+        color: #e3e3e3;
+      }
+
+      /* 選項按鈕過渡動畫 */
+      .option-btn {
+        transition: all 0.2s ease-in-out;
+      }
+
+      /* 答對樣式 */
+      .option-btn.correct {
+        background-color: rgba(34, 197, 94, 0.15) !important;
+        border-color: #22c55e !important;
+        color: #4ade80;
+      }
+
+      /* 答錯樣式 */
+      .option-btn.incorrect {
+        background-color: rgba(239, 68, 68, 0.15) !important;
+        border-color: #ef4444 !important;
+        color: #f87171;
+      }
+
+      /* 禁用選項時的游標 */
+      .disabled-btn {
+        cursor: not-allowed;
+        opacity: 0.7;
+      }
+
+      /* 進度條分段 */
+      .progress-segment {
+        height: 4px;
+        border-radius: 2px;
+        flex: 1;
+        margin: 0 2px;
+        transition: background-color 0.3s;
+      }
+      .progress-segment.active {
+        background-color: #8ab4f8;
+      }
+      .progress-segment.completed {
+        background-color: #5f6368;
+      }
+      .progress-segment.pending {
+        background-color: #303134;
+      }
+
+      /* 提示區域折疊動畫 */
+      .hint-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+      }
+      .hint-content.open {
+        max-height: 200px;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex justify-center items-start pt-10 px-4 md:px-0">
+    <div
+      class="w-full max-w-4xl bg-[#1e1f20] rounded-2xl shadow-2xl overflow-hidden border border-[#303134]"
+    >
+      <div
+        class="flex justify-between items-center px-6 py-4 border-b border-[#303134]"
+      >
+        <div class="flex items-center gap-3 text-sm font-medium">
+          <i class="fa-solid fa-laptop-code text-gray-400"></i>
+          <span>SE112 課堂練習：CSS 權重與響應式單位</span>
+        </div>
+        <div class="flex gap-4 text-gray-400">
+          <button class="hover:text-white transition-colors">
+            <i class="fa-solid fa-share-nodes"></i>
+          </button>
+          <button class="hover:text-white transition-colors">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="px-8 pt-6 pb-2">
+        <div class="flex justify-between items-center mb-4">
+          <div class="flex-1 flex mr-8" id="progress-bar-container"></div>
+
+          <div class="flex items-center gap-3 text-sm font-bold">
+            <span class="text-gray-400" id="counter-text">1/10</span>
+            <div
+              class="flex items-center gap-1 bg-[#3f0f14] text-[#f28b82] px-2 py-1 rounded-md"
+            >
+              <i class="fa-solid fa-xmark text-xs"></i>
+              <span id="wrong-count">0</span>
+            </div>
+            <div
+              class="flex items-center gap-1 bg-[#0d3b22] text-[#81c995] px-2 py-1 rounded-md"
+            >
+              <i class="fa-solid fa-check text-xs"></i>
+              <span id="correct-count">0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="px-8 pb-10 max-w-2xl mx-auto mt-4" id="quiz-area">
+        <div class="flex gap-4 mb-8">
+          <span class="text-xl font-bold" id="question-number">1.</span>
+          <h2 class="text-xl leading-relaxed" id="question-text">載入中...</h2>
+        </div>
+
+        <div class="space-y-3 mb-6" id="options-container"></div>
+
+        <div class="mt-6 border-t border-[#303134] pt-4">
+          <button
+            onclick="toggleHint()"
+            class="text-gray-400 hover:text-white text-sm flex items-center gap-2 mb-4 transition-colors"
+            id="hint-btn"
+          >
+            顯示提示
+            <i
+              class="fa-solid fa-chevron-down text-xs transition-transform"
+              id="hint-icon"
+            ></i>
+          </button>
+
+          <div
+            class="hint-content text-sm text-gray-400 bg-[#303134] p-4 rounded-lg mb-4"
+            id="hint-text"
+          >
+            提示內容載入中...
+          </div>
+
+          <div
+            id="rationale-area"
+            class="hidden mt-4 p-5 rounded-xl text-sm leading-relaxed border"
+          ></div>
+
+          <button
+            id="next-btn"
+            onclick="nextQuestion()"
+            class="hidden w-full mt-6 bg-[#8ab4f8] hover:bg-[#aecbfa] text-[#131314] font-bold py-3 px-6 rounded-full transition-colors"
+          >
+            下一題
+          </button>
+        </div>
+      </div>
+
+      <div id="final-screen" class="hidden px-8 py-16 text-center">
+        <h2 class="text-3xl font-bold text-white mb-4">測驗完成！</h2>
+        <p class="text-xl text-gray-400 mb-8">您的最終得分為</p>
+        <div class="text-6xl font-black text-[#8ab4f8] mb-10">
+          <span id="final-score">0</span> / 10
+        </div>
+        <button
+          onclick="location.reload()"
+          class="bg-[#303134] hover:bg-[#3c4043] text-white font-bold py-3 px-8 rounded-full transition-colors"
+        >
+          重新測驗
+        </button>
+      </div>
+    </div>
+
+    <script>
+      const quizData = [
+        {
+          question:
+            "在現代響應式網頁設計中，哪一個單位永遠相對於根元素 `<html>` 的字體大小進行計算？",
+          options: ["rem", "vw", "em", "%"],
+          answer: 0,
+          rationale:
+            "rem 代表 Root em，它始終以 html 標籤的字體大小為基準，能有效避免多層嵌套帶來的字體縮放失控問題。",
+          hint: "這個單位的首字母代表 'Root'（根）。",
+        },
+        {
+          question:
+            "如果在多層嵌套的 HTML 元素中連續使用 `em` 單位來設置 `font-size`，會產生什麼現象？",
+          options: [
+            "字體大小始終保持與最外層容器一致",
+            "字體大小會強制等於瀏覽器預設值",
+            "字體大小會產生連鎖的指數級放大或縮小效應",
+            "字體大小會根據視口寬度自動調整",
+          ],
+          answer: 2,
+          rationale:
+            "因為每一層的 em 都會以上一層計算出來的實際像素值作為基準再次相乘，導致尺寸失控。",
+          hint: "想像一下俄羅斯套娃，每一層都以上一層為基準進行比例計算。",
+        },
+        {
+          question:
+            "假設一個父元素的寬度為 `1000px`，其內部有一個子元素設置為 `width: 40%;`，請問該子元素的實際寬度是多少？",
+          options: ["40px", "1000px", "400px", "無法確定，取決於視口寬度"],
+          answer: 2,
+          rationale:
+            "百分比寬度是相對於父容器的寬度計算的，1000px 的 40% 即為 400px。",
+          hint: "百分比單位在設置寬度時，是直接與其父容器的具體尺寸數值相乘的。",
+        },
+        {
+          question:
+            "如果希望一個橫幅背景區域的高度永遠精準佔據使用者螢幕高度的一半，應該使用下列哪一個 CSS 設置？",
+          options: [
+            "height: 50%;",
+            "height: 50vh;",
+            "height: 50vw;",
+            "height: 50rem;",
+          ],
+          answer: 1,
+          rationale:
+            "vh 代表 Viewport Height，50vh 精準等同於當前瀏覽器視口高度的 50%。",
+          hint: "v 代表 Viewport（視口），而我們需要控制的是高度（Height）。",
+        },
+        {
+          question:
+            "下列哪一個是正確的 CSS 媒體查詢（Media Query）語法，用於在螢幕寬度小於或等於 768px 時應用特定的樣式？",
+          options: [
+            "@media (min-width: 768px)",
+            "@media screen < 768px",
+            "@media [width <= 768px]",
+            "@media (max-width: 768px)",
+          ],
+          answer: 3,
+          rationale:
+            "max-width 設定了樣式生效的最大極限，因此當寬度小於或等於該值時，內部代碼即會啟動。",
+          hint: "我們要設定的是寬度的「最大極限」，超過這個極限該斷點就不再生效。",
+        },
+        {
+          question:
+            "為了實現「彈性圖片（Flexible Media）」，讓圖片能隨容器縮小但又不會撐破容器，標準的做法是設置什麼 CSS 屬性？",
+          options: [
+            "max-width: 100%; height: auto;",
+            "width: 100%; height: 100%;",
+            "min-width: 100%; height: auto;",
+            "background-size: cover;",
+          ],
+          answer: 0,
+          rationale:
+            "max-width 保證圖片不會超過父容器寬度，height: auto 保證圖片按原始比例縮放不變形。",
+          hint: "我們需要確保圖片的最大寬度受限於父容器，同時高度必須等比例動態調整以維持原有比例。",
+        },
+        {
+          question:
+            "根據 CSS 權重計算規則（四位記分法 a, b, c, d），選擇器 `#nav .menu-item` 的權值得分是多少？",
+          options: [
+            "(0, 0, 2, 0)",
+            "(0, 1, 0, 1)",
+            "(0, 1, 1, 0)",
+            "(1, 1, 0, 0)",
+          ],
+          answer: 2,
+          rationale:
+            "該選擇器包含 1 個 ID (#nav) 記入 b 位，以及 1 個類名 (.menu-item) 記入 c 位。",
+          hint: "仔細點算這個選擇器中包含幾個 ID 選擇器（#）以及幾個類選擇器（.）。",
+        },
+        {
+          question:
+            "比較以下兩個選擇器，哪一個的優先級（權重）更高？選擇器 A：`body #header .logo h1`；選擇器 B：`.header-container .logo-wrapper .title`。",
+          options: [
+            "兩者優先級相同",
+            "選擇器 A",
+            "選擇器 B",
+            "取決於它們在 CSS 檔案中的先後順序",
+          ],
+          answer: 1,
+          rationale:
+            "選擇器 A 包含一個 ID (#header)，使其在 b 位的得分為 1。無論選擇器 B 有多少個類名，在權重計算的「降維打擊」下都會敗給 ID。",
+          hint: "觀察 A 包含了一個 ID 選擇器，而 B 只包含了三個類選擇器。請回憶高位分數的「降維打擊」效應。",
+        },
+        {
+          question:
+            "在現代響應式排版中，對於「按鈕的內邊距（padding）」這類需要與組件自身字體大小保持完美比例的屬性，業界最推薦使用哪種單位？",
+          options: ["rem", "px", "%", "em"],
+          answer: 3,
+          rationale:
+            "em 是相對於元素自身的 font-size 進行計算的，當按鈕字體放大時，其 padding 也會自動等比放大，極大提升組件的重用性。",
+          hint: "這個單位相對於元素「自身」的字體大小進行計算，非常適合用於構建可獨立縮放的模組化 UI 組件。",
+        },
+        {
+          question:
+            '寫在 HTML 標籤內部的內聯樣式（例如：<div style="color: blue;">），其權值得分在四位記分法中屬於哪一個位置？',
+          options: [
+            "次高位 b 位，得分 (0, 1, 0, 0)",
+            "取決於它覆蓋的是 ID 還是 Class",
+            "不參與權重計算，直接生效",
+            "最高位 a 位，得分 (1, 0, 0, 0)",
+          ],
+          answer: 3,
+          rationale:
+            "內聯樣式擁有最高的常規優先級，能無條件覆蓋所有外部的 ID、類與標籤選擇器樣式。",
+          hint: "這類樣式擁有超越所有外部選擇器的極高優先權，通常只能被 !important 規則擊敗。",
+        },
+      ];
+
+      let currentIndex = 0;
+      let correctCount = 0;
+      let wrongCount = 0;
+      let hasAnswered = false;
+
+      const labels = ["A", "B", "C", "D"];
+
+      // 初始化進度條
+      function initProgressBar() {
+        const container = document.getElementById("progress-bar-container");
+        container.innerHTML = "";
+        for (let i = 0; i < quizData.length; i++) {
+          const segment = document.createElement("div");
+          segment.className = `progress-segment ${i === 0 ? "active" : "pending"}`;
+          segment.id = `prog-${i}`;
+          container.appendChild(segment);
+        }
+      }
+
+      // 渲染當前題目
+      function loadQuestion() {
+        const q = quizData[currentIndex];
+        hasAnswered = false;
+
+        // 重置提示狀態
+        document.getElementById("hint-text").classList.remove("open");
+        document.getElementById("hint-icon").style.transform = "rotate(0deg)";
+
+        // 隱藏解析與下一題按鈕
+        document.getElementById("rationale-area").classList.add("hidden");
+        document.getElementById("next-btn").classList.add("hidden");
+
+        // 設置文字
+        document.getElementById("counter-text").innerText =
+          `${currentIndex + 1}/${quizData.length}`;
+        document.getElementById("question-number").innerText =
+          `${currentIndex + 1}.`;
+
+        // 處理代碼高亮顯示 (將 backticks 替換為 code 標籤)
+        let formattedQuestion = q.question.replace(
+          /`([^`]+)`/g,
+          '<code class="bg-[#303134] text-[#8ab4f8] px-1 py-0.5 rounded text-sm font-mono">$1</code>',
+        );
+        document.getElementById("question-text").innerHTML = formattedQuestion;
+        document.getElementById("hint-text").innerText = q.hint;
+
+        // 渲染選項
+        const optionsContainer = document.getElementById("options-container");
+        optionsContainer.innerHTML = "";
+
+        q.options.forEach((opt, index) => {
+          let formattedOpt = opt.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+          const btn = document.createElement("button");
+          btn.id = `opt-${index}`;
+          btn.className =
+            "option-btn w-full text-left p-4 bg-[#202124] border border-[#3c4043] rounded-xl hover:bg-[#303134] focus:outline-none flex gap-4 items-start";
+          btn.onclick = () => selectAnswer(index);
+          btn.innerHTML = `<span class="font-bold text-gray-400 mt-0.5">${labels[index]}.</span> <span>${formattedOpt}</span>`;
+          optionsContainer.appendChild(btn);
+        });
+
+        // 更新進度條 UI
+        for (let i = 0; i < quizData.length; i++) {
+          const seg = document.getElementById(`prog-${i}`);
+          if (i < currentIndex) seg.className = "progress-segment completed";
+          else if (i === currentIndex)
+            seg.className = "progress-segment active";
+          else seg.className = "progress-segment pending";
+        }
+      }
+
+      // 切換提示顯示
+      function toggleHint() {
+        const hintText = document.getElementById("hint-text");
+        const icon = document.getElementById("hint-icon");
+        if (hintText.classList.contains("open")) {
+          hintText.classList.remove("open");
+          icon.style.transform = "rotate(0deg)";
+        } else {
+          hintText.classList.add("open");
+          icon.style.transform = "rotate(180deg)";
+        }
+      }
+
+      // 選擇答案 (立即批改)
+      function selectAnswer(selectedIndex) {
+        if (hasAnswered) return; // 鎖定作答
+        hasAnswered = true;
+
+        const q = quizData[currentIndex];
+        const isCorrect = selectedIndex === q.answer;
+
+        // 更新所有按鈕狀態
+        for (let i = 0; i < q.options.length; i++) {
+          const btn = document.getElementById(`opt-${i}`);
+          btn.classList.add("disabled-btn");
+          btn.onclick = null; // 移除點擊事件
+
+          if (i === q.answer) {
+            btn.classList.add("correct"); // 標示正確答案
+          } else if (i === selectedIndex && !isCorrect) {
+            btn.classList.add("incorrect"); // 標示使用者選錯的答案
+          }
+        }
+
+        // 更新計分
+        if (isCorrect) {
+          correctCount++;
+          document.getElementById("correct-count").innerText = correctCount;
+        } else {
+          wrongCount++;
+          document.getElementById("wrong-count").innerText = wrongCount;
+        }
+
+        // 顯示解析
+        const rationaleArea = document.getElementById("rationale-area");
+        rationaleArea.classList.remove("hidden");
+
+        if (isCorrect) {
+          rationaleArea.className =
+            "mt-4 p-5 rounded-xl text-sm leading-relaxed border border-[#22c55e] bg-[rgba(34,197,94,0.1)] text-[#4ade80]";
+          rationaleArea.innerHTML = `<div class="font-bold mb-1"><i class="fa-solid fa-check-circle"></i> 答對了！</div>${q.rationale}`;
+        } else {
+          rationaleArea.className =
+            "mt-4 p-5 rounded-xl text-sm leading-relaxed border border-[#ef4444] bg-[rgba(239,68,68,0.1)] text-[#f87171]";
+          rationaleArea.innerHTML = `<div class="font-bold mb-1"><i class="fa-solid fa-xmark-circle"></i> 答錯了！</div>${q.rationale}`;
+        }
+
+        // 顯示下一題按鈕
+        const nextBtn = document.getElementById("next-btn");
+        nextBtn.classList.remove("hidden");
+        if (currentIndex === quizData.length - 1) {
+          nextBtn.innerText = "查看最終成績";
+        }
+      }
+
+      // 進入下一題或結算
+      function nextQuestion() {
+        if (currentIndex < quizData.length - 1) {
+          currentIndex++;
+          loadQuestion();
+        } else {
+          // 顯示成績結算頁面
+          document.getElementById("quiz-area").classList.add("hidden");
+          document.getElementById("final-screen").classList.remove("hidden");
+          document.getElementById("final-score").innerText = correctCount;
+
+          // 進度條全部設為完成
+          for (let i = 0; i < quizData.length; i++) {
+            document.getElementById(`prog-${i}`).className =
+              "progress-segment completed";
+          }
+        }
+      }
+
+      // 啟動測驗
+      initProgressBar();
+      loadQuestion();
+    </script>
+  </body>
+</html>

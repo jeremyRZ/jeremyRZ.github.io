@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Specificity (a, b, c, d) Demo</title>
+    <style>
+      /* 選手 1：只有標籤 (Element) 
+           得分: (0, 0, 0, 1) */
+      h1 {
+        color: gray;
+      }
+
+      /* 選手 2：只有類名 (Class) 
+           得分: (0, 0, 1, 0) */
+      .title {
+        color: green;
+      }
+
+      /* 選手 3：包含 1個類名 + 2個標籤 (header, h1)
+           得分: (0, 0, 1, 2) */
+      header h1.title {
+        color: blue;
+      }
+
+      /* 選手 4：包含 1個 ID 
+           得分: (0, 1, 0, 0) */
+      #main-title {
+        color: orange;
+      }
+
+      /* 選手 5：包含 1個 ID + 1個類名 
+           得分: (0, 1, 1, 0) */
+      #main-title.title {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1 id="main-title" class="title" style="color: purple">Hello SE112!</h1>
+    </header>
+  </body>
+</html>
