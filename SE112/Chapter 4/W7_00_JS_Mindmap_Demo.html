@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JavaScript 核心知識體系 | SE112</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-view"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-lib"></script>
+
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #0f172a;
+        color: #f8fafc;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+      }
+      header {
+        background-color: #1e293b;
+        padding: 20px;
+        border-bottom: 2px solid #38bdf8;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        z-index: 10;
+      }
+
+      /* 思維導圖容器：佔滿剩餘畫面 */
+      #mindmap-container {
+        flex-grow: 1;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        background-color: #020617;
+      }
+
+      /* Markmap SVG 樣式微調 (深色模式適配) */
+      svg.markmap {
+        width: 100%;
+        height: 100%;
+      }
+      .markmap-node text {
+        fill: #e2e8f0 !important;
+        font-size: 15px;
+        font-weight: 500;
+      }
+      .markmap-node > circle {
+        fill: #0f172a !important;
+        stroke: #38bdf8 !important;
+        stroke-width: 2px;
+      }
+      .markmap-link {
+        stroke: #475569 !important;
+        stroke-width: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="flex justify-between items-center">
+      <div>
+        <h1 class="text-2xl font-bold text-sky-400">
+          <i class="fa-brands fa-js text-yellow-400"></i> JavaScript
+          核心知識體系 (Mind Map)
+        </h1>
+        <p class="text-slate-400 text-sm mt-1">
+          SE112 Web Technology |
+          提示：可使用滑鼠滾輪縮放、拖曳畫布，點擊圓點展開或收合節點。
+        </p>
+      </div>
+      <button
+        onclick="fitMap()"
+        class="bg-sky-600 hover:bg-sky-500 text-white px-4 py-2 rounded shadow transition"
+      >
+        <i class="fa-solid fa-expand"></i> 置中顯示 (Center)
+      </button>
+    </header>
+
+    <div id="mindmap-container">
+      <svg id="markmap"></svg>
+    </div>
+
+    <script>
+      let mm;
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const { Transformer } = window.markmap;
+        const transformer = new Transformer();
+
+        // 【修復點】直接將 Markdown 寫在 JS 的反引號中，保證換行符號絕對不會被 HTML 解析器吃掉
+        const markdownSource = `
+# JavaScript 核心
+## 1. 基礎與型別 (Fundamentals)
+### 變數宣告
+- \`let\` (區塊作用域，可重新賦值)
+- \`const\` (常數，首選推薦)
+- \`var\` (老舊，易外洩)
+### 資料型別
+- 基本: String, Number, Boolean, Undefined, Null
+- 參考: Object, Array, Function
+### 運算子與轉換
+- 算術 (\`+\`, \`-\`, \`*\`, \`/\`)
+- 比較 (\`===\` 嚴格, \`==\` 寬鬆)
+- 邏輯 (\`&&\`, \`||\`, \`!\`)
+- 轉換 (\`Number()\`, \`String()\`)
+
+## 2. 控制流 (Control Flow)
+### 條件判斷
+- \`if ... else if ... else\`
+- \`switch ... case\`
+- 三元運算子 (\`? :\`)
+### 迴圈 (Loops)
+- 傳統 (\`for\`, \`while\`)
+- 迭代 (\`for...of\`, \`for...in\`)
+
+## 3. 資料結構 (Data Structures)
+### 陣列 (Array)
+- 增刪改查 (\`push\`, \`pop\`, \`splice\`)
+- 高階方法 (\`map\`, \`filter\`, \`forEach\`)
+### 物件 (Object)
+- 鍵值對 (Key-Value)
+- JSON 轉換 (\`JSON.parse\`, \`stringify\`)
+
+## 4. 函式 (Functions)
+### 定義方式
+- 函式宣告
+- 箭頭函式 (\`() => {}\`)
+### 核心概念
+- 作用域 (Scope)
+- 閉包 (Closures)
+
+## 5. Web APIs
+### BOM (瀏覽器)
+- \`window\` (\`alert\`, \`prompt\`)
+- 計時器 (\`setTimeout\`)
+### DOM (文件)
+- 選取節點 (\`querySelector\`)
+- 修改內容與樣式
+- 建立與插入 (\`createElement\`)
+
+## 6. 事件處理 (Events)
+### 事件監聽
+- \`addEventListener\`
+### 常見事件
+- \`click\`, \`mouseenter\`, \`keydown\`
+### 事件物件 (Event Object)
+- \`e.target\`
+- 阻止預設行為 (\`e.preventDefault()\`)
+
+## 7. 非同步處理 (Async)
+### 演進歷程
+- Callbacks -> Promise -> async/await
+### 網路請求
+- Fetch API
+`;
+
+        // 將 Markdown 轉換為 Markmap 結構
+        const { root } = transformer.transform(markdownSource);
+
+        // 渲染到 SVG 中
+        mm = window.markmap.Markmap.create(
+          "#markmap",
+          {
+            autoFit: true, // 初始自動置中縮放
+            duration: 500, // 動畫時長
+            color: (node) => {
+              const colors = [
+                "#38bdf8",
+                "#fbbf24",
+                "#34d399",
+                "#f87171",
+                "#a78bfa",
+                "#fb923c",
+                "#2dd4bf",
+              ];
+              let depth = node.depth;
+              return colors[depth % colors.length];
+            },
+          },
+          root,
+        );
+      });
+
+      // 右上角的「置中顯示」按鈕功能
+      function fitMap() {
+        if (mm) {
+          mm.fit();
+        }
+      }
+    </script>
+  </body>
+</html>

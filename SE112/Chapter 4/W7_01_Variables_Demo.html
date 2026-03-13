@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>W7: Variables (var, let, const) Demo | SE112</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #0f172a;
+        color: #f8fafc;
+      }
+
+      /* 代碼區塊樣式 */
+      .code-block {
+        background-color: #1e293b;
+        color: #a5b4fc;
+        padding: 15px;
+        border-radius: 8px;
+        font-family: "Courier New", Courier, monospace;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        border: 1px solid #334155;
+        margin-bottom: 15px;
+      }
+      .keyword {
+        color: #c678dd;
+        font-weight: bold;
+      }
+      .string {
+        color: #98c379;
+      }
+      .comment {
+        color: #64748b;
+        font-style: italic;
+      }
+
+      /* 虛擬控制台樣式 */
+      .console-output {
+        background-color: #000;
+        color: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        font-family: monospace;
+        min-height: 60px;
+        border-left: 4px solid #38bdf8;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+      .log-normal {
+        color: #4ade80;
+      } /* 綠色正常輸出 */
+      .log-error {
+        color: #f87171;
+        background-color: rgba(239, 68, 68, 0.1);
+        padding: 2px 5px;
+        border-radius: 4px;
+      } /* 紅色錯誤輸出 */
+    </style>
+  </head>
+  <body class="min-h-screen p-8">
+    <div class="max-w-5xl mx-auto">
+      <header class="mb-10 border-b border-slate-700 pb-6 text-center">
+        <h1 class="text-4xl font-bold text-sky-400 mb-2">
+          <i class="fa-brands fa-js text-yellow-400"></i> JavaScript Variables
+        </h1>
+        <p class="text-slate-400 text-lg">
+          The Evolution from <code class="text-orange-400">var</code> to
+          <code class="text-blue-400">let</code> &
+          <code class="text-emerald-400">const</code>
+        </p>
+      </header>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div
+          class="bg-slate-800 p-6 rounded-2xl border-t-4 border-orange-500 shadow-xl"
+        >
+          <h2 class="text-2xl font-bold text-orange-400 mb-2">
+            <i class="fa-solid fa-ghost"></i> var
+          </h2>
+          <p class="text-slate-400 text-sm mb-4 h-10">
+            ES5 時代的產物。缺乏區塊作用域 (Block Scope)，容易造成變數外洩
+            (Leak)。
+          </p>
+
+          <div class="code-block">
+            <span class="keyword">if</span> (true) {<br />
+            &nbsp;&nbsp;<span class="keyword">var</span> x =
+            <span class="string">"I escaped!"</span>;<br />
+            }<br />
+            <span class="comment">// ❌ x 洩漏到了大括號外面</span><br />
+            console.log(x);
+          </div>
+
+          <button
+            onclick="runVarDemo()"
+            class="w-full bg-orange-600 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded transition mb-4"
+          >
+            執行代碼 (Run)
+          </button>
+          <div id="out-var" class="console-output text-sm text-slate-500">
+            等待執行...
+          </div>
+        </div>
+
+        <div
+          class="bg-slate-800 p-6 rounded-2xl border-t-4 border-blue-500 shadow-xl"
+        >
+          <h2 class="text-2xl font-bold text-blue-400 mb-2">
+            <i class="fa-solid fa-box-open"></i> let
+          </h2>
+          <p class="text-slate-400 text-sm mb-4 h-10">
+            ES6 引入。具有區塊作用域 <code>{ }</code>，且允許後續重新賦值
+            (Reassign)。
+          </p>
+
+          <div class="code-block">
+            <span class="keyword">let</span> score =
+            <span class="string">100</span>;<br />
+            score = <span class="string">80</span>;
+            <span class="comment">// ✅ 允許修改</span><br />
+            <br />
+            <span class="keyword">if</span> (true) {<br />
+            &nbsp;&nbsp;<span class="keyword">let</span> y =
+            <span class="string">"Safe inside"</span>;<br />
+            }<br />
+            console.log(y); <span class="comment">// ❌ 報錯！</span>
+          </div>
+
+          <button
+            onclick="runLetDemo()"
+            class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded transition mb-4"
+          >
+            執行代碼 (Run)
+          </button>
+          <div id="out-let" class="console-output text-sm text-slate-500">
+            等待執行...
+          </div>
+        </div>
+
+        <div
+          class="bg-slate-800 p-6 rounded-2xl border-t-4 border-emerald-500 shadow-xl"
+        >
+          <h2 class="text-2xl font-bold text-emerald-400 mb-2">
+            <i class="fa-solid fa-lock"></i> const
+          </h2>
+          <p class="text-slate-400 text-sm mb-4 h-10">
+            ES6 引入。宣告後「不能重新賦值」，現代前端開發的首選預設值。
+          </p>
+
+          <div class="code-block">
+            <span class="keyword">const</span> PI =
+            <span class="string">3.14</span>;<br />
+            PI = <span class="string">3.14159</span>;
+            <span class="comment">// ❌ 報錯！</span><br />
+            <br />
+            <span class="keyword">const</span> user = { name:
+            <span class="string">"Rui"</span> };<br />
+            user.name = <span class="string">"Jeremy"</span>;
+            <span class="comment">// ✅ 物件內部屬性可改</span><br />
+            console.log(user.name);
+          </div>
+
+          <button
+            onclick="runConstDemo()"
+            class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 px-4 rounded transition mb-4"
+          >
+            執行代碼 (Run)
+          </button>
+          <div id="out-const" class="console-output text-sm text-slate-500">
+            等待執行...
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function printLog(elementId, msg, isError = false) {
+        const el = document.getElementById(elementId);
+        if (el.innerText === "等待執行...") el.innerHTML = ""; // 清空初始文字
+
+        const line = document.createElement("div");
+        line.className = isError ? "log-error" : "log-normal";
+        line.innerHTML = isError
+          ? `<i class="fa-solid fa-triangle-exclamation"></i> Uncaught ReferenceError/TypeError: ${msg}`
+          : `<i class="fa-solid fa-angle-right"></i> ${msg}`;
+        el.appendChild(line);
+      }
+
+      // 1. var 演示 (變數外洩)
+      function runVarDemo() {
+        document.getElementById("out-var").innerHTML = "";
+        if (true) {
+          var x = "I escaped! (我跑出大括號了！)";
+        }
+        printLog("out-var", x);
+      }
+
+      // 2. let 演示 (區塊作用域與報錯)
+      function runLetDemo() {
+        document.getElementById("out-let").innerHTML = "";
+        let score = 100;
+        score = 80;
+        printLog("out-let", `Score 被修改為: ${score}`);
+
+        try {
+          if (true) {
+            let y = "Safe inside";
+          }
+          console.log(y); // 這裡會觸發 ReferenceError
+        } catch (error) {
+          printLog(
+            "out-let",
+            "y is not defined (因為 y 被鎖在 if 區塊內了)",
+            true,
+          );
+        }
+      }
+
+      // 3. const 演示 (不可重新賦值 vs. 物件屬性修改)
+      function runConstDemo() {
+        document.getElementById("out-const").innerHTML = "";
+
+        // 演示 1: 重新賦值報錯
+        try {
+          const PI = 3.14;
+          PI = 3.14159; // 觸發 TypeError
+        } catch (error) {
+          printLog(
+            "out-const",
+            "Assignment to constant variable (常數不可重新賦值)",
+            true,
+          );
+        }
+
+        // 演示 2: 物件屬性修改成功
+        const user = { name: "Rui" };
+        user.name = "Jeremy";
+        printLog("out-const", `user.name 成功修改為: ${user.name}`);
+      }
+    </script>
+  </body>
+</html>
