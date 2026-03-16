@@ -17,18 +17,18 @@
     <style>
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #0f172a;
-        color: #f8fafc;
+        background-color: #ffffff;
+        color: #1e293b;
         margin: 0;
         display: flex;
         flex-direction: column;
         height: 100vh;
       }
       header {
-        background-color: #1e293b;
+        background-color: #f8fafc;
         padding: 20px;
         border-bottom: 2px solid #38bdf8;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         z-index: 10;
       }
 
@@ -38,26 +38,26 @@
         width: 100%;
         position: relative;
         overflow: hidden;
-        background-color: #020617;
+        background-color: #ffffff;
       }
 
-      /* Markmap SVG 樣式微調 (深色模式適配) */
+      /* Markmap SVG 樣式微調 (淺色模式適配) */
       svg.markmap {
         width: 100%;
         height: 100%;
       }
       .markmap-node text {
-        fill: #e2e8f0 !important;
+        fill: #1e293b !important;
         font-size: 15px;
         font-weight: 500;
       }
       .markmap-node > circle {
-        fill: #0f172a !important;
+        fill: #ffffff !important;
         stroke: #38bdf8 !important;
         stroke-width: 2px;
       }
       .markmap-link {
-        stroke: #475569 !important;
+        stroke: #94a3b8 !important;
         stroke-width: 2px;
       }
     </style>
@@ -65,11 +65,11 @@
   <body>
     <header class="flex justify-between items-center">
       <div>
-        <h1 class="text-2xl font-bold text-sky-400">
-          <i class="fa-brands fa-js text-yellow-400"></i> JavaScript
+        <h1 class="text-2xl font-bold text-sky-600">
+          <i class="fa-brands fa-js text-yellow-500"></i> JavaScript
           核心知識體系 (Mind Map)
         </h1>
-        <p class="text-slate-400 text-sm mt-1">
+        <p class="text-slate-600 text-sm mt-1">
           SE112 Web Technology |
           提示：可使用滑鼠滾輪縮放、拖曳畫布，點擊圓點展開或收合節點。
         </p>
