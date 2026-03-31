@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>W10: Built-in Objects & RegExp Demo | SE112</title>
+    <style>
+        body { background: #0f172a; color: #f8fafc; font: 16px Arial, sans-serif; padding: 30px; margin: 0; }
+        .header { margin: 0 0 30px 0; border-bottom: 2px solid #334155; padding: 0 0 20px 0; }
+        h1 { color: #38bdf8; font: 32px Arial; margin: 0 0 10px 0; }
+        .grid { display: flex; gap: 20px; }
+        .card { background: #1e293b; padding: 25px; flex: 1; border: 2px solid #334155; border-radius: 12px; }
+        h2 { color: #fde047; font: 22px Arial; margin: 0 0 15px 0; }
+        p { color: #94a3b8; margin: 0 0 20px 0; line-height: 1.5; font-size: 14px; }
+        
+        .box { background: #020617; padding: 15px; border-radius: 6px; font-family: monospace; color: #a5b4fc; margin-bottom: 15px; min-height: 24px; border: 1px solid #475569;}
+        .input-group { display: flex; gap: 10px; margin-bottom: 15px; }
+        input { flex: 1; padding: 10px; border-radius: 4px; border: 1px solid #475569; background: #0f172a; color: white; }
+        
+        .btn { color: white; padding: 10px 15px; border: none; cursor: pointer; font-weight: bold; border-radius: 6px; width: 100%; margin-bottom: 10px; }
+        .btn-blue { background: #3b82f6; } .btn-blue:hover { background: #2563eb; }
+        .btn-red { background: #ef4444; } .btn-red:hover { background: #dc2626; }
+        .btn-green { background: #10b981; } .btn-green:hover { background: #059669; }
+        
+        /* 虛擬控制台 */
+        .console-area { background: #000; color: #4ade80; padding: 15px; font: 14px monospace; height: 120px; overflow: auto; border: 2px solid #10b981; margin-top: 20px; border-radius: 8px; }
+        .log-msg { margin-bottom: 5px; }
+        .highlight { color: #fde047; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>📦 JS 內建物件與正規表達式 (Built-in Objects & RegExp)</h1>
+        <p>探索 Array (Stack), Date, Math 與 RegExp 的核心應用</p>
+    </div>
+
+    <div class="grid">
+        
+        <div class="card">
+            <h2>1. Array as a Stack (堆疊)</h2>
+            <p>使用 push() 將元素加入陣列尾端，使用 pop() 刪除並回傳最後一個元素，形成後進先出 (LIFO) 的結構。</p>
+            <div id="stackDisplay" class="box">當前堆疊: []</div>
+            <div class="input-group">
+                <button id="btnPush" class="btn btn-blue">執行 push(隨機數)</button>
+                <button id="btnPop" class="btn btn-red">執行 pop()</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>2. Date & Math (時間與數學)</h2>
+            <p>Date.valueOf() 會回傳 1970/1/1 至今的毫秒數。透過時間差，我們可以計算一段程式碼的執行時間。</p>
+            <div id="timeDisplay" class="box">等待測試中...</div>
+            <button id="btnTime" class="btn btn-blue">計算 Math.PI 迴圈 100萬次 的時間</button>
+        </div>
+
+        <div class="card">
+            <h2>3. RegExp (正規表達式)</h2>
+            <p>使用 <code>new RegExp("^\\d\\d\\d$")</code> 來驗證輸入是否為「精確的三位數字」，這是表單驗證的核心。</p>
+            <div class="input-group">
+                <input type="text" id="areaCodeInput" placeholder="請輸入 3 位數字...">
+            </div>
+            <button id="btnRegex" class="btn btn-green">呼叫 test() 驗證格式</button>
+        </div>
+
+    </div>
+
+    <div id="virtualConsole" class="console-area">
+        <div class="log-msg">系統提示：等待操作...</div>
+    </div>
+
+    <script>
+        const consoleDiv = document.getElementById('virtualConsole');
+        function printLog(msg) {
+            const line = document.createElement('div');
+            line.className = 'log-msg';
+            line.innerHTML = ">> " + msg;
+            consoleDiv.appendChild(line);
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+        }
+
+        // --- 1. Array Stack ---
+        let myStack = new Array();
+        const stackDisplay = document.getElementById('stackDisplay');
+        
+        document.getElementById('btnPush').addEventListener('click', () => {
+            let num = Math.floor(Math.random() * 100);
+            myStack.push(num);
+            stackDisplay.textContent = "當前堆疊: [" + myStack.toString() + "]";
+            printLog(`呼叫 <span class='highlight'>push(${num})</span>：成功將元素加入陣列尾端。`);
+        });
+
+        document.getElementById('btnPop').addEventListener('click', () => {
+            if(myStack.length === 0) {
+                printLog("堆疊已空，無法執行 pop()！");
+                return;
+            }
+            let poppedValue = myStack.pop();
+            stackDisplay.textContent = "當前堆疊: [" + myStack.toString() + "]";
+            printLog(`呼叫 <span class='highlight'>pop()</span>：刪除並回傳了陣列最後一個元素 [${poppedValue}]。`);
+        });
+
+        // --- 2. Date & Math ---
+        document.getElementById('btnTime').addEventListener('click', () => {
+            printLog("開始執行龐大運算...");
+            let start = new Date();
+            
+            // 模擬龐大運算 (Math.PI 來自 Math 內建物件)
+            let dummy = 0;
+            for(let i=0; i<1000000; i++) {
+                dummy += Math.PI; 
+            }
+            
+            let end = new Date();
+            let elapsed = end - start; // 觸發自動型別轉換，等於 end.valueOf() - start.valueOf()
+            
+            document.getElementById('timeDisplay').textContent = `計算完成，總耗時: ${elapsed} 毫秒`;
+            printLog(`利用 <span class='highlight'>Date 相減</span> 取得時間差：${elapsed} 毫秒。`);
+        });
+
+        // --- 3. RegExp ---
+        document.getElementById('btnRegex').addEventListener('click', () => {
+            let inputVal = document.getElementById('areaCodeInput').value;
+            
+            // 建立正規表達式實例 (注意 \d 必須寫成 \\d 來跳脫字元)
+            let areaCodeExp = new RegExp("^\\d\\d\\d$"); 
+            let isValid = areaCodeExp.test(inputVal);
+            
+            if(isValid) {
+                printLog(`驗證 <span style='color:#10b981; font-weight:bold;'>成功</span>：[${inputVal}] 完全符合 ^\\d\\d\\d$ 格式！`);
+            } else {
+                printLog(`驗證 <span style='color:#ef4444; font-weight:bold;'>失敗</span>：[${inputVal}] 不符合精確的三位數字。`);
+            }
+        });
+    </script>
+</body>
+</html>
