@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf8">
+    <title>W10: DOM & Events Demo | SE112</title>
+    <style>
+        body { 
+            background: #0f172a; 
+            color: #f8fafc; 
+            font: 16px Arial, sans_serif; 
+            padding: 30px; 
+            margin: 0; 
+        }
+        .header { 
+            margin: 0 0 30px 0; 
+            borderBottom: 2px solid #334155; 
+            padding: 0 0 20px 0; 
+        }
+        h1 { 
+            color: #38bdf8; 
+            font: 32px Arial; 
+            margin: 0 0 10px 0; 
+        }
+        .grid { 
+            display: flex; 
+            gap: 20px; 
+        }
+        .card { 
+            background: #1e293b; 
+            padding: 25px; 
+            flex: 1; 
+            border: 2px solid #334155; 
+        }
+        h2 { 
+            color: #fde047; 
+            font: 22px Arial; 
+            margin: 0 0 15px 0; 
+        }
+        p { 
+            color: #94a3b8; 
+            margin: 0 0 20px 0; 
+            lineHeight: 1.5; 
+        }
+        .box { 
+            background: #334155; 
+            padding: 20px; 
+            textAlign: center; 
+            margin: 0 0 20px 0; 
+            color: #cbd5e1; 
+            font: bold 18px Arial; 
+            transition: all 0.3s; 
+        }
+        .btn { 
+            background: #0ea5e9; 
+            color: white; 
+            padding: 12px 20px; 
+            border: none; 
+            cursor: pointer; 
+            font: bold 16px Arial; 
+            width: 100%; 
+        }
+        .btn:hover { 
+            background: #0284c7; 
+        }
+        .console_area { 
+            background: #000; 
+            color: #4ade80; 
+            padding: 15px; 
+            font: 14px monospace; 
+            height: 120px; 
+            overflow: auto; 
+            border: 2px solid #10b981; 
+            margin: 20px 0 0 0; 
+        }
+        .log_msg { 
+            margin: 0 0 5px 0; 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>🚀 JavaScript DOM & Event Listeners</h1>
+        <p style="color: #94a3b8; font: 18px Arial;">讓靜態 HTML 產生互動的魔法</p>
+    </div>
+
+    <div class="grid">
+        
+        <div class="card">
+            <h2>1. DOM 選取與修改 (Manipulation)</h2>
+            <p>使用 querySelector 抓取節點，並修改它的文字與樣式。</p>
+            
+            <div id="targetBox" class="box">我是原本的低調盒子</div>
+            
+            <button id="changeBtn" class="btn">點擊施展 DOM 魔法</button>
+        </div>
+
+        <div class="card">
+            <h2>2. 事件監聽 (Event Listeners)</h2>
+            <p>為元素綁定事件，並捕捉事件物件 (Event Object) 的詳細資訊。</p>
+            
+            <div id="hoverBox" class="box">滑鼠移過來 (Hover) 或點擊我！</div>
+            
+            <button id="clearBtn" class="btn" style="background: #ef4444;">清空控制台</button>
+        </div>
+
+    </div>
+
+    <div id="virtualConsole" class="console_area">
+        <div class="log_msg">系統提示：等待您的操作...</div>
+    </div>
+
+    <script>
+        const consoleDiv = document.getElementById('virtualConsole');
+
+        function printLog(msg) {
+            const line = document.createElement('div');
+            line.className = 'log_msg';
+            line.innerHTML = ">> " + msg;
+            consoleDiv.appendChild(line);
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+        }
+
+        document.body.style.borderRadius = "10px";
+        const cards = document.getElementsByClassName('card');
+        for(let i=0; i<cards.length; i++) {
+            cards[i].style.borderRadius = "12px";
+        }
+        const btns = document.getElementsByClassName('btn');
+        for(let i=0; i<btns.length; i++) {
+            btns[i].style.borderRadius = "6px";
+        }
+        const boxes = document.getElementsByClassName('box');
+        for(let i=0; i<boxes.length; i++) {
+            boxes[i].style.borderRadius = "8px";
+        }
+
+        const targetBox = document.getElementById('targetBox');
+        const changeBtn = document.getElementById('changeBtn');
+
+        changeBtn.addEventListener('click', function() {
+            targetBox.textContent = "✨ 我被 DOM 修改了！";
+            targetBox.style.background = "#f59e0b";
+            targetBox.style.color = "#fff";
+            targetBox.style.transform = "scale(1.05)";
+            
+            printLog("成功修改 targetBox 的 textContent 與 style 屬性！");
+        });
+
+        const hoverBox = document.getElementById('hoverBox');
+
+        hoverBox.addEventListener('mouseenter', function(e) {
+            hoverBox.style.background = "#8b5cf6";
+            printLog("觸發 mouseenter 事件！座標 X: " + e.offsetX + ", Y: " + e.offsetY);
+        });
+
+        hoverBox.addEventListener('mouseleave', function() {
+            hoverBox.style.background = "#334155";
+            printLog("觸發 mouseleave 事件！");
+        });
+
+        hoverBox.addEventListener('click', function(e) {
+            printLog("觸發 click 事件！你點擊的目標標籤是: " + e.target.tagName);
+        });
+
+        const clearBtn = document.getElementById('clearBtn');
+        clearBtn.addEventListener('click', function() {
+            consoleDiv.innerHTML = '<div class="log_msg">系統提示：控制台已清空。</div>';
+        });
+
+    </script>
+</body>
+</html>

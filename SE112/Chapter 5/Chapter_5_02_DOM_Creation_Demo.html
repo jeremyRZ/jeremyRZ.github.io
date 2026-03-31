@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+    <meta charset="UTF-8">
+    <title>W10: DOM Creation Demo | SE112</title>
+    <style>
+        body { 
+            background: #0f172a; 
+            color: #f8fafc; 
+            font: 16px Arial, sans_serif; 
+            padding: 30px; 
+            margin: 0; 
+        }
+        .header { 
+            margin: 0 0 30px 0; 
+            borderBottom: 2px solid #334155; 
+            padding: 0 0 20px 0; 
+        }
+        h1 { 
+            color: #38bdf8; 
+            font: 32px Arial; 
+            margin: 0 0 10px 0; 
+        }
+        .grid { 
+            display: flex; 
+            gap: 20px; 
+        }
+        .card { 
+            background: #1e293b; 
+            padding: 25px; 
+            flex: 1; 
+            border: 2px solid #334155; 
+            borderRadius: 12px;
+        }
+        h2 { 
+            color: #fde047; 
+            font: 22px Arial; 
+            margin: 0 0 15px 0; 
+        }
+        p { 
+            color: #94a3b8; 
+            margin: 0 0 20px 0; 
+            lineHeight: 1.5; 
+        }
+        
+        /* 兵工作業區樣式 */
+        .input_group {
+            display: flex;
+            gap: 10px;
+            margin: 0 0 20px 0;
+        }
+        .task_input {
+            flex: 1;
+            padding: 12px;
+            borderRadius: 6px;
+            border: 1px solid #475569;
+            background: #0f172a;
+            color: #fff;
+            font: 16px Arial;
+        }
+        .btn_add { 
+            background: #10b981; 
+            color: white; 
+            padding: 12px 20px; 
+            border: none; 
+            cursor: pointer; 
+            font: bold 16px Arial; 
+            borderRadius: 6px;
+        }
+        .btn_add:hover { background: #059669; }
+        
+        /* 清單樣式 */
+        .task_list {
+            listStyleType: none;
+            padding: 0;
+            margin: 0;
+        }
+        .task_item {
+            background: #334155;
+            padding: 15px;
+            margin: 0 0 10px 0;
+            borderRadius: 8px;
+            display: flex;
+            justifyContent: space-between;
+            alignItems: center;
+            animation: fadeIn 0.3s ease_in;
+        }
+        .btn_delete {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            borderRadius: 4px;
+            cursor: pointer;
+            font: bold 14px Arial;
+        }
+        .btn_delete:hover { background: #dc2626; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 虛擬控制台樣式 */
+        .console_area { 
+            background: #000; 
+            color: #4ade80; 
+            padding: 15px; 
+            font: 14px monospace; 
+            height: 150px; 
+            overflow: auto; 
+            border: 2px solid #10b981; 
+            margin: 20px 0 0 0; 
+            borderRadius: 8px;
+        }
+        .log_msg { margin: 0 0 5px 0; }
+        .log_highlight { color: #fde047; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>🛠️ DOM 節點兵工廠 (Dynamic Elements)</h1>
+        <p style="color: #94a3b8; font: 18px Arial;">見證 createElement 與 appendChild 的強大火力</p>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <h2>生產線 (Control Panel)</h2>
+            <p>輸入文字並點擊新增，JavaScript 將會在記憶體中打造全新標籤並掛載到畫面上。</p>
+            
+            <div class="input_group">
+                <input type="text" id="taskInput" class="task_input" placeholder="輸入新的待辦事項...">
+                <button id="addBtn" class="btn_add">新增節點</button>
+            </div>
+
+            <ul id="taskList" class="task_list">
+                </ul>
+        </div>
+    </div>
+
+    <div id="virtualConsole" class="console_area">
+        <div class="log_msg">系統提示：兵工廠已啟動，等待生產指令...</div>
+    </div>
+
+    <script>
+        const taskInput = document.getElementById('taskInput');
+        const addBtn = document.getElementById('addBtn');
+        const taskList = document.getElementById('taskList');
+        const consoleDiv = document.getElementById('virtualConsole');
+
+        function printLog(msg) {
+            const line = document.createElement('div');
+            line.className = 'log_msg';
+            line.innerHTML = ">> " + msg;
+            consoleDiv.appendChild(line);
+            consoleDiv.scrollTop = consoleDiv.scrollHeight; 
+        }
+
+        addBtn.addEventListener('click', function() {
+            const taskText = taskInput.value.trim();
+            
+            if (taskText === "") {
+                printLog("<span style='color:#ef4444;'>錯誤：不能生產空節點！請輸入文字。</span>");
+                return;
+            }
+
+            // 1. 無中生有：打造新的 li 標籤
+            const newLi = document.createElement('li');
+            newLi.className = 'task_item';
+            
+            // 2. 打造內部的文字節點
+            const textSpan = document.createElement('span');
+            textSpan.textContent = taskText;
+            
+            // 3. 打造專屬的刪除按鈕
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'btn_delete';
+            deleteBtn.textContent = '刪除 (removeChild)';
+
+            // 4. 綁定刪除事件 (這一步非常關鍵！)
+            deleteBtn.addEventListener('click', function() {
+                taskList.removeChild(newLi);
+                printLog("執行 <span class='log_highlight'>removeChild()</span>：已將節點從畫面上拔除。");
+            });
+
+            // 5. 將文字與按鈕組裝進 li 之中
+            newLi.appendChild(textSpan);
+            newLi.appendChild(deleteBtn);
+            
+            printLog("執行 <span class='log_highlight'>createElement()</span>：已在記憶體中打造好 <li> 標籤。");
+
+            // 6. 將組裝好的 li 掛載到畫面上的 ul 之中
+            taskList.appendChild(newLi);
+            
+            printLog("執行 <span class='log_highlight'>appendChild()</span>：成功將 <li> 掛載到 DOM 樹上！");
+
+            // 清空輸入框
+            taskInput.value = "";
+        });
+
+        // 監聽 Enter 鍵也能觸發新增
+        taskInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>
