@@ -12,7 +12,6 @@
     <style>
       body {
         font-family: "Segoe UI", sans-serif;
-        background-color: #f3f4f6;
       }
       .sidebar-item {
         transition: all 0.3s;
@@ -74,13 +73,13 @@
       }
     </style>
   </head>
-  <body class="flex h-screen overflow-hidden">
-    <nav class="w-64 bg-white shadow-lg flex flex-col p-6 z-10">
+  <body class="flex h-screen overflow-hidden bg-slate-100 dark:bg-slate-900 transition-colors duration-300">
+    <nav class="w-64 bg-white dark:bg-slate-800 shadow-lg flex flex-col p-6 z-10 border-r dark:border-slate-700 transition-colors">
       <div class="mb-8 flex items-center gap-3">
-        <i class="fa-solid fa-globe text-3xl text-blue-600"></i>
+        <i class="fa-solid fa-globe text-3xl text-blue-600 dark:text-blue-400"></i>
         <div>
-          <h1 class="font-bold text-xl text-gray-800">HTTP Journey</h1>
-          <p class="text-xs text-gray-500">SE112 Courseware</p>
+          <h1 class="font-bold text-xl text-gray-800 dark:text-white">HTTP Journey</h1>
+          <p class="text-xs text-gray-500 dark:text-slate-400">SE112 Courseware</p>
         </div>
       </div>
 
@@ -88,56 +87,56 @@
         <div
           onclick="switchModule('lab')"
           id="nav-lab"
-          class="sidebar-item active p-3 flex items-center gap-3 text-gray-600"
+          class="sidebar-item active p-3 flex items-center gap-3 text-gray-600 dark:text-slate-300"
         >
           <i class="fa-solid fa-flask"></i> <span>The Lab (Simulator)</span>
         </div>
         <div
           onclick="switchModule('methods')"
           id="nav-methods"
-          class="sidebar-item p-3 flex items-center gap-3 text-gray-600"
+          class="sidebar-item p-3 flex items-center gap-3 text-gray-600 dark:text-slate-300"
         >
           <i class="fa-solid fa-utensils"></i> <span>Methods (Menu)</span>
         </div>
         <div
           onclick="switchModule('status')"
           id="nav-status"
-          class="sidebar-item p-3 flex items-center gap-3 text-gray-600"
+          class="sidebar-item p-3 flex items-center gap-3 text-gray-600 dark:text-slate-300"
         >
           <i class="fa-solid fa-face-smile"></i> <span>Status Codes</span>
         </div>
         <div
           onclick="switchModule('security')"
           id="nav-security"
-          class="sidebar-item p-3 flex items-center gap-3 text-gray-600"
+          class="sidebar-item p-3 flex items-center gap-3 text-gray-600 dark:text-slate-300"
         >
           <i class="fa-solid fa-lock"></i> <span>Security (HTTPS)</span>
         </div>
       </div>
 
-      <div class="mt-auto pt-6 border-t border-gray-100">
-        <div class="bg-blue-50 p-4 rounded-lg">
-          <h4 class="text-sm font-bold text-blue-800 mb-1">
+      <div class="mt-auto pt-6 border-t border-gray-100 dark:border-slate-700">
+        <div class="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg">
+          <h4 class="text-sm font-bold text-blue-800 dark:text-blue-300 mb-1">
             <i class="fa-solid fa-user-tie"></i> Prof. Zhao Says:
           </h4>
-          <p class="text-xs text-blue-600" id="prof-tip">
+          <p class="text-xs text-blue-600 dark:text-blue-400" id="prof-tip">
             Welcome! HTTP is the language of the Web. Let's start exploring.
           </p>
         </div>
       </div>
     </nav>
 
-    <main class="flex-1 p-10 overflow-y-auto relative">
+    <main class="flex-1 p-10 overflow-y-auto relative bg-slate-100 dark:bg-slate-900 transition-colors">
       <section id="module-lab" class="module-section block">
-        <h2 class="text-3xl font-bold text-gray-800 mb-6">
+        <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-6">
           🧪 The Request-Response Lab
         </h2>
 
-        <div class="bg-white p-6 rounded-xl shadow-sm mb-8">
+        <div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm mb-8 border dark:border-slate-700 transition-colors">
           <div class="flex gap-4">
             <select
               id="req-method"
-              class="bg-gray-50 border border-gray-300 rounded px-4 py-2 font-bold text-gray-700"
+              class="bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded px-4 py-2 font-bold text-gray-700 dark:text-white"
             >
               <option value="GET">GET</option>
               <option value="POST">POST</option>
@@ -148,12 +147,12 @@
               type="text"
               id="req-url"
               value="https://api.must.edu.mo/students"
-              class="flex-1 bg-gray-50 border border-gray-300 rounded px-4 py-2 font-mono text-sm"
+              class="flex-1 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded px-4 py-2 font-mono text-sm dark:text-white"
             />
             <button
               onclick="runSimulation()"
               id="send-btn"
-              class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 rounded font-bold transition"
+              class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 rounded font-bold transition shadow-md"
             >
               Send
             </button>
@@ -161,51 +160,51 @@
         </div>
 
         <div
-          class="relative bg-white h-48 rounded-xl shadow-sm border border-gray-200 mb-8 flex items-center justify-between px-16 overflow-hidden"
+          class="relative bg-white dark:bg-slate-800 h-48 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 mb-8 flex items-center justify-between px-16 overflow-hidden transition-colors"
         >
           <div class="text-center z-10">
             <div
-              class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-3xl mb-2 mx-auto"
+              class="w-16 h-16 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center text-3xl mb-2 mx-auto"
             >
-              <i class="fa-solid fa-laptop text-blue-600"></i>
+              <i class="fa-solid fa-laptop text-blue-600 dark:text-blue-400"></i>
             </div>
-            <div class="font-bold text-gray-700">Client</div>
-            <div class="text-xs text-gray-500">Browser</div>
+            <div class="font-bold text-gray-700 dark:text-slate-300">Client</div>
+            <div class="text-xs text-gray-500 dark:text-slate-400">Browser</div>
           </div>
 
-          <div class="flex-1 h-1 bg-gray-200 relative mx-4">
+          <div class="flex-1 h-1 bg-gray-200 dark:bg-slate-700 relative mx-4">
             <div id="packet" class="packet" style="top: -10px"></div>
           </div>
 
           <div class="text-center z-10">
             <div
-              class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center text-3xl mb-2 mx-auto"
+              class="w-16 h-16 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center text-3xl mb-2 mx-auto"
             >
-              <i class="fa-solid fa-server text-green-600"></i>
+              <i class="fa-solid fa-server text-green-600 dark:text-green-400"></i>
             </div>
-            <div class="font-bold text-gray-700">Server</div>
-            <div class="text-xs text-gray-500">Tomcat / Apache</div>
+            <div class="font-bold text-gray-700 dark:text-slate-300">Server</div>
+            <div class="text-xs text-gray-500 dark:text-slate-400">Tomcat / Apache</div>
           </div>
         </div>
 
         <div class="grid grid-cols-2 gap-8">
           <div>
-            <h3 class="font-bold text-gray-600 mb-2">
+            <h3 class="font-bold text-gray-600 dark:text-slate-400 mb-2">
               <i class="fa-solid fa-arrow-right"></i> HTTP Request (Outgoing)
             </h3>
             <div
-              class="code-block text-sm h-48 overflow-auto"
+              class="code-block text-sm h-48 overflow-auto shadow-inner"
               id="display-request"
             >
               // Waiting for action...
             </div>
           </div>
           <div>
-            <h3 class="font-bold text-gray-600 mb-2">
+            <h3 class="font-bold text-gray-600 dark:text-slate-400 mb-2">
               <i class="fa-solid fa-arrow-left"></i> HTTP Response (Incoming)
             </h3>
             <div
-              class="code-block text-sm h-48 overflow-auto text-green-300 border-green-500"
+              class="code-block text-sm h-48 overflow-auto text-green-300 border-green-500 shadow-inner"
               id="display-response"
             >
               // Waiting for response...
@@ -215,71 +214,71 @@
       </section>
 
       <section id="module-methods" class="module-section hidden">
-        <h2 class="text-3xl font-bold text-gray-800 mb-6">
+        <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-6">
           🍽️ HTTP Methods (The Menu)
         </h2>
         <div class="grid grid-cols-4 gap-4 mb-8">
           <button
             onclick="showMethod('GET')"
-            class="p-4 bg-blue-100 hover:bg-blue-200 rounded-lg text-blue-800 font-bold border-2 border-blue-300"
+            class="p-4 bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-900/50 rounded-lg text-blue-800 dark:text-blue-300 font-bold border-2 border-blue-300 dark:border-blue-700 transition-colors"
           >
             GET
           </button>
           <button
             onclick="showMethod('POST')"
-            class="p-4 bg-green-100 hover:bg-green-200 rounded-lg text-green-800 font-bold border-2 border-green-300"
+            class="p-4 bg-green-100 dark:bg-green-900/30 hover:bg-green-200 dark:hover:bg-green-900/50 rounded-lg text-green-800 dark:text-green-300 font-bold border-2 border-green-300 dark:border-green-700 transition-colors"
           >
             POST
           </button>
           <button
             onclick="showMethod('PUT')"
-            class="p-4 bg-yellow-100 hover:bg-yellow-200 rounded-lg text-yellow-800 font-bold border-2 border-yellow-300"
+            class="p-4 bg-yellow-100 dark:bg-yellow-900/30 hover:bg-yellow-200 dark:hover:bg-yellow-900/50 rounded-lg text-yellow-800 dark:text-yellow-300 font-bold border-2 border-yellow-300 dark:border-yellow-700 transition-colors"
           >
             PUT
           </button>
           <button
             onclick="showMethod('DELETE')"
-            class="p-4 bg-red-100 hover:bg-red-200 rounded-lg text-red-800 font-bold border-2 border-red-300"
+            class="p-4 bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-900/50 rounded-lg text-red-800 dark:text-red-300 font-bold border-2 border-red-300 dark:border-red-700 transition-colors"
           >
             DELETE
           </button>
         </div>
 
         <div
-          class="bg-white p-8 rounded-xl shadow-lg border-l-8 border-blue-500"
+          class="bg-white dark:bg-slate-800 p-8 rounded-xl shadow-lg border-l-8 border-blue-500 transition-colors"
           id="method-card"
         >
           <div class="flex justify-between items-start">
             <div>
               <h3
-                class="text-2xl font-bold text-gray-800 mb-2"
+                class="text-2xl font-bold text-gray-800 dark:text-white mb-2"
                 id="method-title"
               >
                 GET
               </h3>
-              <p class="text-gray-600 text-lg mb-4" id="method-desc">
+              <p class="text-gray-600 dark:text-slate-300 text-lg mb-4" id="method-desc">
                 Used to request data from a specified resource.
               </p>
 
-              <div class="bg-gray-100 p-4 rounded-lg mb-4">
+              <div class="bg-gray-100 dark:bg-slate-700 p-4 rounded-lg mb-4 transition-colors">
                 <span
-                  class="font-bold text-xs text-gray-400 uppercase tracking-wider"
+                  class="font-bold text-xs text-gray-400 dark:text-slate-500 uppercase tracking-wider"
                   >Real World Analogy</span
                 >
-                <p class="text-gray-700 italic mt-1" id="method-analogy">
+                <p class="text-gray-700 dark:text-slate-300 italic mt-1" id="method-analogy">
                   Like reading a menu at a restaurant.
                 </p>
               </div>
             </div>
-            <i class="fa-solid fa-book-open text-6xl text-gray-200"></i>
+            <i class="fa-solid fa-book-open text-6xl text-gray-200 dark:text-slate-700"></i>
           </div>
 
-          <div class="mt-6 border-t pt-4">
-            <h4 class="font-bold text-purple-700 mb-2">
+          <div class="mt-6 border-t dark:border-slate-700 pt-4">
+            <h4 class="font-bold text-purple-700 dark:text-purple-400 mb-2">
               <i class="fa-brands fa-java"></i> Java Servlet Mapping
             </h4>
             <pre
-              class="bg-gray-800 text-gray-100 p-4 rounded-md font-mono text-sm"
+              class="bg-gray-800 dark:bg-black text-gray-100 p-4 rounded-md font-mono text-sm shadow-inner"
               id="method-code"
             >
 @Override
@@ -293,52 +292,52 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
       </section>
 
       <section id="module-status" class="module-section hidden">
-        <h2 class="text-3xl font-bold text-gray-800 mb-6">
+        <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-6">
           🚦 Status Codes (The Moods)
         </h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
           <div
             onclick="showStatus(200)"
-            class="bg-white p-6 rounded-xl shadow hover:shadow-md cursor-pointer border-t-4 border-green-500 text-center transition hover:-translate-y-1"
+            class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow hover:shadow-md cursor-pointer border-t-4 border-green-500 text-center transition hover:-translate-y-1"
           >
             <div class="text-4xl mb-2">✅</div>
-            <div class="font-bold text-2xl text-gray-800">200</div>
-            <div class="text-sm text-gray-500">OK</div>
+            <div class="font-bold text-2xl text-gray-800 dark:text-white">200</div>
+            <div class="text-sm text-gray-500 dark:text-slate-400">OK</div>
           </div>
           <div
             onclick="showStatus(404)"
-            class="bg-white p-6 rounded-xl shadow hover:shadow-md cursor-pointer border-t-4 border-yellow-500 text-center transition hover:-translate-y-1"
+            class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow hover:shadow-md cursor-pointer border-t-4 border-yellow-500 text-center transition hover:-translate-y-1"
           >
             <div class="text-4xl mb-2">🤷‍♂️</div>
-            <div class="font-bold text-2xl text-gray-800">404</div>
-            <div class="text-sm text-gray-500">Not Found</div>
+            <div class="font-bold text-2xl text-gray-800 dark:text-white">404</div>
+            <div class="text-sm text-gray-500 dark:text-slate-400">Not Found</div>
           </div>
           <div
             onclick="showStatus(500)"
-            class="bg-white p-6 rounded-xl shadow hover:shadow-md cursor-pointer border-t-4 border-red-500 text-center transition hover:-translate-y-1"
+            class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow hover:shadow-md cursor-pointer border-t-4 border-red-500 text-center transition hover:-translate-y-1"
           >
             <div class="text-4xl mb-2">🔥</div>
-            <div class="font-bold text-2xl text-gray-800">500</div>
-            <div class="text-sm text-gray-500">Server Error</div>
+            <div class="font-bold text-2xl text-gray-800 dark:text-white">500</div>
+            <div class="text-sm text-gray-500 dark:text-slate-400">Server Error</div>
           </div>
           <div
             onclick="showStatus(418)"
-            class="bg-white p-6 rounded-xl shadow hover:shadow-md cursor-pointer border-t-4 border-purple-500 text-center transition hover:-translate-y-1"
+            class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow hover:shadow-md cursor-pointer border-t-4 border-purple-500 text-center transition hover:-translate-y-1"
           >
             <div class="text-4xl mb-2">🫖</div>
-            <div class="font-bold text-2xl text-gray-800">418</div>
-            <div class="text-sm text-gray-500">I'm a teapot</div>
+            <div class="font-bold text-2xl text-gray-800 dark:text-white">418</div>
+            <div class="text-sm text-gray-500 dark:text-slate-400">I'm a teapot</div>
           </div>
         </div>
 
         <div
           id="status-detail"
-          class="mt-8 bg-white p-6 rounded-xl shadow-inner hidden"
+          class="mt-8 bg-white dark:bg-slate-800 p-6 rounded-xl shadow-inner hidden transition-colors"
         >
-          <h3 class="text-xl font-bold text-gray-800" id="status-title"></h3>
-          <p class="text-gray-600 mt-2" id="status-text"></p>
+          <h3 class="text-xl font-bold text-gray-800 dark:text-white" id="status-title"></h3>
+          <p class="text-gray-600 dark:text-slate-300 mt-2" id="status-text"></p>
           <div
-            class="mt-4 p-3 bg-yellow-50 text-yellow-800 rounded text-sm border border-yellow-200"
+            class="mt-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded text-sm border border-yellow-200 dark:border-yellow-900/50"
           >
             <strong>💡 Prof. Zhao's Tip:</strong> <span id="status-tip"></span>
           </div>
@@ -346,19 +345,19 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
       </section>
 
       <section id="module-security" class="module-section hidden">
-        <h2 class="text-3xl font-bold text-gray-800 mb-6">🔒 HTTP vs HTTPS</h2>
+        <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-6">🔒 HTTP vs HTTPS</h2>
 
         <div class="grid grid-cols-2 gap-10">
-          <div class="bg-red-50 p-6 rounded-xl border border-red-200 relative">
+          <div class="bg-red-50 dark:bg-red-900/20 p-6 rounded-xl border border-red-200 dark:border-red-900/50 relative transition-colors">
             <div
               class="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-bl"
             >
               HTTP (Unsafe)
             </div>
-            <h3 class="font-bold text-red-800 mb-4">
+            <h3 class="font-bold text-red-800 dark:text-red-300 mb-4">
               <i class="fa-solid fa-lock-open"></i> The Clear Envelope
             </h3>
-            <p class="text-sm text-red-600 mb-2">
+            <p class="text-sm text-red-600 dark:text-red-400 mb-2">
               Type a password below. The hacker sees exactly what you type.
             </p>
 
@@ -366,11 +365,11 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
               type="text"
               onkeyup="updateHack(this.value, 'http')"
               placeholder="Type password..."
-              class="w-full p-2 border border-red-300 rounded mb-4"
+              class="w-full p-2 border border-red-300 dark:border-red-800 bg-white dark:bg-slate-800 rounded mb-4 text-red-900 dark:text-red-100"
             />
 
             <div
-              class="bg-black text-green-400 font-mono p-4 rounded text-sm relative"
+              class="bg-black text-green-400 font-mono p-4 rounded text-sm relative shadow-lg"
             >
               <div
                 class="absolute -top-3 left-4 bg-gray-700 text-white text-xs px-2 rounded"
@@ -382,17 +381,17 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
           </div>
 
           <div
-            class="bg-green-50 p-6 rounded-xl border border-green-200 relative"
+            class="bg-green-50 dark:bg-green-900/20 p-6 rounded-xl border border-green-200 dark:border-green-900/50 relative transition-colors"
           >
             <div
               class="absolute top-0 right-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-bl"
             >
               HTTPS (Secure)
             </div>
-            <h3 class="font-bold text-green-800 mb-4">
+            <h3 class="font-bold text-green-800 dark:text-green-300 mb-4">
               <i class="fa-solid fa-lock"></i> The Armored Truck
             </h3>
-            <p class="text-sm text-green-600 mb-2">
+            <p class="text-sm text-green-600 dark:text-green-400 mb-2">
               Type a password below. The hacker only sees garbage.
             </p>
 
@@ -400,11 +399,11 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
               type="text"
               onkeyup="updateHack(this.value, 'https')"
               placeholder="Type password..."
-              class="w-full p-2 border border-green-300 rounded mb-4"
+              class="w-full p-2 border border-green-300 dark:border-green-800 bg-white dark:bg-slate-800 rounded mb-4 text-green-900 dark:text-green-100"
             />
 
             <div
-              class="bg-black text-green-400 font-mono p-4 rounded text-sm relative"
+              class="bg-black text-green-400 font-mono p-4 rounded text-sm relative shadow-lg"
             >
               <div
                 class="absolute -top-3 left-4 bg-gray-700 text-white text-xs px-2 rounded"

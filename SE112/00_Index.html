@@ -12,7 +12,6 @@
     <style>
       body {
         font-family: "Segoe UI", system-ui, sans-serif;
-        background-color: #f3f4f6;
       }
 
       /* 卡片悬浮特效 */
@@ -34,7 +33,7 @@
       }
     </style>
   </head>
-  <body class="min-h-screen flex flex-col">
+  <body class="min-h-screen flex flex-col bg-slate-100 dark:bg-slate-900 transition-colors duration-300">
     <header class="bg-pattern text-white shadow-lg border-b-4 border-blue-500">
       <div class="container mx-auto px-6 py-10">
         <div
@@ -65,18 +64,18 @@
 
     <main class="container mx-auto px-6 py-12 flex-grow">
       <div
-        class="mb-16 bg-white p-8 rounded-2xl shadow-sm border border-slate-200"
+        class="mb-16 bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 transition-colors"
       >
         <div
-          class="flex items-center gap-3 mb-8 border-b-2 border-slate-100 pb-4"
+          class="flex items-center gap-3 mb-8 border-b-2 border-slate-100 dark:border-slate-700 pb-4"
         >
           <span
-            class="bg-slate-700 text-white font-bold px-4 py-1.5 rounded-full text-sm uppercase tracking-wide shadow-md"
+            class="bg-slate-700 dark:bg-slate-600 text-white font-bold px-4 py-1.5 rounded-full text-sm uppercase tracking-wide shadow-md"
             >Chapter 01</span
           >
           <div>
-            <h2 class="text-2xl font-bold text-slate-800">Web Fundamentals</h2>
-            <p class="text-slate-500 text-sm">
+            <h2 class="text-2xl font-bold text-slate-800 dark:text-white">Web Fundamentals</h2>
+            <p class="text-slate-500 dark:text-slate-400 text-sm">
               HTTP, HTML History, Basic Tags & Architecture
             </p>
           </div>
@@ -85,7 +84,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <a href="01_Final_Project.html" class="block group">
             <div
-              class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 card-hover h-full flex flex-col relative"
+              class="bg-slate-50 dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 card-hover h-full flex flex-col relative"
             >
               <div
                 class="absolute top-0 right-0 bg-yellow-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg z-10"
@@ -95,20 +94,20 @@
               <div class="p-5 flex-grow">
                 <div class="flex items-center gap-4 mb-3">
                   <div
-                    class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center text-yellow-600"
+                    class="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg flex items-center justify-center text-yellow-600 dark:text-yellow-400"
                   >
                     <i class="fa-solid fa-trophy text-lg"></i>
                   </div>
                   <h3
-                    class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors"
+                    class="text-lg font-bold text-slate-800 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
                   >
                     01. Final Project
                   </h3>
                 </div>
-                <p class="text-slate-500 text-sm pl-14">Course Goal preview.</p>
+                <p class="text-slate-500 dark:text-slate-400 text-sm pl-14">Course Goal preview.</p>
               </div>
               <div
-                class="bg-white px-5 py-2 border-t border-slate-100 text-xs font-mono text-slate-400"
+                class="bg-white dark:bg-slate-800 px-5 py-2 border-t border-slate-100 dark:border-slate-700 text-xs font-mono text-slate-400"
               >
                 01_Final_Project.html
               </div>
@@ -117,27 +116,27 @@
 
           <a href="02_HTTP_Journey.html" class="block group">
             <div
-              class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 card-hover h-full flex flex-col"
+              class="bg-slate-50 dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 card-hover h-full flex flex-col"
             >
               <div class="p-5 flex-grow">
                 <div class="flex items-center gap-4 mb-3">
                   <div
-                    class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600"
+                    class="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center text-blue-600 dark:text-blue-400"
                   >
                     <i class="fa-solid fa-globe text-lg"></i>
                   </div>
                   <h3
-                    class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors"
+                    class="text-lg font-bold text-slate-800 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
                   >
                     02. HTTP Protocol
                   </h3>
                 </div>
-                <p class="text-slate-500 text-sm pl-14">
+                <p class="text-slate-500 dark:text-slate-400 text-sm pl-14">
                   Req/Res & Status Codes.
                 </p>
               </div>
               <div
-                class="bg-white px-5 py-2 border-t border-slate-100 text-xs font-mono text-slate-400"
+                class="bg-white dark:bg-slate-800 px-5 py-2 border-t border-slate-100 dark:border-slate-700 text-xs font-mono text-slate-400"
               >
                 02_HTTP_Journey.html
               </div>
@@ -146,27 +145,27 @@
 
           <a href="03_HTML_Evolution.html" class="block group">
             <div
-              class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 card-hover h-full flex flex-col"
+              class="bg-slate-50 dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 card-hover h-full flex flex-col"
             >
               <div class="p-5 flex-grow">
                 <div class="flex items-center gap-4 mb-3">
                   <div
-                    class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center text-orange-600"
+                    class="w-10 h-10 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center text-orange-600 dark:text-orange-400"
                   >
                     <i class="fa-brands fa-html5 text-lg"></i>
                   </div>
                   <h3
-                    class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors"
+                    class="text-lg font-bold text-slate-800 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
                   >
                     03. HTML History
                   </h3>
                 </div>
-                <p class="text-slate-500 text-sm pl-14">
+                <p class="text-slate-500 dark:text-slate-400 text-sm pl-14">
                   From Tag Soup to Semantic.
                 </p>
               </div>
               <div
-                class="bg-white px-5 py-2 border-t border-slate-100 text-xs font-mono text-slate-400"
+                class="bg-white dark:bg-slate-800 px-5 py-2 border-t border-slate-100 dark:border-slate-700 text-xs font-mono text-slate-400"
               >
                 03_HTML_Evolution.html
               </div>
@@ -175,27 +174,27 @@
 
           <a href="04_HTML_CSS_JavaScript.html" class="block group">
             <div
-              class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 card-hover h-full flex flex-col"
+              class="bg-slate-50 dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 card-hover h-full flex flex-col"
             >
               <div class="p-5 flex-grow">
                 <div class="flex items-center gap-4 mb-3">
                   <div
-                    class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600"
+                    class="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center text-purple-600 dark:text-purple-400"
                   >
                     <i class="fa-solid fa-cubes text-lg"></i>
                   </div>
                   <h3
-                    class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors"
+                    class="text-lg font-bold text-slate-800 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
                   >
                     04. The Trinity
                   </h3>
                 </div>
-                <p class="text-slate-500 text-sm pl-14">
+                <p class="text-slate-500 dark:text-slate-400 text-sm pl-14">
                   HTML + CSS + JS relationship.
                 </p>
               </div>
               <div
-                class="bg-white px-5 py-2 border-t border-slate-100 text-xs font-mono text-slate-400"
+                class="bg-white dark:bg-slate-800 px-5 py-2 border-t border-slate-100 dark:border-slate-700 text-xs font-mono text-slate-400"
               >
                 04_HTML_CSS_JavaScript.html
               </div>
@@ -204,27 +203,27 @@
 
           <a href="05_Encoding_Lab.html" class="block group">
             <div
-              class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 card-hover h-full flex flex-col"
+              class="bg-slate-50 dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 card-hover h-full flex flex-col"
             >
               <div class="p-5 flex-grow">
                 <div class="flex items-center gap-4 mb-3">
                   <div
-                    class="w-10 h-10 bg-cyan-100 rounded-lg flex items-center justify-center text-cyan-600"
+                    class="w-10 h-10 bg-cyan-100 dark:bg-cyan-900/30 rounded-lg flex items-center justify-center text-cyan-600 dark:text-cyan-400"
                   >
                     <i class="fa-solid fa-language text-lg"></i>
                   </div>
                   <h3
-                    class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors"
+                    class="text-lg font-bold text-slate-800 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
                   >
                     05. Encoding Lab
                   </h3>
                 </div>
-                <p class="text-slate-500 text-sm pl-14">
+                <p class="text-slate-500 dark:text-slate-400 text-sm pl-14">
                   UTF-8 vs GBK & Mojibake.
                 </p>
               </div>
               <div
-                class="bg-white px-5 py-2 border-t border-slate-100 text-xs font-mono text-slate-400"
+                class="bg-white dark:bg-slate-800 px-5 py-2 border-t border-slate-100 dark:border-slate-700 text-xs font-mono text-slate-400"
               >
                 05_Encoding_Lab.html
               </div>
@@ -233,27 +232,27 @@
 
           <a href="06_Cache.html" class="block group">
             <div
-              class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 card-hover h-full flex flex-col"
+              class="bg-slate-50 dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 card-hover h-full flex flex-col"
             >
               <div class="p-5 flex-grow">
                 <div class="flex items-center gap-4 mb-3">
                   <div
-                    class="w-10 h-10 bg-pink-100 rounded-lg flex items-center justify-center text-pink-600"
+                    class="w-10 h-10 bg-pink-100 dark:bg-pink-900/30 rounded-lg flex items-center justify-center text-pink-600 dark:text-pink-400"
                   >
                     <i class="fa-solid fa-cookie-bite text-lg"></i>
                   </div>
                   <h3
-                    class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors"
+                    class="text-lg font-bold text-slate-800 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
                   >
                     06. State Inspector
                   </h3>
                 </div>
-                <p class="text-slate-500 text-sm pl-14">
+                <p class="text-slate-500 dark:text-slate-400 text-sm pl-14">
                   Cookies, Session & Cache.
                 </p>
               </div>
               <div
-                class="bg-white px-5 py-2 border-t border-slate-100 text-xs font-mono text-slate-400"
+                class="bg-white dark:bg-slate-800 px-5 py-2 border-t border-slate-100 dark:border-slate-700 text-xs font-mono text-slate-400"
               >
                 06_Cache.html
               </div>
@@ -262,7 +261,7 @@
 
           <a href="07_Backend_SpringBoot_Flow.html" class="block group">
             <div
-              class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 card-hover h-full flex flex-col relative"
+              class="bg-slate-50 dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 card-hover h-full flex flex-col relative"
             >
               <div
                 class="absolute top-0 left-0 bottom-0 w-1 bg-green-500"
@@ -270,22 +269,22 @@
               <div class="p-5 flex-grow">
                 <div class="flex items-center gap-4 mb-3">
                   <div
-                    class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-green-600"
+                    class="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center text-green-600 dark:text-green-400"
                   >
                     <i class="fa-solid fa-server text-lg"></i>
                   </div>
                   <h3
-                    class="text-lg font-bold text-slate-800 group-hover:text-green-600 transition-colors"
+                    class="text-lg font-bold text-slate-800 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors"
                   >
                     07. Backend Flow
                   </h3>
                 </div>
-                <p class="text-slate-500 text-sm pl-14">
+                <p class="text-slate-500 dark:text-slate-400 text-sm pl-14">
                   Spring Boot Architecture.
                 </p>
               </div>
               <div
-                class="bg-white px-5 py-2 border-t border-slate-100 text-xs font-mono text-slate-400"
+                class="bg-white dark:bg-slate-800 px-5 py-2 border-t border-slate-100 dark:border-slate-700 text-xs font-mono text-slate-400"
               >
                 07_Backend...html
               </div>
@@ -294,28 +293,28 @@
 
           <a href="08_Ad_Tracking.html" class="block group">
             <div
-              class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 card-hover h-full flex flex-col relative"
+              class="bg-slate-50 dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 card-hover h-full flex flex-col relative"
             >
               <div class="absolute top-0 left-0 bottom-0 w-1 bg-red-500"></div>
               <div class="p-5 flex-grow">
                 <div class="flex items-center gap-4 mb-3">
                   <div
-                    class="w-10 h-10 bg-red-100 rounded-lg flex-shrink-0 flex items-center justify-center text-red-600"
+                    class="w-10 h-10 bg-red-100 dark:bg-red-900/30 rounded-lg flex-shrink-0 flex items-center justify-center text-red-600 dark:text-red-400"
                   >
                     <i class="fa-solid fa-user-secret text-lg"></i>
                   </div>
                   <h3
-                    class="text-lg font-bold text-slate-800 group-hover:text-red-600 transition-colors"
+                    class="text-lg font-bold text-slate-800 dark:text-white group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors"
                   >
                     08. Ad Tracking
                   </h3>
                 </div>
-                <p class="text-slate-500 text-sm pl-14">
+                <p class="text-slate-500 dark:text-slate-400 text-sm pl-14">
                   Privacy & Cookies Demo.
                 </p>
               </div>
               <div
-                class="bg-white px-5 py-2 border-t border-slate-100 text-xs font-mono text-slate-400"
+                class="bg-white dark:bg-slate-800 px-5 py-2 border-t border-slate-100 dark:border-slate-700 text-xs font-mono text-slate-400"
               >
                 08_Ad_Tracking.html
               </div>
@@ -325,18 +324,18 @@
       </div>
 
       <div
-        class="mb-16 bg-white p-8 rounded-2xl shadow-sm border border-slate-200"
+        class="mb-16 bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 transition-colors"
       >
         <div
-          class="flex items-center gap-3 mb-8 border-b-2 border-slate-100 pb-4"
+          class="flex items-center gap-3 mb-8 border-b-2 border-slate-100 dark:border-slate-700 pb-4"
         >
           <span
-            class="bg-blue-600 text-white font-bold px-4 py-1.5 rounded-full text-sm uppercase tracking-wide shadow-md shadow-blue-200"
+            class="bg-blue-600 dark:bg-blue-500 text-white font-bold px-4 py-1.5 rounded-full text-sm uppercase tracking-wide shadow-md shadow-blue-200 dark:shadow-none"
             >Chapter 02</span
           >
           <div>
-            <h2 class="text-2xl font-bold text-slate-800">HTML5 Deep Dive</h2>
-            <p class="text-slate-500 text-sm">
+            <h2 class="text-2xl font-bold text-slate-800 dark:text-white">HTML5 Deep Dive</h2>
+            <p class="text-slate-500 dark:text-slate-400 text-sm">
               Semantics, Multimedia, Forms & Responsive Design
             </p>
           </div>
@@ -345,25 +344,25 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <a href="Week_2/W2_01_Semantics_Standard.html" class="block group">
             <div
-              class="bg-white rounded-xl overflow-hidden border border-indigo-200 card-hover h-full flex flex-col"
+              class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-indigo-200 dark:border-slate-700 card-hover h-full flex flex-col"
             >
               <div class="p-6 flex-grow">
                 <div
-                  class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4 text-indigo-600"
+                  class="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center mb-4 text-indigo-600 dark:text-indigo-400"
                 >
                   <i class="fa-solid fa-layer-group text-2xl"></i>
                 </div>
                 <h3
-                  class="text-xl font-bold text-slate-800 mb-2 group-hover:text-indigo-600 transition-colors"
+                  class="text-xl font-bold text-slate-800 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors"
                 >
                   01. Semantic Standard
                 </h3>
-                <p class="text-slate-500 text-sm">
+                <p class="text-slate-500 dark:text-slate-400 text-sm">
                   Correct layout: Header, Nav, Main, Aside, Footer.
                 </p>
               </div>
               <div
-                class="bg-slate-50 px-6 py-3 border-t border-slate-100 text-xs font-mono text-slate-400"
+                class="bg-slate-50 dark:bg-slate-800 px-6 py-3 border-t border-slate-100 dark:border-slate-700 text-xs font-mono text-slate-400"
               >
                 W2_01_Semantics_Standard.html
               </div>
@@ -372,25 +371,25 @@
 
           <a href="Week_2/W2_02_Figures.html" class="block group">
             <div
-              class="bg-white rounded-xl overflow-hidden border border-indigo-200 card-hover h-full flex flex-col"
+              class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-indigo-200 dark:border-slate-700 card-hover h-full flex flex-col"
             >
               <div class="p-6 flex-grow">
                 <div
-                  class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4 text-indigo-600"
+                  class="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center mb-4 text-indigo-600 dark:text-indigo-400"
                 >
                   <i class="fa-regular fa-image text-2xl"></i>
                 </div>
                 <h3
-                  class="text-xl font-bold text-slate-800 mb-2 group-hover:text-indigo-600 transition-colors"
+                  class="text-xl font-bold text-slate-800 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors"
                 >
                   02. Figures & Captions
                 </h3>
-                <p class="text-slate-500 text-sm">
+                <p class="text-slate-500 dark:text-slate-400 text-sm">
                   Handling images with semantic meaning.
                 </p>
               </div>
               <div
-                class="bg-slate-50 px-6 py-3 border-t border-slate-100 text-xs font-mono text-slate-400"
+                class="bg-slate-50 dark:bg-slate-800 px-6 py-3 border-t border-slate-100 dark:border-slate-700 text-xs font-mono text-slate-400"
               >
                 W2_02_Figures.html
               </div>
@@ -399,25 +398,25 @@
 
           <a href="Week_2/W2_03_Forms_Media.html" class="block group">
             <div
-              class="bg-white rounded-xl overflow-hidden border border-teal-200 card-hover h-full flex flex-col"
+              class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-teal-200 dark:border-slate-700 card-hover h-full flex flex-col"
             >
               <div class="p-6 flex-grow">
                 <div
-                  class="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mb-4 text-teal-600"
+                  class="w-12 h-12 bg-teal-100 dark:bg-teal-900/30 rounded-lg flex items-center justify-center mb-4 text-teal-600 dark:text-teal-400"
                 >
                   <i class="fa-regular fa-circle-play text-2xl"></i>
                 </div>
                 <h3
-                  class="text-xl font-bold text-slate-800 mb-2 group-hover:text-teal-600 transition-colors"
+                  class="text-xl font-bold text-slate-800 dark:text-white mb-2 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors"
                 >
                   03. Forms & Media
                 </h3>
-                <p class="text-slate-500 text-sm">
+                <p class="text-slate-500 dark:text-slate-400 text-sm">
                   Intelligent inputs (Email, Date) & Native Video/Audio.
                 </p>
               </div>
               <div
-                class="bg-slate-50 px-6 py-3 border-t border-slate-100 text-xs font-mono text-slate-400"
+                class="bg-slate-50 dark:bg-slate-800 px-6 py-3 border-t border-slate-100 dark:border-slate-700 text-xs font-mono text-slate-400"
               >
                 W2_03_Forms_Media.html
               </div>
@@ -426,19 +425,19 @@
         </div>
       </div>
 
-      <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+      <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 transition-colors">
         <div
-          class="flex items-center gap-3 mb-8 border-b-2 border-slate-100 pb-4"
+          class="flex items-center gap-3 mb-8 border-b-2 border-slate-100 dark:border-slate-700 pb-4"
         >
           <span
-            class="bg-teal-600 text-white font-bold px-4 py-1.5 rounded-full text-sm uppercase tracking-wide shadow-md shadow-teal-200"
+            class="bg-teal-600 dark:bg-teal-500 text-white font-bold px-4 py-1.5 rounded-full text-sm uppercase tracking-wide shadow-md shadow-teal-200 dark:shadow-none"
             >Chapter 03</span
           >
           <div>
-            <h2 class="text-2xl font-bold text-slate-800">
+            <h2 class="text-2xl font-bold text-slate-800 dark:text-white">
               CSS Styling & Layout
             </h2>
-            <p class="text-slate-500 text-sm">
+            <p class="text-slate-500 dark:text-slate-400 text-sm">
               Text, Fonts, Links, Box Model & Floats, Specificity, Responsive
             </p>
           </div>
@@ -447,26 +446,26 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <a href="Week_3/W3_01_CSS_Basics_Demo.html" class="block group">
             <div
-              class="bg-white rounded-xl overflow-hidden border border-teal-200 card-hover h-full flex flex-col"
+              class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-teal-200 dark:border-slate-700 card-hover h-full flex flex-col"
             >
               <div class="p-6 flex-grow">
                 <div
-                  class="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mb-4 text-teal-600"
+                  class="w-12 h-12 bg-teal-100 dark:bg-teal-900/30 rounded-lg flex items-center justify-center mb-4 text-teal-600 dark:text-teal-400"
                 >
                   <i class="fa-solid fa-paint-roller text-2xl"></i>
                 </div>
                 <h3
-                  class="text-xl font-bold text-slate-800 mb-2 group-hover:text-teal-600 transition-colors"
+                  class="text-xl font-bold text-slate-800 dark:text-white mb-2 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors"
                 >
                   01. CSS Basics Demo
                 </h3>
-                <p class="text-slate-500 text-sm">
+                <p class="text-slate-500 dark:text-slate-400 text-sm">
                   Interactive styling lab covering Text, Fonts, Links (L-V-H-A),
                   Lists, and Table styling.
                 </p>
               </div>
               <div
-                class="bg-slate-50 px-6 py-3 border-t border-slate-100 text-xs font-mono text-slate-400"
+                class="bg-slate-50 dark:bg-slate-800 px-6 py-3 border-t border-slate-100 dark:border-slate-700 text-xs font-mono text-slate-400"
               >
                 W3_01_CSS_Basics_Demo.html
               </div>
@@ -475,26 +474,26 @@
 
           <a href="Week_3/W3_02_Box_Layout_Demo.html" class="block group">
             <div
-              class="bg-white rounded-xl overflow-hidden border border-purple-200 card-hover h-full flex flex-col"
+              class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-purple-200 dark:border-slate-700 card-hover h-full flex flex-col"
             >
               <div class="p-6 flex-grow">
                 <div
-                  class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4 text-purple-600"
+                  class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-4 text-purple-600 dark:text-purple-400"
                 >
                   <i class="fa-solid fa-boxes-stacked text-2xl"></i>
                 </div>
                 <h3
-                  class="text-xl font-bold text-slate-800 mb-2 group-hover:text-purple-600 transition-colors"
+                  class="text-xl font-bold text-slate-800 dark:text-white mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors"
                 >
                   02. Box Model & Layout
                 </h3>
-                <p class="text-slate-500 text-sm">
+                <p class="text-slate-500 dark:text-slate-400 text-sm">
                   Interactive sliders for Padding & Margin, plus Float, Clear,
                   and Positioning demonstrations.
                 </p>
               </div>
               <div
-                class="bg-slate-50 px-6 py-3 border-t border-slate-100 text-xs font-mono text-slate-400"
+                class="bg-slate-50 dark:bg-slate-800 px-6 py-3 border-t border-slate-100 dark:border-slate-700 text-xs font-mono text-slate-400"
               >
                 W3_02_Box_Layout_Demo.html
               </div>
@@ -503,26 +502,26 @@
 
           <a href="Week_3/W6_01_Inheritance_Demo.html" class="block group">
             <div
-              class="bg-white rounded-xl overflow-hidden border border-rose-200 card-hover h-full flex flex-col"
+              class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-rose-200 dark:border-slate-700 card-hover h-full flex flex-col"
             >
               <div class="p-6 flex-grow">
                 <div
-                  class="w-12 h-12 bg-rose-100 rounded-lg flex items-center justify-center mb-4 text-rose-600"
+                  class="w-12 h-12 bg-rose-100 dark:bg-rose-900/30 rounded-lg flex items-center justify-center mb-4 text-rose-600 dark:text-rose-400"
                 >
                   <i class="fa-solid fa-sitemap text-2xl"></i>
                 </div>
                 <h3
-                  class="text-xl font-bold text-slate-800 mb-2 group-hover:text-rose-600 transition-colors"
+                  class="text-xl font-bold text-slate-800 dark:text-white mb-2 group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors"
                 >
                   03. CSS Inheritance
                 </h3>
-                <p class="text-slate-500 text-sm">
+                <p class="text-slate-500 dark:text-slate-400 text-sm">
                   Interactive DOM tree showing how properties cascade and
                   inherit.
                 </p>
               </div>
               <div
-                class="bg-slate-50 px-6 py-3 border-t border-slate-100 text-xs font-mono text-slate-400"
+                class="bg-slate-50 dark:bg-slate-800 px-6 py-3 border-t border-slate-100 dark:border-slate-700 text-xs font-mono text-slate-400"
               >
                 W6_01_Inheritance_Demo.html
               </div>
@@ -531,26 +530,26 @@
 
           <a href="Week_3/W6_02_Specificity_Demo.html" class="block group">
             <div
-              class="bg-white rounded-xl overflow-hidden border border-amber-200 card-hover h-full flex flex-col"
+              class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-amber-200 dark:border-slate-700 card-hover h-full flex flex-col"
             >
               <div class="p-6 flex-grow">
                 <div
-                  class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center mb-4 text-amber-600"
+                  class="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 rounded-lg flex items-center justify-center mb-4 text-amber-600 dark:text-amber-400"
                 >
                   <i class="fa-solid fa-bullseye text-2xl"></i>
                 </div>
                 <h3
-                  class="text-xl font-bold text-slate-800 mb-2 group-hover:text-amber-600 transition-colors"
+                  class="text-xl font-bold text-slate-800 dark:text-white mb-2 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors"
                 >
                   04. Specificity Demo
                 </h3>
-                <p class="text-slate-500 text-sm">
+                <p class="text-slate-500 dark:text-slate-400 text-sm">
                   Practical code examples explaining the (a, b, c, d) scoring
                   rules.
                 </p>
               </div>
               <div
-                class="bg-slate-50 px-6 py-3 border-t border-slate-100 text-xs font-mono text-slate-400"
+                class="bg-slate-50 dark:bg-slate-800 px-6 py-3 border-t border-slate-100 dark:border-slate-700 text-xs font-mono text-slate-400"
               >
                 W6_02_Specificity_Demo.html
               </div>
@@ -562,25 +561,25 @@
             class="block group"
           >
             <div
-              class="bg-white rounded-xl overflow-hidden border border-indigo-200 card-hover h-full flex flex-col"
+              class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-indigo-200 dark:border-slate-700 card-hover h-full flex flex-col"
             >
               <div class="p-6 flex-grow">
                 <div
-                  class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4 text-indigo-600"
+                  class="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center mb-4 text-indigo-600 dark:text-indigo-400"
                 >
                   <i class="fa-solid fa-calculator text-2xl"></i>
                 </div>
                 <h3
-                  class="text-xl font-bold text-slate-800 mb-2 group-hover:text-indigo-600 transition-colors"
+                  class="text-xl font-bold text-slate-800 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors"
                 >
                   05. Specificity Calculator
                 </h3>
-                <p class="text-slate-500 text-sm">
+                <p class="text-slate-500 dark:text-slate-400 text-sm">
                   Interactive tool to calculate selector weights in real-time.
                 </p>
               </div>
               <div
-                class="bg-slate-50 px-6 py-3 border-t border-slate-100 text-xs font-mono text-slate-400"
+                class="bg-slate-50 dark:bg-slate-800 px-6 py-3 border-t border-slate-100 dark:border-slate-700 text-xs font-mono text-slate-400"
               >
                 W6_03_Specificity_Calculator.html
               </div>
@@ -589,26 +588,26 @@
 
           <a href="Week_3/W6_04_Relative_Units_Demo.html" class="block group">
             <div
-              class="bg-white rounded-xl overflow-hidden border border-emerald-200 card-hover h-full flex flex-col"
+              class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-emerald-200 dark:border-slate-700 card-hover h-full flex flex-col"
             >
               <div class="p-6 flex-grow">
                 <div
-                  class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mb-4 text-emerald-600"
+                  class="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg flex items-center justify-center mb-4 text-emerald-600 dark:text-emerald-400"
                 >
                   <i class="fa-solid fa-ruler-combined text-2xl"></i>
                 </div>
                 <h3
-                  class="text-xl font-bold text-slate-800 mb-2 group-hover:text-emerald-600 transition-colors"
+                  class="text-xl font-bold text-slate-800 dark:text-white mb-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors"
                 >
                   06. Relative Units
                 </h3>
-                <p class="text-slate-500 text-sm">
+                <p class="text-slate-500 dark:text-slate-400 text-sm">
                   Visualizing %, em, and rem behaviors with dynamic root
                   sliders.
                 </p>
               </div>
               <div
-                class="bg-slate-50 px-6 py-3 border-t border-slate-100 text-xs font-mono text-slate-400"
+                class="bg-slate-50 dark:bg-slate-800 px-6 py-3 border-t border-slate-100 dark:border-slate-700 text-xs font-mono text-slate-400"
               >
                 W6_04_Relative_Units_Demo.html
               </div>
@@ -617,25 +616,25 @@
 
           <a href="Week_3/W6_06_Media_Queries_Demo.html" class="block group">
             <div
-              class="bg-white rounded-xl overflow-hidden border border-sky-200 card-hover h-full flex flex-col"
+              class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-sky-200 dark:border-slate-700 card-hover h-full flex flex-col"
             >
               <div class="p-6 flex-grow">
                 <div
-                  class="w-12 h-12 bg-sky-100 rounded-lg flex items-center justify-center mb-4 text-sky-600"
+                  class="w-12 h-12 bg-sky-100 dark:bg-sky-900/30 rounded-lg flex items-center justify-center mb-4 text-sky-600 dark:text-sky-400"
                 >
                   <i class="fa-solid fa-mobile-screen-button text-2xl"></i>
                 </div>
                 <h3
-                  class="text-xl font-bold text-slate-800 mb-2 group-hover:text-sky-600 transition-colors"
+                  class="text-xl font-bold text-slate-800 dark:text-white mb-2 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors"
                 >
                   07. Media Queries
                 </h3>
-                <p class="text-slate-500 text-sm">
+                <p class="text-slate-500 dark:text-slate-400 text-sm">
                   Real-time viewport monitoring and breakpoint layout shifts.
                 </p>
               </div>
               <div
-                class="bg-slate-50 px-6 py-3 border-t border-slate-100 text-xs font-mono text-slate-400"
+                class="bg-slate-50 dark:bg-slate-800 px-6 py-3 border-t border-slate-100 dark:border-slate-700 text-xs font-mono text-slate-400"
               >
                 W6_06_Media_Queries_Demo.html
               </div>
@@ -644,26 +643,26 @@
 
           <a href="Week_3/W6_07_CSS_Responsive_Quiz.html" class="block group">
             <div
-              class="bg-white rounded-xl overflow-hidden border border-fuchsia-200 card-hover h-full flex flex-col"
+              class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-fuchsia-200 dark:border-slate-700 card-hover h-full flex flex-col"
             >
               <div class="p-6 flex-grow">
                 <div
-                  class="w-12 h-12 bg-fuchsia-100 rounded-lg flex items-center justify-center mb-4 text-fuchsia-600"
+                  class="w-12 h-12 bg-fuchsia-100 dark:bg-fuchsia-900/30 rounded-lg flex items-center justify-center mb-4 text-fuchsia-600 dark:text-fuchsia-400"
                 >
                   <i class="fa-solid fa-list-check text-2xl"></i>
                 </div>
                 <h3
-                  class="text-xl font-bold text-slate-800 mb-2 group-hover:text-fuchsia-600 transition-colors"
+                  class="text-xl font-bold text-slate-800 dark:text-white mb-2 group-hover:text-fuchsia-600 dark:group-hover:text-fuchsia-400 transition-colors"
                 >
                   08. Responsive Quiz
                 </h3>
-                <p class="text-slate-500 text-sm">
+                <p class="text-slate-500 dark:text-slate-400 text-sm">
                   Interactive knowledge assessment on specificity and media
                   queries.
                 </p>
               </div>
               <div
-                class="bg-slate-50 px-6 py-3 border-t border-slate-100 text-xs font-mono text-slate-400"
+                class="bg-slate-50 dark:bg-slate-800 px-6 py-3 border-t border-slate-100 dark:border-slate-700 text-xs font-mono text-slate-400"
               >
                 W6_07_CSS_Responsive_Quiz.html
               </div>
@@ -672,19 +671,19 @@
         </div>
       </div>
 
-      <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+      <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 transition-colors">
         <div
-          class="flex items-center gap-3 mb-8 border-b-2 border-slate-100 pb-4"
+          class="flex items-center gap-3 mb-8 border-b-2 border-slate-100 dark:border-slate-700 pb-4"
         >
           <span
-            class="bg-yellow-500 text-white font-bold px-4 py-1.5 rounded-full text-sm uppercase tracking-wide shadow-md shadow-yellow-200"
+            class="bg-yellow-500 dark:bg-yellow-400 text-white font-bold px-4 py-1.5 rounded-full text-sm uppercase tracking-wide shadow-md shadow-yellow-200 dark:shadow-none"
             >Chapter 04</span
           >
           <div>
-            <h2 class="text-2xl font-bold text-slate-800">
+            <h2 class="text-2xl font-bold text-slate-800 dark:text-white">
               JavaScript Fundamentals
             </h2>
-            <p class="text-slate-500 text-sm">
+            <p class="text-slate-500 dark:text-slate-400 text-sm">
               Core concepts, variables, data types, and interactive demos
             </p>
           </div>
@@ -693,26 +692,26 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <a href="Chapter 4/W7_00_JS_Mindmap_Demo.html" class="block group">
             <div
-              class="bg-white rounded-xl overflow-hidden border border-yellow-200 card-hover h-full flex flex-col"
+              class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-yellow-200 dark:border-slate-700 card-hover h-full flex flex-col"
             >
               <div class="p-6 flex-grow">
                 <div
-                  class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4 text-yellow-600"
+                  class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg flex items-center justify-center mb-4 text-yellow-600 dark:text-yellow-400"
                 >
                   <i class="fa-solid fa-brain text-2xl"></i>
                 </div>
                 <h3
-                  class="text-xl font-bold text-slate-800 mb-2 group-hover:text-yellow-600 transition-colors"
+                  class="text-xl font-bold text-slate-800 dark:text-white mb-2 group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors"
                 >
                   01. JS Knowledge Map
                 </h3>
-                <p class="text-slate-500 text-sm">
+                <p class="text-slate-500 dark:text-slate-400 text-sm">
                   Interactive mindmap visualizing JavaScript core concepts and
                   ecosystem.
                 </p>
               </div>
               <div
-                class="bg-slate-50 px-6 py-3 border-t border-slate-100 text-xs font-mono text-slate-400"
+                class="bg-slate-50 dark:bg-slate-800 px-6 py-3 border-t border-slate-100 dark:border-slate-700 text-xs font-mono text-slate-400"
               >
                 W7_00_JS_Mindmap_Demo.html
               </div>
@@ -721,26 +720,26 @@
 
           <a href="Chapter 4/W7_01_Variables_Demo.html" class="block group">
             <div
-              class="bg-white rounded-xl overflow-hidden border border-orange-200 card-hover h-full flex flex-col"
+              class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-orange-200 dark:border-slate-700 card-hover h-full flex flex-col"
             >
               <div class="p-6 flex-grow">
                 <div
-                  class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4 text-orange-600"
+                  class="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center mb-4 text-orange-600 dark:text-orange-400"
                 >
                   <i class="fa-solid fa-code text-2xl"></i>
                 </div>
                 <h3
-                  class="text-xl font-bold text-slate-800 mb-2 group-hover:text-orange-600 transition-colors"
+                  class="text-xl font-bold text-slate-800 dark:text-white mb-2 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors"
                 >
                   02. Variables Demo
                 </h3>
-                <p class="text-slate-500 text-sm">
+                <p class="text-slate-500 dark:text-slate-400 text-sm">
                   Understanding var, let, const declarations with interactive
                   examples.
                 </p>
               </div>
               <div
-                class="bg-white px-6 py-3 border-t border-slate-100 text-xs font-mono text-slate-400"
+                class="bg-white dark:bg-slate-800 px-6 py-3 border-t border-slate-100 dark:border-slate-700 text-xs font-mono text-slate-400"
               >
                 W7_01_Variables_Demo.html
               </div>
@@ -749,25 +748,25 @@
 
           <a href="Chapter 4/W7_02_Function_Defaults_Demo.html" class="block group">
             <div
-              class="bg-white rounded-xl overflow-hidden border border-emerald-200 card-hover h-full flex flex-col"
+              class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-emerald-200 dark:border-slate-700 card-hover h-full flex flex-col"
             >
               <div class="p-6 flex-grow">
                 <div
-                  class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mb-4 text-emerald-600"
+                  class="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg flex items-center justify-center mb-4 text-emerald-600 dark:text-emerald-400"
                 >
                   <i class="fa-solid fa-gears text-2xl"></i>
                 </div>
                 <h3
-                  class="text-xl font-bold text-slate-800 mb-2 group-hover:text-emerald-600 transition-colors"
+                  class="text-xl font-bold text-slate-800 dark:text-white mb-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors"
                 >
                   03. Function Defaults
                 </h3>
-                <p class="text-slate-500 text-sm">
+                <p class="text-slate-500 dark:text-slate-400 text-sm">
                   The evolution of handling missing arguments, from ES5 logic to ES6 default parameters.
                 </p>
               </div>
               <div
-                class="bg-white px-6 py-3 border-t border-slate-100 text-xs font-mono text-slate-400"
+                class="bg-white dark:bg-slate-800 px-6 py-3 border-t border-slate-100 dark:border-slate-700 text-xs font-mono text-slate-400"
               >
                 W7_02_Function_Defaults_Demo.html
               </div>
@@ -776,25 +775,25 @@
 
           <a href="Chapter 4/03_BuiltIn_Objects_Demo.html" class="block group">
             <div
-              class="bg-white rounded-xl overflow-hidden border border-sky-200 card-hover h-full flex flex-col"
+              class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-sky-200 dark:border-slate-700 card-hover h-full flex flex-col"
             >
               <div class="p-6 flex-grow">
                 <div
-                  class="w-12 h-12 bg-sky-100 rounded-lg flex items-center justify-center mb-4 text-sky-600"
+                  class="w-12 h-12 bg-sky-100 dark:bg-sky-900/30 rounded-lg flex items-center justify-center mb-4 text-sky-600 dark:text-sky-400"
                 >
                   <i class="fa-solid fa-box-archive text-2xl"></i>
                 </div>
                 <h3
-                  class="text-xl font-bold text-slate-800 mb-2 group-hover:text-sky-600 transition-colors"
+                  class="text-xl font-bold text-slate-800 dark:text-white mb-2 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors"
                 >
                   04. Built-in Objects
                 </h3>
-                <p class="text-slate-500 text-sm">
+                <p class="text-slate-500 dark:text-slate-400 text-sm">
                   Exploring core applications of Array (Stack), Date, Math, and RegExp.
                 </p>
               </div>
               <div
-                class="bg-white px-6 py-3 border-t border-slate-100 text-xs font-mono text-slate-400"
+                class="bg-white dark:bg-slate-800 px-6 py-3 border-t border-slate-100 dark:border-slate-700 text-xs font-mono text-slate-400"
               >
                 03_BuiltIn_Objects_Demo.html
               </div>
@@ -803,17 +802,17 @@
         </div>
       </div>
 
-      <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 mt-12">
+      <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 mt-12 transition-colors">
         <div
-          class="flex items-center gap-3 mb-8 border-b-2 border-slate-100 pb-4"
+          class="flex items-center gap-3 mb-8 border-b-2 border-slate-100 dark:border-slate-700 pb-4"
         >
           <span
-            class="bg-purple-600 text-white font-bold px-4 py-1.5 rounded-full text-sm uppercase tracking-wide shadow-md shadow-purple-200"
+            class="bg-purple-600 dark:bg-purple-500 text-white font-bold px-4 py-1.5 rounded-full text-sm uppercase tracking-wide shadow-md shadow-purple-200 dark:shadow-none"
             >Chapter 05</span
           >
           <div>
-            <h2 class="text-2xl font-bold text-slate-800">DOM Manipulation</h2>
-            <p class="text-slate-500 text-sm">
+            <h2 class="text-2xl font-bold text-slate-800 dark:text-white">DOM Manipulation</h2>
+            <p class="text-slate-500 dark:text-slate-400 text-sm">
               Events, DOM Creation, and Dynamic Page Updates
             </p>
           </div>
@@ -822,25 +821,25 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <a href="Chapter 5/Chapter_5_01_DOM_Events_Demo.html" class="block group">
             <div
-              class="bg-white rounded-xl overflow-hidden border border-purple-200 card-hover h-full flex flex-col"
+              class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-purple-200 dark:border-slate-700 card-hover h-full flex flex-col"
             >
               <div class="p-6 flex-grow">
                 <div
-                  class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4 text-purple-600"
+                  class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-4 text-purple-600 dark:text-purple-400"
                 >
                   <i class="fa-solid fa-bolt text-2xl"></i>
                 </div>
                 <h3
-                  class="text-xl font-bold text-slate-800 mb-2 group-hover:text-purple-600 transition-colors"
+                  class="text-xl font-bold text-slate-800 dark:text-white mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors"
                 >
                   01. DOM Events
                 </h3>
-                <p class="text-slate-500 text-sm">
+                <p class="text-slate-500 dark:text-slate-400 text-sm">
                   Handling user interactions with event listeners and handlers.
                 </p>
               </div>
               <div
-                class="bg-white px-6 py-3 border-t border-slate-100 text-xs font-mono text-slate-400"
+                class="bg-white dark:bg-slate-800 px-6 py-3 border-t border-slate-100 dark:border-slate-700 text-xs font-mono text-slate-400"
               >
                 Chapter_5_01_DOM_Events_Demo.html
               </div>
@@ -849,25 +848,25 @@
 
           <a href="Chapter 5/Chapter_5_02_DOM_Creation_Demo.html" class="block group">
             <div
-              class="bg-white rounded-xl overflow-hidden border border-indigo-200 card-hover h-full flex flex-col"
+              class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-indigo-200 dark:border-slate-700 card-hover h-full flex flex-col"
             >
               <div class="p-6 flex-grow">
                 <div
-                  class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4 text-indigo-600"
+                  class="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center mb-4 text-indigo-600 dark:text-indigo-400"
                 >
                   <i class="fa-solid fa-plus text-2xl"></i>
                 </div>
                 <h3
-                  class="text-xl font-bold text-slate-800 mb-2 group-hover:text-indigo-600 transition-colors"
+                  class="text-xl font-bold text-slate-800 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors"
                 >
                   02. DOM Creation
                 </h3>
-                <p class="text-slate-500 text-sm">
+                <p class="text-slate-500 dark:text-slate-400 text-sm">
                   Creating and appending elements dynamically to the DOM.
                 </p>
               </div>
               <div
-                class="bg-white px-6 py-3 border-t border-slate-100 text-xs font-mono text-slate-400"
+                class="bg-white dark:bg-slate-800 px-6 py-3 border-t border-slate-100 dark:border-slate-700 text-xs font-mono text-slate-400"
               >
                 Chapter_5_02_DOM_Creation_Demo.html
               </div>
@@ -878,7 +877,7 @@
     </main>
 
     <footer
-      class="bg-slate-800 text-slate-400 py-8 border-t border-slate-700 mt-12"
+      class="bg-slate-800 dark:bg-slate-950 text-slate-400 py-8 border-t border-slate-700 mt-12 transition-colors"
     >
       <div class="container mx-auto px-6 text-center text-sm">
         <p>
