@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>W11: Architecture Comparison | SE112</title>
+    <style>
+      body {
+        background: #0f172a;
+        color: #f8fafc;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      h1 {
+        color: #38bdf8;
+        margin: 0 0 10px 0;
+        font-size: 32px;
+      }
+      p {
+        color: #94a3b8;
+        font-size: 16px;
+        margin: 0;
+      }
+
+      /* 控制按鈕區 */
+      .controls {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 40px;
+        background: #1e293b;
+        padding: 15px 30px;
+        border-radius: 12px;
+        border: 1px solid #334155;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      }
+      .btn {
+        background: #3b82f6;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .btn:hover {
+        background: #2563eb;
+      }
+      .btn.active {
+        background: #facc15;
+        color: #000;
+        box-shadow: 0 0 10px rgba(250, 204, 21, 0.5);
+      }
+      .btn-reset {
+        background: #475569;
+      }
+      .btn-reset:hover {
+        background: #334155;
+      }
+
+      /* 架構圖佈局 */
+      .arch-wrapper {
+        display: flex;
+        gap: 50px;
+        width: 100%;
+        max-width: 1100px;
+      }
+      .arch-column {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .arch-title {
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        padding: 10px 20px;
+        border-radius: 8px;
+        width: 100%;
+        text-align: center;
+        box-sizing: border-box;
+      }
+      .title-old {
+        background: #7f1d1d;
+        color: #fca5a5;
+        border: 2px solid #b91c1c;
+      }
+      .title-new {
+        background: #064e3b;
+        color: #6ee7b7;
+        border: 2px solid #059669;
+      }
+
+      /* 系統方塊 (Boxes) */
+      .box {
+        width: 100%;
+        border-radius: 8px;
+        padding: 20px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        transition: all 0.3s ease;
+        border: 2px dashed transparent;
+      }
+      .box-title {
+        font-weight: bold;
+        font-size: 18px;
+        text-align: center;
+        margin-bottom: 10px;
+        transition: color 0.3s ease;
+      }
+
+      /* 具體元件顏色 */
+      .os-layer {
+        background: #1e293b;
+        border: 2px solid #334155;
+        color: #cbd5e1;
+      }
+      .jdk-layer {
+        background: #334155;
+        border: 2px solid #475569;
+        color: #e2e8f0;
+      }
+      .server-layer {
+        background: #b45309;
+        border: 2px solid #d97706;
+        color: #fef3c7;
+      }
+      .app-layer {
+        background: #4338ca;
+        border: 2px solid #4f46e5;
+        color: #e0e7ff;
+      }
+      .inner-item {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 10px;
+        border-radius: 4px;
+        text-align: center;
+        font-family: monospace;
+        font-size: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+      }
+      .config-item {
+        background: #831843;
+        border-color: #be185d;
+        color: #fbcfe8;
+      }
+      .magic-item {
+        background: #065f46;
+        border-color: #059669;
+        color: #a7f3d0;
+      }
+
+      /* 高亮特效 Classes */
+      .dimmed {
+        opacity: 0.15;
+        filter: grayscale(100%);
+      }
+      .highlight {
+        transform: scale(1.02);
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        border-color: #facc15;
+        z-index: 10;
+        position: relative;
+      }
+
+      /* 解說看板 */
+      .explanation-board {
+        margin-top: 40px;
+        background: #020617;
+        padding: 20px;
+        border-left: 4px solid #38bdf8;
+        border-radius: 8px;
+        width: 100%;
+        max-width: 1100px;
+        font-size: 16px;
+        line-height: 1.6;
+        color: #a5b4fc;
+        min-height: 80px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>🏗️ 系統架構深度透視圖</h1>
+      <p>點擊下方按鈕，觀察傳統架構與 Spring Boot 內部構造的根本性差異</p>
+    </div>
+
+    <div class="controls">
+      <button class="btn" onclick="highlight('server', this)">
+        🔍 1. 伺服器在哪裡？(Server)
+      </button>
+      <button class="btn" onclick="highlight('config', this)">
+        🔍 2. 配置方式 (Configuration)
+      </button>
+      <button class="btn" onclick="highlight('package', this)">
+        🔍 3. 部署打包 (Packaging)
+      </button>
+      <button class="btn btn-reset" onclick="highlight('all', this)">
+        🔄 顯示全貌
+      </button>
+    </div>
+
+    <div class="arch-wrapper">
+      <div class="arch-column">
+        <div class="arch-title title-old">傳統 Java Web (Servlet)</div>
+
+        <div class="box os-layer node-other">
+          <div class="box-title">Operating System (OS)</div>
+          <div class="box jdk-layer node-other">
+            <div class="box-title">Java Runtime (JRE / JDK)</div>
+
+            <div class="box server-layer node-server">
+              <div class="box-title">🌐 獨立 Tomcat 伺服器 (Standalone)</div>
+              <div class="inner-item">Tomcat Conf / lib / bin</div>
+
+              <div class="box app-layer node-package">
+                <div class="box-title">📦 MyApp.war (應用程式包)</div>
+                <div class="inner-item config-item node-config">
+                  web.xml (伺服器路由設定)
+                </div>
+                <div class="inner-item config-item node-config">
+                  applicationContext.xml (Spring 設定)
+                </div>
+                <div class="inner-item">Business Logic (.class 檔)</div>
+                <div class="inner-item">WEB-INF/lib/*.jar (手動丟入的套件)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="arch-column">
+        <div class="arch-title title-new">現代 Spring Boot 架構</div>
+
+        <div class="box os-layer node-other">
+          <div class="box-title">Operating System (OS)</div>
+          <div class="box jdk-layer node-other">
+            <div class="box-title">Java Runtime (JRE / JDK)</div>
+
+            <div class="box app-layer node-package">
+              <div class="box-title">🚀 MyApp.jar (可執行 JAR)</div>
+              <div class="inner-item">Business Logic (.class 檔)</div>
+              <div class="inner-item magic-item node-config">
+                @SpringBootApplication (自動配置)
+              </div>
+              <div class="inner-item magic-item node-config">
+                Starter POMs (起步依賴套件)
+              </div>
+
+              <div class="box server-layer node-server">
+                <div class="box-title">🌐 內嵌式 Tomcat (Embedded)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="explanation-board" id="explanationText">
+      💡
+      <b>提示：</b>
+      請點擊上方的按鈕，我們將為您透視這兩種架構在底層設計上的核心差異。
+    </div>
+
+    <script>
+      const explanations = {
+        server:
+          "<b>🌐 伺服器的反轉：</b><br>傳統架構中，Tomcat 是『老大』，你的應用程式只是寄生在它裡面的一個包裹。<br>在 Spring Boot 中，你的應用程式才是『老大』，Tomcat 被當作一個小套件，直接塞進你的 JAR 檔肚子裡了！這意味著你不再需要另外安裝與維護伺服器軟體。",
+        config:
+          "<b>⚙️ 配置的進化：</b><br>傳統架構依賴又長又臭的 <code>web.xml</code> 和各種 XML 來告訴伺服器該怎麼運作。<br>Spring Boot 使用了 <code>@SpringBootApplication</code> 的『約定優於配置』機制，框架會根據你引入的套件自動幫你設定好一切，徹底消滅 XML 地獄。",
+        package:
+          "<b>📦 打包與部署的顛覆：</b><br>過去，你必須打包成 <code>.war</code> 檔，然後手動複製到外部 Tomcat 的 <code>webapps</code> 目錄下才能運行。<br>現在，Spring Boot 將所有東西（包含伺服器本身）打包成一個超級胖的 <code>.jar</code> 檔。只要電腦有裝 Java，一行指令 <code>java -jar MyApp.jar</code> 就能在任何地方瞬間啟動服務！",
+        all: "💡 <b>全貌解析：</b> 透過對比可以發現，Spring Boot 把複雜的基礎設施（伺服器、環境配置）全部內聚化、自動化了。開發者的視野變得極度純粹，只需要專注撰寫 <b>Business Logic</b> 即可。",
+      };
+
+      function highlight(target, btnElement) {
+        // 1. 更新按鈕狀態
+        const btns = document.querySelectorAll(".btn");
+        btns.forEach((b) => b.classList.remove("active"));
+        btnElement.classList.add("active");
+
+        // 取得所有方塊與內部項目
+        const allNodes = document.querySelectorAll(".box, .inner-item");
+
+        // 2. 先清除所有節點的特效 (恢復全貌)
+        allNodes.forEach((node) => {
+          node.classList.remove("dimmed", "highlight");
+        });
+
+        // 3. 處理特定高亮邏輯
+        if (target !== "all") {
+          // 步驟 A: 先把所有東西變暗
+          allNodes.forEach((node) => node.classList.add("dimmed"));
+
+          // 步驟 B: 找到我們的目標元素
+          const targets = document.querySelectorAll(`.node-${target}`);
+          targets.forEach((t) => {
+            // 解除目標的變暗，並加上高亮框
+            t.classList.remove("dimmed");
+            t.classList.add("highlight");
+
+            // 步驟 C: 向上尋找所有父節點，把它們的變暗效果解除 (這樣外框才看得見)
+            let parent = t.parentElement;
+            while (parent) {
+              if (parent.classList.contains("box")) {
+                parent.classList.remove("dimmed");
+              }
+              parent = parent.parentElement;
+            }
+
+            // 步驟 D: 向下尋找目標內部的所有子節點，把它們的變暗效果解除 (這樣裡面的字才看得見)
+            const children = t.querySelectorAll(".box, .inner-item");
+            children.forEach((c) => c.classList.remove("dimmed"));
+          });
+        }
+
+        // 更新下方解說文字
+        document.getElementById("explanationText").innerHTML =
+          explanations[target];
+      }
+    </script>
+  </body>
+</html>

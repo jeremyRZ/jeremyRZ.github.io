@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <title>W11: RESTful API Flow Demo | SE112</title>
+    <style>
+      body {
+        background: #0f172a;
+        color: #f8fafc;
+        font:
+          16px "Segoe UI",
+          Arial,
+          sans-serif;
+        padding: 20px;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        box-sizing: border-box;
+      }
+      .header {
+        text-align: center;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #334155;
+        padding-bottom: 15px;
+      }
+      h1 {
+        color: #38bdf8;
+        margin: 0 0 5px 0;
+        font-size: 28px;
+      }
+      p.subtitle {
+        color: #94a3b8;
+        margin: 0;
+        font-size: 14px;
+      }
+
+      .workspace {
+        display: flex;
+        gap: 20px;
+        flex: 1;
+        min-height: 0;
+      }
+
+      /* 面板共用樣式 */
+      .panel {
+        background: #1e293b;
+        border: 2px solid #334155;
+        border-radius: 12px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+      }
+      .panel-title {
+        font-size: 20px;
+        margin: 0 0 15px 0;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .client-title {
+        color: #34d399;
+      }
+      .server-title {
+        color: #fde047;
+      }
+
+      /* 表單與輸入框 */
+      .form-group {
+        margin-bottom: 15px;
+      }
+      label {
+        display: block;
+        color: #cbd5e1;
+        margin-bottom: 5px;
+        font-size: 14px;
+      }
+      .input-row {
+        display: flex;
+        gap: 10px;
+      }
+      select,
+      input[type="text"] {
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #475569;
+        background: #0f172a;
+        color: white;
+        font-size: 14px;
+      }
+      select {
+        width: 100px;
+        font-weight: bold;
+      }
+      input[type="text"] {
+        flex: 1;
+        font-family: monospace;
+      }
+
+      textarea {
+        width: 100%;
+        height: 120px;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #475569;
+        background: #020617;
+        color: #a5b4fc;
+        font-family: monospace;
+        font-size: 14px;
+        resize: none;
+        box-sizing: border-box;
+      }
+      textarea:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .btn {
+        padding: 12px;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
+        width: 100%;
+        margin-top: 10px;
+      }
+      .btn-send {
+        background: #10b981;
+        color: white;
+      }
+      .btn-send:hover {
+        background: #059669;
+      }
+
+      /* 伺服器狀態區 */
+      .server-status {
+        background: #020617;
+        border-left: 4px solid #facc15;
+        padding: 15px;
+        border-radius: 6px;
+        font-family: monospace;
+        color: #e2e8f0;
+        flex: 1;
+        overflow-y: auto;
+        white-space: pre-wrap;
+        font-size: 14px;
+      }
+      .status-header {
+        color: #facc15;
+        margin-bottom: 10px;
+        font-weight: bold;
+        border-bottom: 1px dashed #475569;
+        padding-bottom: 5px;
+      }
+      .json-key {
+        color: #38bdf8;
+      }
+      .json-string {
+        color: #a3e635;
+      }
+      .json-number {
+        color: #f87171;
+      }
+
+      /* 虛擬控制台 */
+      .console-area {
+        background: #000;
+        color: #4ade80;
+        padding: 15px;
+        font: 14px monospace;
+        height: 150px;
+        overflow-y: auto;
+        border: 2px solid #3b82f6;
+        margin-top: 20px;
+        border-radius: 8px;
+        flex-shrink: 0;
+      }
+      .log-msg {
+        margin-bottom: 4px;
+      }
+      .log-time {
+        color: #64748b;
+        margin-right: 8px;
+      }
+      .log-req {
+        color: #34d399;
+      }
+      .log-res {
+        color: #fde047;
+      }
+      .log-err {
+        color: #ef4444;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>🌐 RESTful API 完整生命週期展示</h1>
+      <p class="subtitle">
+        Client Request (JSON) ➔ Network ➔ Spring Boot Controller ➔ JSON Response
+      </p>
+    </div>
+
+    <div class="workspace">
+      <div class="panel">
+        <div class="panel-title client-title">
+          💻 Client (Browser / JS Fetch)
+        </div>
+
+        <div class="form-group">
+          <label>1. API Endpoint (請求方法與目標網址)</label>
+          <div class="input-row">
+            <select id="httpMethod">
+              <option value="GET">GET</option>
+              <option value="POST">POST</option>
+            </select>
+            <input type="text" id="apiUrl" value="/api/students/101" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>2. Request Body (JSON 負載資料 - 僅 POST 可用)</label>
+          <textarea id="reqBody" disabled>
+{
+  "name": "Rui Zhao",
+  "major": "Computer Science"
+}</textarea
+          >
+        </div>
+
+        <button id="btnSend" class="btn btn-send">發送 Request 🚀</button>
+
+        <div class="form-group" style="margin-top: 20px">
+          <label>4. Client 接收到的 Response 成果</label>
+          <textarea
+            id="resDisplay"
+            readonly
+            style="
+              height: 100px;
+              background: #0f172a;
+              border-color: #34d399;
+              color: #fff;
+            "
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title server-title">⚙️ Server (Spring Boot)</div>
+        <div class="server-status" id="serverStatus">
+          <div class="status-header">
+            Spring Boot Application Started on port 8080
+          </div>
+          等待接收請求...
+        </div>
+      </div>
+    </div>
+
+    <div id="virtualConsole" class="console-area">
+      <div class="log-msg">
+        <span class="log-time">[System]</span> 網路監聽已啟動，請操作 Client
+        面板發送請求。
+      </div>
+    </div>
+
+    <script>
+      const methodSelect = document.getElementById("httpMethod");
+      const reqBody = document.getElementById("reqBody");
+      const btnSend = document.getElementById("btnSend");
+      const serverStatus = document.getElementById("serverStatus");
+      const consoleDiv = document.getElementById("virtualConsole");
+      const resDisplay = document.getElementById("resDisplay");
+
+      // 切換 GET/POST 時的 UI 狀態
+      methodSelect.addEventListener("change", (e) => {
+        if (e.target.value === "GET") {
+          reqBody.disabled = true;
+          document.getElementById("apiUrl").value = "/api/students/101";
+        } else {
+          reqBody.disabled = false;
+          document.getElementById("apiUrl").value = "/api/students";
+        }
+      });
+
+      // 寫入控制台日誌
+      function printLog(msg, type = "") {
+        const time = new Date().toLocaleTimeString("en-US", {
+          hour12: false,
+          hour: "numeric",
+          minute: "numeric",
+          second: "numeric",
+        });
+        const line = document.createElement("div");
+        line.className = `log-msg ${type}`;
+        line.innerHTML = `<span class="log-time">[${time}]</span> ${msg}`;
+        consoleDiv.appendChild(line);
+        consoleDiv.scrollTop = consoleDiv.scrollHeight;
+      }
+
+      // JSON 語法高亮轉換器
+      function syntaxHighlight(json) {
+        if (typeof json != "string") {
+          json = JSON.stringify(json, undefined, 2);
+        }
+        json = json
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+        return json.replace(
+          /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
+          function (match) {
+            let cls = "json-number";
+            if (/^"/.test(match)) {
+              if (/:$/.test(match)) {
+                cls = "json-key";
+              } else {
+                cls = "json-string";
+              }
+            } else if (/true|false/.test(match)) {
+              cls = "json-string";
+            } else if (/null/.test(match)) {
+              cls = "json-string";
+            }
+            return '<span class="' + cls + '">' + match + "</span>";
+          },
+        );
+      }
+
+      // 模擬發送請求
+      btnSend.addEventListener("click", () => {
+        const method = methodSelect.value;
+        const url = document.getElementById("apiUrl").value;
+        let payload = null;
+
+        resDisplay.value = "等待伺服器回應...";
+        printLog(`[Front-End] 發起 HTTP ${method} 請求至 ${url}`, "log-req");
+
+        // POST JSON 格式檢查
+        if (method === "POST") {
+          try {
+            payload = JSON.parse(reqBody.value);
+            printLog(`[Front-End] JSON 負載解析成功，準備傳輸。`, "log-req");
+          } catch (e) {
+            printLog(
+              `[Front-End Error] JSON 格式錯誤！請求被中斷。`,
+              "log-err",
+            );
+            resDisplay.value = "Error: Invalid JSON Format in Request Body";
+            return;
+          }
+        }
+
+        // 模擬網路延遲與伺服器處理
+        serverStatus.innerHTML = `<div class="status-header">📡 處理中 (Processing)</div>正在攔截請求：${method} ${url}...`;
+        btnSend.disabled = true;
+
+        setTimeout(() => {
+          processServerLogic(method, url, payload);
+        }, 800);
+      });
+
+      // 模擬 Spring Boot 內部邏輯
+      function processServerLogic(method, url, payload) {
+        let responseObj = {};
+        let statusCode = 200;
+        let serverLog = `<div class="status-header">⚙️ Spring Boot Controller 解析結果</div>`;
+
+        if (method === "GET") {
+          // 模擬 @PathVariable
+          const match = url.match(/\/api\/students\/(\d+)/);
+          if (match) {
+            const studentId = match[1];
+            serverLog += `👉 命中 <b>@GetMapping("/api/students/{id}")</b><br>`;
+            serverLog += `👉 擷取 @PathVariable("id") = ${studentId}<br><br>`;
+            serverLog += `🔍 模擬資料庫查詢...找到學生資料。<br>`;
+
+            responseObj = {
+              status: "success",
+              data: { id: parseInt(studentId), name: "Alex Chen", grade: "A+" },
+            };
+          } else {
+            statusCode = 404;
+            responseObj = {
+              status: "error",
+              message: "404 Not Found: 無此路由",
+            };
+            serverLog += `❌ 找不到對應的 @GetMapping 路徑。`;
+          }
+        } else if (method === "POST") {
+          // 模擬 @RequestBody
+          if (url === "/api/students") {
+            serverLog += `👉 命中 <b>@PostMapping("/api/students")</b><br>`;
+            serverLog += `👉 透過 @RequestBody 自動將 JSON 轉換為 Java 物件：<br>`;
+            serverLog += `   Student [name=${payload.name}, major=${payload.major}]<br><br>`;
+            serverLog += `💾 模擬寫入資料庫...產生新 ID: 999<br>`;
+
+            statusCode = 201;
+            responseObj = {
+              status: "created",
+              newId: 999,
+              message: "學生新增成功",
+            };
+          } else {
+            statusCode = 404;
+            responseObj = { status: "error", message: "404 Not Found" };
+          }
+        }
+
+        // 準備 Response
+        serverLog += `<br>📤 將 Java 物件序列化為 JSON Response 回傳給前端：<br>`;
+        serverLog += syntaxHighlight(responseObj);
+        serverStatus.innerHTML = serverLog;
+
+        printLog(
+          `[Back-End] 處理完畢，回傳 HTTP Status ${statusCode}`,
+          statusCode === 200 || statusCode === 201 ? "log-res" : "log-err",
+        );
+
+        // 將結果送回前端
+        resDisplay.value = JSON.stringify(responseObj, null, 2);
+        btnSend.disabled = false;
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lab 6.1: Fetch API Solution | SE112</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8fafc;
+        margin: 0;
+        padding: 20px;
+      }
+      .mission_board {
+        background-color: #0f172a;
+        color: #f8fafc;
+        padding: 25px;
+        border-radius: 10px;
+        margin-bottom: 40px;
+        box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.3);
+      }
+      .mission_board h2 {
+        color: #34d399;
+        margin-top: 0;
+        border-bottom: 2px solid #334155;
+        padding-bottom: 10px;
+      }
+
+      /* App 樣式 */
+      .app-container {
+        max-width: 500px;
+        margin: 0 auto;
+        text-align: center;
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .btn-fetch {
+        background: #10b981;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.2s;
+        width: 100%;
+        margin-bottom: 20px;
+      }
+      .btn-fetch:hover {
+        background: #059669;
+        transform: scale(1.02);
+      }
+      .btn-fetch:disabled {
+        background: #94a3b8;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .img-display {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 8px;
+        background: #e2e8f0;
+        border: 2px dashed #cbd5e1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #64748b;
+        font-weight: bold;
+        margin-bottom: 15px;
+      }
+      .status-box {
+        background: #1e293b;
+        color: #a3e635;
+        padding: 15px;
+        border-radius: 6px;
+        font-family: monospace;
+        font-size: 14px;
+        text-align: left;
+        overflow-x: auto;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mission_board">
+      <h2>✅ Lab 6.1: 教授演示版 (Completed Solution)</h2>
+      <p style="color: #cbd5e1; font-size: 14px">
+        此版本已包含完整的 fetch() 非同步請求邏輯與 JSON
+        解析，可直接點擊下方按鈕測試真實的 API 連線。
+      </p>
+    </div>
+
+    <div class="app-container">
+      <button id="getDogBtn" class="btn-fetch">🐾 隨機召喚一隻狗狗</button>
+
+      <img id="dogImage" class="img-display" alt="等待召喚中..." src="" />
+
+      <div id="statusText" class="status-box">
+        [系統日誌]<br />
+        > 尚未發送請求...
+      </div>
+    </div>
+
+    <script>
+      // 目標 API 網址 (公開免費的狗狗圖片 API)
+      const API_URL = "https://dog.ceo/api/breeds/image/random";
+
+      // 選取 DOM 節點
+      const btn = document.getElementById("getDogBtn");
+      const img = document.getElementById("dogImage");
+      const statusText = document.getElementById("statusText");
+
+      // Step 1: 綁定點擊事件
+      btn.addEventListener("click", function () {
+        // 狀態初始化：讓使用者知道正在載入
+        btn.disabled = true;
+        btn.textContent = "⏳ 讀取中...";
+        img.src = "";
+        statusText.innerHTML =
+          "[系統日誌]<br>> 正在向 API 發送 GET 請求...<br>> URL: " + API_URL;
+
+        // Step 2 & 3 & 4: 完整 Fetch 邏輯
+        fetch(API_URL)
+          .then(function (response) {
+            // 檢查 HTTP 狀態碼是否為 200~299
+            if (!response.ok) {
+              throw new Error("HTTP 錯誤！狀態碼: " + response.status);
+            }
+            // 將回應的字串轉換為 JSON 物件
+            return response.json();
+          })
+          .then(function (data) {
+            // 成功取得 JSON 資料
+            console.log("從伺服器收到的資料：", data);
+
+            // 更新圖片 (API 回傳的格式為 {"message": "圖片網址", "status": "success"})
+            img.src = data.message;
+
+            // 更新狀態控制台
+            statusText.innerHTML =
+              "[系統日誌]<br>> 🟢 請求成功！(Status: 200)<br>> 取得 JSON:<br>> " +
+              JSON.stringify(data);
+          })
+          .catch(function (error) {
+            // 處理網路錯誤或解析錯誤
+            console.error("發生錯誤:", error);
+            statusText.innerHTML =
+              "[系統日誌]<br>> 🔴 發生錯誤！<br>> " + error.message;
+          })
+          .finally(function () {
+            // 不論成功或失敗，最後都將按鈕恢復原狀
+            btn.disabled = false;
+            btn.textContent = "🐾 隨機召喚一隻狗狗";
+          });
+      });
+    </script>
+  </body>
+</html>
