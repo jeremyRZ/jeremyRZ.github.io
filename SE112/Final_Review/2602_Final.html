@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <title>SE112 Web Technologies | Mock Exam E Master</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --sidebar-bg: #1e293b;
+            --card-bg: #1e293b;
+            --accent-color: #38bdf8;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --success-color: #10b981;
+            --warning-color: #facc15;
+            --danger-color: #ef4444;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* 側邊導覽列 */
+        .sidebar {
+            width: 300px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid #334155;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .sidebar-header {
+            margin-bottom: 30px;
+        }
+
+        .sidebar-header h1 {
+            font-size: 24px;
+            color: var(--accent-color);
+            margin: 0;
+        }
+
+        .sidebar-header p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin: 5px 0 0 0;
+        }
+
+        .nav-item {
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 1px solid transparent;
+            font-weight: 500;
+        }
+
+        .nav-item:hover {
+            background-color: #334155;
+        }
+
+        .nav-item.active {
+            background-color: #334155;
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        /* 主內容區 */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+            background-image: radial-gradient(circle at 50% 50%, #1e293b 0%, #0f172a 100%);
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .q-card {
+            background-color: var(--card-bg);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .q-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 10px;
+        }
+
+        .q-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--warning-color);
+        }
+
+        .q-marks {
+            background-color: #475569;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .q-body {
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        pre {
+            background-color: #020617;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            color: #d1d5db;
+            border: 1px solid #1e293b;
+            font-family: 'Consolas', monospace;
+        }
+
+        /* 教學重點區塊 */
+        .teaching-note {
+            background-color: rgba(56, 189, 248, 0.1);
+            border-left: 4px solid var(--accent-color);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .teaching-note b {
+            color: var(--accent-color);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* 答案控制 */
+        .answer-btn {
+            background-color: var(--accent-color);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .answer-btn:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+        }
+
+        .answer-content {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #020617;
+            border-radius: 8px;
+            border: 1px solid var(--success-color);
+            border-left: 4px solid var(--success-color);
+        }
+
+        .answer-content.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; margin-top: 0; }
+            to { opacity: 1; margin-top: 20px; }
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1>SE112 模擬考 E</h1>
+            <p>Macau University of Science and Technology</p>
+        </div>
+        
+        <div class="nav-item active" onclick="showSection('web')">✦ Web Essentials (45%)</div>
+        <div class="nav-item" onclick="showSection('js')">✦ JS Review (20%)</div>
+        <div class="nav-item" onclick="showSection('spring')">✦ Spring Boot (15%)</div>
+        <div class="nav-item" onclick="showSection('css')">✦ CSS Mastery (10%)</div>
+        <div class="nav-item" onclick="showSection('dom')">✦ Modern DOM (10%)</div>
+    </div>
+
+    <div class="main-content">
+        
+        <div id="web" class="section active">
+            <div class="q-card">
+                <div class="q-header">
+                    <span class="q-title">Q1: 網路基礎與 REST 診斷</span>
+                    <span class="q-marks">45 Marks</span>
+                </div>
+                <div class="teaching-note">
+                    <b>教授教學筆記：</b>
+                    • 重點在於讓學生區分「語法」與「設計規範」。
+                    • 強調 HTTP 無狀態特性（Statelessness）在現代開發中的挑戰。
+                </div>
+                <div class="q-body">
+                    <p>一名初級開發者寫了以下 HTTP 請求來更新密碼，但伺服器拒絕了：</p>
+                    <pre>
+1: GET /api/v1/updatePassword/99 HTTP/1.1
+2: Host: security.example.com
+3:
+4: { "newPassword": "secure123" }</pre>
+                </div>
+                <button class="answer-btn" onclick="toggleAnswer('ans-1')">顯示答案與解析</button>
+                <div id="ans-1" class="answer-content">
+                    <b>✦ 錯誤診斷與修正：</b>
+                    <ul>
+                        <li><b>錯誤一：</b> 動作錯誤。更新資料應使用 PUT 或 PATCH，而非 GET。GET 依法不應帶有 Body。</li>
+                        <li><b>錯誤二：</b> 缺少標頭。必須加上 ContentType: application/json 才能解析 JSON。</li>
+                        <li><b>修正代碼：</b>
+                            <pre>PUT /api/v1/updatePassword/99 HTTP/1.1
+ContentType: application/json
+
+{ "newPassword": "secure123" }</pre>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="js" class="section">
+            <div class="q-card">
+                <div class="q-header">
+                    <span class="q-title">Q2: JavaScript 邏輯審查</span>
+                    <span class="q-marks">20 Marks</span>
+                </div>
+                <div class="teaching-note">
+                    <b>教授教學筆記：</b>
+                    • 測驗學生是否理解 JS 預設將數字轉為字串進行排序的陷阱。
+                    • 正則表達式（RegExp）是前端開發的必備工具。
+                </div>
+                <div class="q-body">
+                    <p><b>2A:</b> 學生使用 `prices.sort()` 排序價格陣列 [25, 100, 5]，結果 100 出現在 25 前面。請解釋原因並修正。</p>
+                    <p><b>2B:</b> 寫出一個 RegExp 來驗證 ID 格式：以 MUST_ 開頭，後接四位數字，以感嘆號結尾。</p>
+                </div>
+                <button class="answer-btn" onclick="toggleAnswer('ans-2')">顯示答案與解析</button>
+                <div id="ans-2" class="answer-content">
+                    <b>✦ 2A 解析：</b>
+                    <p>JS 預設將數字轉為 Unicode 字串比較。"1" 的編碼比 "2" 小，所以 "100" < "25"。</p>
+                    <pre>prices.sort(function(a, b) { return b - a; });</pre>
+                    <b>✦ 2B 解析：</b>
+                    <pre>var regex = /^MUST_\d{4}!$/;</pre>
+                </div>
+            </div>
+        </div>
+
+        <div id="spring" class="section">
+            <div class="q-card">
+                <div class="q-header">
+                    <span class="q-title">Q3: Spring Boot API 設計</span>
+                    <span class="q-marks">15 Marks</span>
+                </div>
+                <div class="teaching-note">
+                    <b>教授教學筆記：</b>
+                    • 考核學生對註解（Annotations）的精準應用。
+                    • 注意 PathVariable 與 RequestBody 的區分。
+                </div>
+                <div class="q-body">
+                    <p>請為圖書館系統設計以下 API 的方法簽名與註解：</p>
+                    <ul>
+                        <li>1. 根據 ID 獲取書籍。</li>
+                        <li>2. 新增一本新書。</li>
+                        <li>3. 根據 ID 刪除書籍。</li>
+                    </ul>
+                </div>
+                <button class="answer-btn" onclick="toggleAnswer('ans-3')">顯示答案與解析</button>
+                <div id="ans-3" class="answer-content">
+                    <b>✦ 參考實作：</b>
+                    <pre>
+@GetMapping("/books/{id}")
+public ResponseEntity&lt;Book&gt; getBook(@PathVariable int id)
+
+@PostMapping("/books")
+public ResponseEntity&lt;String&gt; add(@RequestBody Book b)
+
+@DeleteMapping("/books/{id}")
+public ResponseEntity&lt;Void&gt; delete(@PathVariable int id)</pre>
+                </div>
+            </div>
+        </div>
+
+        <div id="css" class="section">
+            <div class="q-card">
+                <div class="q-header">
+                    <span class="q-title">Q4: CSS 權重戰場</span>
+                    <span class="q-marks">10 Marks</span>
+                </div>
+                <div class="teaching-note">
+                    <b>教授教學筆記：</b>
+                    • 權重計算公式：ID (100) > Class (10) > Element (1)。
+                    • 掌握 :not() 虛擬類別能大幅簡化 CSS 選取邏輯。
+                </div>
+                <div class="q-body">
+                    <p>若 HTML 為 `&lt;div id="box" class="active"&gt;`，且 CSS 中分別定義了標籤、類別與 ID 的背景色，哪一個會勝出？</p>
+                </div>
+                <button class="answer-btn" onclick="toggleAnswer('ans-4')">顯示答案與解析</button>
+                <div id="ans-4" class="answer-content">
+                    <b>✦ 優先級判定：</b>
+                    <p>最終顯示：<b>紅色 (Red)</b>。因為 ID 選擇器的權重最高。</p>
+                    <b>✦ 排除語法：</b>
+                    <pre>div span:not(.highlight) { color: green; }</pre>
+                </div>
+            </div>
+        </div>
+
+        <div id="dom" class="section">
+            <div class="q-card">
+                <div class="q-header">
+                    <span class="q-title">Q5: 現代 DOM 操作</span>
+                    <span class="q-marks">10 Marks</span>
+                </div>
+                <div class="teaching-note">
+                    <b>教授教學筆記：</b>
+                    • 強調「職責分離」，JS 邏輯應與 HTML 結構解耦。
+                    • 這是未來開發 React 或 Vue 等框架的基礎思維。
+                </div>
+                <div class="q-body">
+                    <p>請使用 addEventListener 方法，讓一個按鈕在滑鼠移入時變為紫色，移出時變回白色。</p>
+                </div>
+                <button class="answer-btn" onclick="toggleAnswer('ans-5')">顯示答案與解析</button>
+                <div id="ans-5" class="answer-content">
+                    <b>✦ 現代化實作代碼：</b>
+                    <pre>
+var btn = document.getElementById('myBtn');
+
+btn.addEventListener('mouseover', function() {
+    this.style.backgroundColor = 'purple';
+});
+
+btn.addEventListener('mouseout', function() {
+    this.style.backgroundColor = 'white';
+});</pre>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // 切換選單狀態
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+
+            // 切換內容顯示
+            document.querySelectorAll('.section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        function toggleAnswer(answerId) {
+            const content = document.getElementById(answerId);
+            const btn = event.currentTarget;
+            
+            if (content.classList.contains('show')) {
+                content.classList.remove('show');
+                btn.innerText = '顯示答案與解析';
+            } else {
+                content.classList.add('show');
+                btn.innerText = '隱藏答案';
+            }
+        }
+    </script>
+</body>
+</html>
