@@ -8,14 +8,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="generator" content="Wowchemy 5.7.0 for Hugo" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     <link
       rel="preload"
       as="style"
-      href="https://fonts.googleapis.com/css2?family=Cutive+Mono&family=Lora:wght@400;700&family=Roboto:wght@400;700&display=swap&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cutive+Mono&family=Lora:wght@400;700&family=Roboto:wght@400;700&display=swap"
     />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Cutive+Mono&family=Lora:wght@400;700&family=Roboto:wght@400;700&display=swap&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cutive+Mono&family=Lora:wght@400;700&family=Roboto:wght@400;700&display=swap"
       media="print"
       onload="this.media='all'"
     />
@@ -39,6 +40,12 @@
     />
 
     <style>
+      :root {
+        --rz-accent: #1565c0;
+        --rz-ink: #1a202c;
+        --rz-muted: #4a5568;
+      }
+
       .page-body {
         padding-top: 1.5rem;
         padding-bottom: 2.5rem;
@@ -67,7 +74,8 @@
         width: 48px;
         height: 3px;
         margin-top: 0.6rem;
-        background-color: #111827;
+        background: linear-gradient(90deg, var(--rz-accent), #42a5f5);
+        border-radius: 2px;
       }
 
       @media (prefers-color-scheme: dark) {
@@ -76,6 +84,7 @@
         }
       }
 
+      /* Latest publications -> card style with hover lift */
       .home-publications-list {
         display: flex;
         flex-direction: column;
@@ -85,31 +94,88 @@
       .home-publications-item {
         display: flex;
         align-items: flex-start;
+        gap: 0.75rem;
+        padding: 0.9rem 1.1rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        background: #ffffff;
+        transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+      }
+
+      .home-publications-item:hover {
+        box-shadow: 0 6px 18px rgba(21, 101, 192, 0.1);
+        transform: translateY(-2px);
+        border-color: #c3d4ec;
       }
 
       .home-publications-badge {
-        min-width: 70px;
-        font-weight: 600;
+        min-width: 64px;
+        font-weight: 700;
+        color: var(--rz-accent);
+        background: #e8f1fb;
+        border-radius: 6px;
+        padding: 0.15rem 0.4rem;
+        text-align: center;
+        align-self: flex-start;
+        white-space: nowrap;
+      }
+
+      .home-publications-content {
+        flex: 1;
+        min-width: 0;
       }
 
       .home-publications-content .pub-title {
         font-weight: 600;
         margin-bottom: 0.25rem;
+        line-height: 1.4;
       }
 
       .home-publications-content .pub-meta {
         font-size: 0.9rem;
+        color: var(--rz-muted);
         margin-bottom: 0.25rem;
       }
 
       .home-publications-content .pub-venue {
         font-size: 0.9rem;
+        color: var(--rz-ink);
         margin-bottom: 0.25rem;
       }
 
       .home-publications-content .pub-links .btn {
         margin-right: 0.25rem;
         margin-top: 0.25rem;
+        transition: all 0.2s ease;
+      }
+
+      @media (max-width: 575.98px) {
+        .home-publications-item {
+          flex-direction: column;
+          gap: 0.4rem;
+        }
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --rz-ink: #e2e8f0;
+          --rz-muted: #a0aec0;
+        }
+        .home-publications-item {
+          background: #1a202c;
+          border-color: #2d3748;
+        }
+        .home-publications-item:hover {
+          border-color: #4a5568;
+          box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+        }
+        .home-publications-badge {
+          color: #90cdf4;
+          background: #1a365d;
+        }
+        .text-muted.border-left {
+          border-left-color: #4a5568 !important;
+        }
       }
     </style>
     <link
@@ -177,7 +243,7 @@
 
     <meta name="author" content="Rui ZHAO" />
 
-    <meta name="description" content="Rui ZHAO&#39;s Homepage" />
+    <meta name="description" content="Rui ZHAO is an Assistant Professor at Macau University of Science and Technology, researching blockchain, artificial intelligence, and digital twins for the construction industry." />
 
     <link rel="alternate" hreflang="en-us" href="https://jeremyRZ.github.io/" />
     <link rel="canonical" href="https://jeremyRZ.github.io/" />
@@ -198,9 +264,6 @@
     <meta name="theme-color" content="#1565c0" />
 
     <meta property="twitter:card" content="summary" />
-
-    <meta property="twitter:site" content="@Rui ZHAO" />
-    <meta property="twitter:creator" content="@Rui ZHAO" />
     <meta
       property="twitter:image"
       content="https://jeremyRZ.github.io/media/Web_Logo.png"
@@ -208,14 +271,12 @@
     <meta property="og:site_name" content="Rui ZHAO&#39;s homepage" />
     <meta property="og:url" content="https://jeremyRZ.github.io/" />
     <meta property="og:title" content="Rui ZHAO&#39;s homepage" />
-    <meta property="og:description" content="Rui ZHAO&#39;s Homepage" />
+    <meta property="og:description" content="Rui ZHAO is an Assistant Professor at Macau University of Science and Technology, researching blockchain, artificial intelligence, and digital twins for the construction industry." />
     <meta
       property="og:image"
       content="https://jeremyRZ.github.io/media/Web_Logo.png"
     />
     <meta property="og:locale" content="en-us" />
-
-    <meta property="og:updated_time" content="2022-10-24T00:00:00&#43;00:00" />
 
     <script type="application/ld+json">
       {
@@ -263,8 +324,6 @@
     data-wc-page-id="3976528693a0108357f4928017600865"
   >
     <script src="/js/wowchemy-init.min.ec9d49ca50e4b80bdb08f0417a28ed84.js"></script>
-
-    
 
     <div class="page-header header--fixed">
       <header>
@@ -349,7 +408,7 @@
                       target="_blank"
                       rel="noopener"
                     >
-                      <span>Macau University of Sciecne and Technology (MUST)</span>
+                      <span>Macau University of Science and Technology (MUST)</span>
                     </a>
                   </h3>
                 </div>
@@ -543,7 +602,7 @@
                     </ul>
                   </div>
                 </div>
-                <p class="mt-4 text-muted border-left pl-3 italic">
+                <p class="mt-4 text-muted border-left pl-3 font-italic">
                   <i class="fas fa-info-circle mr-2"></i>
                   Interested candidates please refer to the <strong>contact information in the sidebar</strong> to send your CV, transcript, and links to representative projects or papers.
                 </p>
@@ -623,13 +682,7 @@
                           target="_blank"
                           >PDF</a
                         >
-                        <a
-                          class="btn btn-outline-primary btn-page-header btn-sm"
-                          href="https://doi.org/10.xxxx/yyyy"
-                          target="_blank"
-                          >DOI</a
-                        >
-                      </div>
+                        </div>
                     </div>
                   </div>
 
