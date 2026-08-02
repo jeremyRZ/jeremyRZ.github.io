@@ -161,6 +161,86 @@
           margin-left: auto;
         }
       }
+                /* ===== Design polish — Emil Kowalski principles ===== */
+            :root {
+              --rz-ease: cubic-bezier(0.23, 1, 0.32, 1);     /* strong ease-out */
+              --rz-ease-io: cubic-bezier(0.77, 0, 0.175, 1); /* ease-in-out */
+            }
+      
+            html { scroll-behavior: smooth; }
+            @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+      
+            /* Navbar: subtle elevation once the page is scrolled */
+            .navbar {
+              transition: box-shadow 240ms var(--rz-ease), background-color 240ms var(--rz-ease);
+            }
+            .navbar.is-scrolled {
+              box-shadow: 0 8px 28px rgba(13, 42, 82, 0.12);
+            }
+      
+            /* Nav links: calm color shift + press feedback */
+            .nav-link { transition: color 200ms var(--rz-ease); }
+            @media (hover: hover) and (pointer: fine) {
+              .nav-link:hover { color: #1565c0; }
+            }
+            .nav-link:active { transform: scale(0.97); }
+      
+            /* Buttons: instant press feedback, restrained hover lift */
+            .btn {
+              transition: transform 160ms var(--rz-ease), box-shadow 160ms var(--rz-ease),
+                background-color 160ms var(--rz-ease), border-color 160ms var(--rz-ease);
+            }
+            .btn:active { transform: scale(0.97); }
+            @media (hover: hover) and (pointer: fine) {
+              .btn:hover { box-shadow: 0 6px 18px rgba(21, 101, 192, 0.22); }
+            }
+      
+            /* Focus ring for keyboard users */
+            a:focus-visible,
+            .btn:focus-visible,
+            .nav-link:focus-visible {
+              outline: 2px solid #1565c0;
+              outline-offset: 2px;
+              border-radius: 4px;
+            }
+      
+            /* Publication cards: custom-eased hover + press feedback */
+            .home-publications-item {
+              transition: transform 240ms var(--rz-ease), box-shadow 240ms var(--rz-ease),
+                border-color 240ms var(--rz-ease);
+              will-change: transform;
+            }
+            @media (hover: hover) and (pointer: fine) {
+              .home-publications-item:hover { transform: translateY(-3px); }
+            }
+            .home-publications-item:active { transform: scale(0.99); }
+            .home-publications-content .pub-links .btn {
+              transition: transform 160ms var(--rz-ease), box-shadow 160ms var(--rz-ease),
+                background-color 160ms var(--rz-ease), border-color 160ms var(--rz-ease);
+            }
+      
+            /* Section scroll-reveal (JS adds .is-visible) */
+            html.js .rz-reveal {
+              opacity: 0;
+              transform: translateY(16px);
+              transition: opacity 520ms var(--rz-ease), transform 520ms var(--rz-ease);
+              will-change: opacity, transform;
+            }
+            html.js .rz-reveal.is-visible {
+              opacity: 1;
+              transform: none;
+            }
+      
+            @media (prefers-reduced-motion: reduce) {
+              html.js .rz-reveal,
+              html.js .rz-reveal.is-visible {
+                opacity: 1 !important;
+                transform: none !important;
+                transition: none !important;
+              }
+              .home-publications-item:hover,
+              .btn:hover { transform: none; }
+            }
     </style>
   </head>
 
@@ -321,5 +401,40 @@
     ></script>
 
     <script src="/en/js/wowchemy.min.85070d5fe00d43eaedff44310b81dc2c.js"></script>
-  </body>
+      <script>
+      // Mark JS available so reveal styles apply only when supported (no-JS keeps content visible)
+      document.documentElement.classList.add('js');
+
+      // Navbar elevation on scroll
+      (function () {
+        var nav = document.querySelector('.navbar');
+        if (!nav) return;
+        var onScroll = function () {
+          nav.classList.toggle('is-scrolled', window.scrollY > 8);
+        };
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+      })();
+
+      // Section scroll-reveal (respects prefers-reduced-motion in CSS)
+      (function () {
+        var sections = document.querySelectorAll('.home-section');
+        sections.forEach(function (s) { s.classList.add('rz-reveal'); });
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduce || !('IntersectionObserver' in window)) {
+          sections.forEach(function (s) { s.classList.add('is-visible'); });
+          return;
+        }
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) {
+              e.target.classList.add('is-visible');
+              io.unobserve(e.target);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+        sections.forEach(function (s) { io.observe(s); });
+      })();
+    </script>
+</body>
 </html>
