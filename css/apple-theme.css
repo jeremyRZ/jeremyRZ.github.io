@@ -1,0 +1,264 @@
+/* ============================================================
+   Apple Design System — reskin layer for jeremyRZ.github.io
+   Loaded LAST so it overrides Wowchemy defaults.
+   Inspired by Apple.com: SF Pro system font, #f5f5f7 canvas,
+   #0071e3 blue, frosted-glass nav, restrained motion.
+   ============================================================ */
+
+:root {
+  --apple-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+    "SF Pro Text", "Helvetica Neue", "Segoe UI", Roboto,
+    "PingFang SC", "Microsoft YaHei", sans-serif;
+  --apple-mono: SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+
+  --apple-bg: #f5f5f7;
+  --apple-bg-elevated: #ffffff;
+  --apple-text: #1d1d1f;
+  --apple-text-secondary: #6e6e73;
+  --apple-text-tertiary: #86868b;
+  --apple-blue: #0071e3;
+  --apple-blue-hover: #0077ed;
+  --apple-blue-active: #006edb;
+  --apple-border: #d2d2d7;
+  --apple-blue-tint: rgba(0, 113, 227, 0.1);
+  --apple-nav-bg: rgba(255, 255, 255, 0.72);
+  --apple-nav-border: rgba(0, 0, 0, 0.08);
+  --apple-card-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+
+  --apple-radius-lg: 22px;
+  --apple-radius-md: 18px;
+  --apple-radius-sm: 12px;
+  --apple-radius-pill: 980px;
+  --apple-ease: cubic-bezier(0.32, 0.72, 0, 1); /* Apple spring-ish ease */
+
+  /* override legacy inline tokens so existing cards/badges go Apple-blue */
+  --rz-accent: #0071e3;
+  --rz-ink: #1d1d1f;
+  --rz-muted: #6e6e73;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --apple-bg: #000000;
+    --apple-bg-elevated: #1d1d1f;
+    --apple-text: #f5f5f7;
+    --apple-text-secondary: #a1a1a6;
+    --apple-text-tertiary: #86868b;
+    --apple-blue: #2997ff;
+    --apple-blue-hover: #2997ff;
+    --apple-blue-active: #2997ff;
+    --apple-border: #38383a;
+    --apple-blue-tint: rgba(41, 151, 255, 0.16);
+    --apple-nav-bg: rgba(22, 22, 23, 0.72);
+    --apple-nav-border: rgba(255, 255, 255, 0.12);
+    --apple-card-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+
+    --rz-ink: #f5f5f7;
+    --rz-muted: #a1a1a6;
+  }
+}
+
+/* ---------- Typography: uniform sans, optical tracking ---------- */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--apple-sans) !important;
+  background-color: var(--apple-bg);
+  color: var(--apple-text);
+  letter-spacing: -0.011em;
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, h6,
+.home-section h1, .home-section h2, .home-section h3,
+.article-style, .article-style p,
+.portrait-title h2, .portrait-title h3,
+.navbar-brand, .nav-link, p, a, li,
+.card-title, .card-text, .section-heading {
+  font-family: var(--apple-sans) !important;
+}
+
+h1, .home-section h1 {
+  font-size: clamp(2rem, 3.4vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+h2, .home-section h2 {
+  font-size: clamp(1.7rem, 2.8vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+}
+h3 {
+  font-weight: 600;
+  letter-spacing: -0.012em;
+}
+
+/* ---------- Links ---------- */
+a {
+  color: var(--apple-blue);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.article-style a,
+.home-section a:not(.btn):not(.nav-link):not(.network-icon a) {
+  color: var(--apple-blue);
+}
+
+/* ---------- Navbar: frosted-glass material ---------- */
+.page-header.header--fixed {
+  background: transparent !important;
+}
+.navbar,
+.page-header.header--fixed .navbar {
+  background: var(--apple-nav-bg) !important;
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--apple-nav-border) !important;
+  box-shadow: none !important;
+}
+.navbar.is-scrolled {
+  box-shadow: 0 1px 0 var(--apple-nav-border) !important;
+}
+.navbar-brand {
+  font-weight: 600 !important;
+  letter-spacing: -0.012em;
+  color: var(--apple-text) !important;
+  font-size: 1.18rem;
+}
+.nav-link {
+  color: var(--apple-text-secondary) !important;
+  font-weight: 400;
+  font-size: 0.95rem;
+}
+.nav-link:hover {
+  color: var(--apple-text) !important;
+  text-decoration: none;
+}
+
+/* ---------- Buttons: Apple pill ---------- */
+.btn {
+  border-radius: var(--apple-radius-pill) !important;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  padding: 0.5rem 1.45rem;
+  transition: background-color 200ms var(--apple-ease),
+    border-color 200ms var(--apple-ease), color 200ms var(--apple-ease),
+    transform 120ms var(--apple-ease), box-shadow 200ms var(--apple-ease) !important;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn-primary {
+  background-color: var(--apple-blue) !important;
+  border-color: var(--apple-blue) !important;
+  color: #fff !important;
+}
+.btn-primary:hover {
+  background-color: var(--apple-blue-hover) !important;
+  border-color: var(--apple-blue-hover) !important;
+  box-shadow: 0 4px 14px rgba(0, 113, 227, 0.3);
+}
+.btn-outline-primary {
+  background-color: transparent !important;
+  border-color: var(--apple-blue) !important;
+  color: var(--apple-blue) !important;
+}
+.btn-outline-primary:hover {
+  background-color: var(--apple-blue) !important;
+  border-color: var(--apple-blue) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 14px rgba(0, 113, 227, 0.3);
+}
+
+/* ---------- Cards & publication items ---------- */
+.home-publications-item,
+.card,
+.featured-card {
+  background: var(--apple-bg-elevated) !important;
+  border: 1px solid var(--apple-border) !important;
+  border-radius: var(--apple-radius-md) !important;
+  box-shadow: none !important;
+}
+.home-publications-item:hover {
+  box-shadow: var(--apple-card-shadow) !important;
+  transform: translateY(-3px);
+  border-color: var(--apple-border) !important;
+}
+.home-publications-badge {
+  color: var(--apple-blue) !important;
+  background: var(--apple-blue-tint) !important;
+  font-weight: 600;
+}
+.home-publications-content .pub-title {
+  color: var(--apple-text);
+}
+.home-publications-content .pub-meta,
+.home-publications-content .pub-venue {
+  color: var(--apple-text-secondary);
+}
+
+/* ---------- Section rhythm: generous whitespace ---------- */
+.home-section {
+  padding-top: 5rem !important;
+  padding-bottom: 5rem !important;
+}
+.home-section.wg-about {
+  max-width: 1040px;
+}
+.page-body {
+  padding-top: 2rem;
+}
+
+/* ---------- About / profile ---------- */
+.avatar.avatar-circle {
+  border-radius: 50%;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+}
+.portrait-title h2 {
+  font-size: clamp(2.2rem, 3.6vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--apple-text);
+}
+.portrait-title h3 {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--apple-text-secondary);
+  line-height: 1.4;
+}
+.network-icon a {
+  color: var(--apple-text-secondary);
+  transition: color 180ms var(--apple-ease), transform 180ms var(--apple-ease);
+}
+.network-icon a:hover {
+  color: var(--apple-blue);
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+.article-style {
+  color: var(--apple-text-secondary);
+  font-size: 1.06rem;
+  line-height: 1.7;
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  .btn:active,
+  .home-publications-item:hover,
+  .network-icon a:hover {
+    transform: none !important;
+  }
+}
