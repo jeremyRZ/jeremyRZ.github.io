@@ -129,6 +129,31 @@ a:hover {
 .navbar.is-scrolled {
   box-shadow: 0 1px 0 var(--apple-nav-border) !important;
 }
+
+/* ---------- Inline list marker: neutral Apple-blue dot (replaces bright check/star) ---------- */
+ul.fa-ul.rz-list {
+  margin-left: 0.05rem;
+}
+ul.fa-ul.rz-list li {
+  position: relative;
+  padding-left: 0.15rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.55;
+}
+.rz-bullet {
+  position: absolute !important;
+  left: -1.25rem;
+  top: 0.62em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--apple-accent);
+  opacity: 0.85;
+}
+.dark .rz-bullet {
+  background: #64a8ff;
+  opacity: 0.9;
+}
 .navbar-brand {
   font-weight: 600 !important;
   letter-spacing: -0.012em;
