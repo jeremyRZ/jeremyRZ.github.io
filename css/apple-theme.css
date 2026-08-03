@@ -138,23 +138,20 @@ ul.rz-list {
 }
 ul.rz-list li {
   position: relative;
-  padding-left: 0.15rem;
+  padding-left: 0;
   margin-bottom: 0.55rem;
   line-height: 1.55;
 }
-.rz-bullet {
+ul.rz-list li::before {
+  content: "";
   display: inline-block;
-  width: 6px;
-  height: 6px;
-  margin-right: 0.55rem;
-  vertical-align: 0.16em;
+  width: 7px;
+  height: 7px;
+  margin-right: 0.6rem;
   border-radius: 50%;
   background: var(--apple-blue);
-  opacity: 0.9;
-}
-.dark .rz-bullet {
-  background: #64a8ff;
-  opacity: 0.95;
+  vertical-align: 0.12em;
+  flex: none;
 }
 .navbar-brand {
   font-weight: 600 !important;
