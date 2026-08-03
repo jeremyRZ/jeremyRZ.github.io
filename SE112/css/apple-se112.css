@@ -1,0 +1,111 @@
+/* ============================================================
+   Apple Design System — SE112 Course Pages Override
+   Works alongside Tailwind CSS without breaking layouts.
+   Brings SF Pro fonts, Apple colors, smooth motion, clean UI.
+   ============================================================ */
+
+:root {
+  --apple-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+    "SF Pro Text", "Helvetica Neue", "Segoe UI", "PingFang SC",
+    "Microsoft YaHei", sans-serif;
+  --apple-bg: #f5f5f7;
+  --apple-surface: #ffffff;
+  --apple-text: #1d1d1f;
+  --apple-text-secondary: #6e6e73;
+  --apple-blue: #0071e3;
+  --apple-blue-soft: rgba(0, 113, 227, 0.08);
+  --apple-border: #d2d2d7;
+  --apple-radius: 16px;
+  --apple-ease: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* ---------- Typography: SF Pro system ---------- */
+body {
+  font-family: var(--apple-sans) !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.01em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--apple-sans) !important;
+  letter-spacing: -0.02em;
+}
+
+/* ---------- Color overrides (soften harsh Tailwind defaults) ---------- */
+.bg-slate-100 { background-color: var(--apple-bg) !important; }
+.dark .bg-slate-900,
+.dark body { background-color: #000000 !important; }
+
+.text-slate-400 { color: var(--apple-text-secondary) !important; }
+.text-blue-400 { color: var(--apple-blue) !important; }
+.text-blue-600 { color: var(--apple-blue) !important; }
+
+/* ---------- Borders & cards: softer, more Apple ---------- */
+.border-blue-500 { border-color: var(--apple-blue) !important; }
+.border-b-4 { border-bottom-width: 2px !important; }
+
+/* Card hover: smoother lift */
+.card-hover {
+  transition: transform 280ms var(--apple-ease),
+    box-shadow 280ms var(--apple-ease) !important;
+}
+.card-hover:hover {
+  transform: translateY(-4px) !important;
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.08),
+    0 4px 12px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* ---------- Header / navbar: frosted glass ---------- */
+header[class*="bg-pattern"],
+header[class*="bg-"] {
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* ---------- Buttons: Apple pill + smooth press ---------- */
+button, .btn, [role="button"] {
+  transition: background-color 200ms var(--apple-ease),
+    transform 120ms var(--apple-ease), box-shadow 200ms var(--apple-ease);
+  border-radius: 980px !important;
+}
+button:active, .btn:active {
+  transform: scale(0.97);
+}
+
+/* ---------- Links: subtle underline on hover ---------- */
+a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---------- Code blocks: warmer bg ---------- */
+pre, code, .bg-gray-900 {
+  border-radius: var(--apple-radius) !important;
+}
+
+/* ---------- Tables: clean lines ---------- */
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+th, td {
+  border-bottom: 1px solid var(--apple-border) !important;
+}
+
+/* ---------- Inputs: Apple-style focus ring ---------- */
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--apple-blue-soft), 0 0 0 1px var(--apple-blue);
+  border-color: var(--apple-blue) !important;
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

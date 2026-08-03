@@ -149,7 +149,8 @@ ul.rz-list li::before {
   height: 7px;
   margin-right: 0.6rem;
   border-radius: 50%;
-  background: var(--apple-blue);
+  background: var(--apple-text);
+  opacity: 0.7;
   vertical-align: 0.12em;
   flex: none;
 }
@@ -273,6 +274,19 @@ ul.rz-list li::before {
   color: var(--apple-text-secondary);
   font-size: 1.06rem;
   line-height: 1.7;
+}
+
+/* ---------- FA icons: unified Apple gray (no brand colors) ---------- */
+.fa-ul .fa-li,
+.article-style .fas,
+.article-style .far,
+.section-subheading .fas {
+  color: var(--apple-text-secondary) !important;
+}
+.text-primary.fas,
+.text-primary.far,
+.text-primary.fab {
+  color: var(--apple-text-secondary) !important;
 }
 
 /* ---------- Reduced motion ---------- */
