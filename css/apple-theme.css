@@ -131,28 +131,30 @@ a:hover {
 }
 
 /* ---------- Inline list marker: neutral Apple-blue dot (replaces bright check/star) ---------- */
-ul.fa-ul.rz-list {
-  margin-left: 0.05rem;
+ul.rz-list {
+  list-style: none;
+  padding-left: 0;
+  margin-left: 0;
 }
-ul.fa-ul.rz-list li {
+ul.rz-list li {
   position: relative;
   padding-left: 0.15rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.55rem;
   line-height: 1.55;
 }
 .rz-bullet {
-  position: absolute !important;
-  left: -1.25rem;
-  top: 0.62em;
+  display: inline-block;
   width: 6px;
   height: 6px;
+  margin-right: 0.55rem;
+  vertical-align: 0.16em;
   border-radius: 50%;
   background: var(--apple-accent);
-  opacity: 0.85;
+  opacity: 0.9;
 }
 .dark .rz-bullet {
   background: #64a8ff;
-  opacity: 0.9;
+  opacity: 0.95;
 }
 .navbar-brand {
   font-weight: 600 !important;
