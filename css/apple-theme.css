@@ -149,7 +149,7 @@ ul.rz-list li {
   margin-right: 0.55rem;
   vertical-align: 0.16em;
   border-radius: 50%;
-  background: var(--apple-accent);
+  background: var(--apple-blue);
   opacity: 0.9;
 }
 .dark .rz-bullet {
