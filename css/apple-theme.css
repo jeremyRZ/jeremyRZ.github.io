@@ -289,6 +289,138 @@ ul.rz-list li::before {
   color: var(--apple-text-secondary) !important;
 }
 
+/* ---------- Join My Lab: Apple-style recruit section ---------- */
+.recruit-wrapper {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.recruit-hero {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+#recruit .recruit-hero h1 {
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  letter-spacing: -0.03em;
+  margin-bottom: 0.5rem;
+}
+.recruit-hero-sub {
+  font-size: 1.05rem;
+  color: var(--apple-text-secondary);
+  margin: 0;
+  line-height: 1.45;
+}
+.recruit-divider {
+  width: 44px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--apple-blue), #5ac8fa);
+  border-radius: 2px;
+  margin: 1.6rem auto 0;
+}
+
+.recruit-body {
+  text-align: left;
+}
+
+.recruit-intro {
+  font-size: 1rem;
+  color: var(--apple-text-secondary);
+  margin-bottom: 2rem;
+  line-height: 1.65;
+}
+
+.recruit-section-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--apple-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 0.85rem;
+}
+
+/* Positions: clean list rows */
+.recruit-position-list {
+  margin-bottom: 2.2rem;
+}
+.recruit-position-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 0.5px solid var(--apple-border);
+}
+.recruit-position-item--last {
+  border-bottom: none;
+}
+.recruit-pos-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--apple-blue-tint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 13px;
+  color: var(--apple-blue);
+}
+.recruit-pos-text {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--apple-text);
+}
+
+/* Requirements: label + description flow */
+.recruit-req-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+.recruit-req-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--apple-text);
+  margin: 0 0 3px;
+  letter-spacing: -0.01em;
+}
+.recruit-req-desc {
+  font-size: 0.92rem;
+  color: var(--apple-text-secondary);
+  margin: 0;
+  line-height: 1.58;
+}
+
+/* CTA box */
+.recruit-cta {
+  background: var(--apple-bg);
+  border-radius: var(--apple-radius-md);
+  padding: 16px 20px;
+  margin-top: 8px;
+}
+.recruit-cta p {
+  font-size: 0.93rem;
+  color: var(--apple-text-secondary);
+  margin: 0;
+  line-height: 1.55;
+}
+.recruit-cta strong {
+  color: var(--apple-text);
+}
+
+/* Mobile: slightly tighter */
+@media (max-width: 768px) {
+  .recruit-wrapper {
+    max-width: 100%;
+  }
+  .recruit-hero {
+    margin-bottom: 1.5rem;
+  }
+  .recruit-req-list {
+    gap: 1rem;
+  }
+}
+
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   html {
