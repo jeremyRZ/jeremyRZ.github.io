@@ -327,8 +327,8 @@ ul.rz-list li::before {
 }
 #recruit .recruit-pills {
   display: flex !important;
-  flex-wrap: wrap !important;
-  gap: 8px !important;
+  flex-wrap: nowrap !important;
+  gap: 10px !important;
   list-style: none !important;
   padding: 0 !important;
   margin: 0 !important;
@@ -336,15 +336,17 @@ ul.rz-list li::before {
 #recruit .recruit-pill {
   display: inline-flex !important;
   align-items: center !important;
+  justify-content: center !important;
   background: var(--apple-bg-elevated) !important;
   border: 1px solid var(--apple-border) !important;
   border-radius: 8px !important;
-  padding: 7px 14px !important;
+  padding: 9px 14px !important;
   font-size: 0.88rem !important;
   font-weight: 500 !important;
   color: var(--apple-text) !important;
   text-decoration: none !important;
   transition: border-color 180ms var(--apple-ease), transform 150ms var(--apple-ease) !important;
+  flex: 1 1 0 !important;
 }
 #recruit .recruit-pill:hover {
   border-color: var(--apple-blue) !important;
