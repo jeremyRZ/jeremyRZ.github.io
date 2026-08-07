@@ -189,6 +189,23 @@ ul.rz-list li::before {
   color: var(--apple-text) !important;
   text-decoration: none;
 }
+.nav-link span {
+  position: relative;
+  display: inline-block;
+}
+.nav-link span::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -0.35rem;
+  left: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--apple-blue);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 180ms var(--apple-ease);
+}
 .nav-item.active .nav-link,
 .nav-link.active {
   color: var(--apple-text) !important;
@@ -266,10 +283,13 @@ ul.rz-list li::before {
   padding-top: 5rem !important;
   padding-bottom: 5rem !important;
 }
-.home-section.wg-about,
-.home-section.wg-about-biography {
+.home-section.wg-about {
   max-width: 1040px;
   margin-inline: auto;
+}
+.home-section.wg-about-biography {
+  max-width: none;
+  width: 100%;
 }
 .page-body {
   padding-top: 2rem;
@@ -559,6 +579,13 @@ ul.rz-list li::before {
 }
 
 @media (hover: hover) and (pointer: fine) {
+  .nav-link:hover span::after,
+  .nav-item.active .nav-link span::after,
+  .nav-link.active span::after {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+
   .home-publications-item:hover,
   .pub-list-item.view-citation:hover {
     transform: translateY(-2px);
@@ -604,8 +631,36 @@ html.js .wg-about-biography.rz-reveal .col-lg-8 {
   transition-delay: 90ms;
 }
 
+html.js .wg-about-biography.rz-reveal .avatar.avatar-circle {
+  transform: scale(0.96);
+  transition: transform 520ms var(--apple-ease),
+    box-shadow 240ms var(--apple-ease);
+}
+
+html.js .wg-about-biography.rz-reveal .network-icon li {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 260ms var(--apple-ease),
+    transform 260ms var(--apple-ease);
+}
+
+html.js .wg-about-biography.rz-reveal .network-icon li:nth-child(1) { transition-delay: 150ms; }
+html.js .wg-about-biography.rz-reveal .network-icon li:nth-child(2) { transition-delay: 195ms; }
+html.js .wg-about-biography.rz-reveal .network-icon li:nth-child(3) { transition-delay: 240ms; }
+html.js .wg-about-biography.rz-reveal .network-icon li:nth-child(4) { transition-delay: 285ms; }
+html.js .wg-about-biography.rz-reveal .network-icon li:nth-child(5) { transition-delay: 330ms; }
+
 html.js .wg-about-biography.rz-reveal.is-visible #profile,
 html.js .wg-about-biography.rz-reveal.is-visible .col-lg-8 {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+html.js .wg-about-biography.rz-reveal.is-visible .avatar.avatar-circle {
+  transform: scale(1);
+}
+
+html.js .wg-about-biography.rz-reveal.is-visible .network-icon li {
   opacity: 1;
   transform: translateY(0);
 }
@@ -689,10 +744,15 @@ html.js .wg-about-biography.rz-reveal.is-visible .col-lg-8 {
   html.js .rz-reveal,
   html.js .rz-reveal.is-visible,
   html.js .wg-about-biography.rz-reveal #profile,
-  html.js .wg-about-biography.rz-reveal .col-lg-8 {
+  html.js .wg-about-biography.rz-reveal .col-lg-8,
+  html.js .wg-about-biography.rz-reveal .avatar.avatar-circle,
+  html.js .wg-about-biography.rz-reveal .network-icon li {
     opacity: 1 !important;
     transform: none !important;
     clip-path: none !important;
+    transition: none !important;
+  }
+  .nav-link span::after {
     transition: none !important;
   }
 }
