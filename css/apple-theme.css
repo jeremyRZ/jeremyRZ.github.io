@@ -12,30 +12,31 @@
   --apple-mono: SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
 
-  --apple-bg: #f5f5f7;
+  --apple-bg: #f7f8fa;
   --apple-bg-elevated: #ffffff;
-  --apple-text: #1d1d1f;
-  --apple-text-secondary: #6e6e73;
-  --apple-text-tertiary: #86868b;
-  --apple-blue: #0071e3;
-  --apple-blue-hover: #0077ed;
-  --apple-blue-active: #006edb;
-  --apple-border: #d2d2d7;
-  --apple-blue-tint: rgba(0, 113, 227, 0.1);
+  --apple-text: #111827;
+  --apple-text-secondary: #4b5563;
+  --apple-text-tertiary: #6b7280;
+  --apple-blue: #2563eb;
+  --apple-blue-hover: #1d4ed8;
+  --apple-blue-active: #1e40af;
+  --apple-border: #e1e5eb;
+  --apple-blue-tint: rgba(37, 99, 235, 0.09);
   --apple-nav-bg: rgba(255, 255, 255, 0.72);
   --apple-nav-border: rgba(0, 0, 0, 0.08);
-  --apple-card-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  --apple-card-shadow: 0 14px 36px rgba(15, 23, 42, 0.09);
 
-  --apple-radius-lg: 22px;
-  --apple-radius-md: 18px;
+  --apple-radius-lg: 20px;
+  --apple-radius-md: 16px;
   --apple-radius-sm: 12px;
   --apple-radius-pill: 980px;
-  --apple-ease: cubic-bezier(0.32, 0.72, 0, 1); /* Apple spring-ish ease */
+  --apple-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --apple-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 
   /* override legacy inline tokens so existing cards/badges go Apple-blue */
-  --rz-accent: #0071e3;
-  --rz-ink: #1d1d1f;
-  --rz-muted: #6e6e73;
+  --rz-accent: #2563eb;
+  --rz-ink: #111827;
+  --rz-muted: #4b5563;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -109,6 +110,25 @@ a:hover {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.35);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+::selection {
+  color: var(--apple-text);
+  background: rgba(37, 99, 235, 0.2);
+}
+
+html {
+  scrollbar-color: var(--apple-text-tertiary) var(--apple-bg);
+  scrollbar-width: thin;
+}
 .article-style a,
 .home-section a:not(.btn):not(.nav-link):not(.network-icon a) {
   color: var(--apple-blue);
@@ -169,6 +189,11 @@ ul.rz-list li::before {
   color: var(--apple-text) !important;
   text-decoration: none;
 }
+.nav-item.active .nav-link,
+.nav-link.active {
+  color: var(--apple-text) !important;
+  font-weight: 600;
+}
 
 /* ---------- Buttons: Apple pill ---------- */
 .btn {
@@ -214,6 +239,10 @@ ul.rz-list li::before {
   border-radius: var(--apple-radius-md) !important;
   box-shadow: none !important;
 }
+.home-publications-item {
+  transition: transform 260ms var(--apple-ease),
+    box-shadow 260ms var(--apple-ease), border-color 180ms ease !important;
+}
 .home-publications-item:hover {
   box-shadow: var(--apple-card-shadow) !important;
   transform: translateY(-3px);
@@ -237,8 +266,10 @@ ul.rz-list li::before {
   padding-top: 5rem !important;
   padding-bottom: 5rem !important;
 }
-.home-section.wg-about {
+.home-section.wg-about,
+.home-section.wg-about-biography {
   max-width: 1040px;
+  margin-inline: auto;
 }
 .page-body {
   padding-top: 2rem;
@@ -248,6 +279,10 @@ ul.rz-list li::before {
 .avatar.avatar-circle {
   border-radius: 50%;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+}
+.wg-about-biography #profile {
+  max-width: 300px;
+  margin-inline: auto;
 }
 .portrait-title h2 {
   font-size: clamp(2.2rem, 3.6vw, 3rem);
@@ -302,9 +337,10 @@ ul.rz-list li::before {
   color: var(--apple-text-secondary) !important;
   margin-bottom: 1.5rem !important;
   line-height: 1.6 !important;
-  padding-left: 12px !important;
-  border-left: 3px solid var(--apple-blue) !important;
-  background: none !important;
+  padding: 12px 14px !important;
+  border: 1px solid var(--apple-border) !important;
+  border-radius: 10px !important;
+  background: var(--apple-blue-tint) !important;
 }
 
 #recruit .recruit-label {
@@ -427,13 +463,10 @@ ul.rz-list li::before {
   color: var(--apple-text-secondary) !important;
   margin-top: 4px !important;
   padding: 13px 16px !important;
-  background: var(--apple-bg) !important;
+  background: var(--apple-blue-tint) !important;
   border-radius: 8px !important;
   line-height: 1.55 !important;
-  border-left: 3px solid var(--apple-blue) !important;
-  border-top: none !important;
-  border-right: none !important;
-  border-bottom: none !important;
+  border: 1px solid var(--apple-border) !important;
 }
 #recruit .recruit-cta i {
   color: var(--apple-blue) !important;
@@ -450,6 +483,199 @@ ul.rz-list li::before {
   #recruit .recruit-req-icon { width: 24px !important; height: 24px !important; font-size: 0.72rem !important; }
 }
 
+/* ---------- Academic page polish ---------- */
+.page-body {
+  overflow: clip;
+}
+
+.article-container,
+.universal-wrapper {
+  max-width: 1040px;
+}
+
+.article-container.pt-3,
+.universal-wrapper.pt-3 {
+  padding-top: 3.5rem !important;
+}
+
+.article-container.pt-3 h1,
+.universal-wrapper.pt-3 h1 {
+  margin-bottom: 1.25rem;
+}
+
+.article-style,
+.pub-list-item {
+  max-width: 76ch;
+}
+
+.article-style h2 {
+  margin-top: 2.75rem;
+  margin-bottom: 1rem;
+}
+
+.form-control {
+  min-height: 42px;
+  color: var(--apple-text) !important;
+  background: var(--apple-bg-elevated) !important;
+  border-color: var(--apple-border) !important;
+  border-radius: 10px !important;
+  transition: border-color 160ms ease, box-shadow 160ms ease !important;
+}
+
+.form-control:focus {
+  border-color: var(--apple-blue) !important;
+  box-shadow: 0 0 0 3px var(--apple-blue-tint) !important;
+}
+
+.pub-list-item.view-citation {
+  padding: 1.1rem 1.2rem;
+  background: var(--apple-bg-elevated);
+  border-radius: var(--apple-radius-sm);
+  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.07);
+  transition: transform 240ms var(--apple-ease),
+    box-shadow 240ms var(--apple-ease);
+}
+
+.pub-list-item .title-block {
+  color: var(--apple-text);
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+.pub-list-item .metadata-block,
+.pub-list-item .journal-block {
+  color: var(--apple-text-secondary);
+  line-height: 1.55;
+}
+
+.project-hero img {
+  border-radius: var(--apple-radius-md);
+  box-shadow: 0 16px 42px rgba(15, 23, 42, 0.12);
+}
+
+.site-footer {
+  color: var(--apple-text-secondary);
+  border-top-color: var(--apple-border) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .home-publications-item:hover,
+  .pub-list-item.view-citation:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--apple-card-shadow) !important;
+  }
+
+  .recruit-pill:hover,
+  .network-icon a:hover {
+    transform: translateY(-2px) !important;
+  }
+}
+
+/* ---------- Purposeful motion, progressively enhanced ---------- */
+html.js .rz-reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  clip-path: inset(0 0 8% 0);
+  transition: opacity 440ms var(--apple-ease),
+    transform 520ms var(--apple-ease),
+    clip-path 520ms var(--apple-ease);
+  transition-delay: var(--rz-reveal-delay, 0ms);
+  will-change: opacity, transform, clip-path;
+}
+
+html.js .rz-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  clip-path: inset(0 0 0 0);
+}
+
+html.js .wg-about-biography.rz-reveal {
+  clip-path: none;
+}
+
+html.js .wg-about-biography.rz-reveal #profile,
+html.js .wg-about-biography.rz-reveal .col-lg-8 {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 460ms var(--apple-ease), transform 620ms var(--apple-ease);
+}
+
+html.js .wg-about-biography.rz-reveal .col-lg-8 {
+  transition-delay: 90ms;
+}
+
+html.js .wg-about-biography.rz-reveal.is-visible #profile,
+html.js .wg-about-biography.rz-reveal.is-visible .col-lg-8 {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.btn:active,
+.network-icon a:active,
+.recruit-pill:active {
+  transform: scale(0.97) !important;
+}
+
+@media (max-width: 991px) {
+  .home-section {
+    padding-top: 3.75rem !important;
+    padding-bottom: 3.75rem !important;
+  }
+
+  .home-section.wg-about-biography {
+    padding-top: 3rem !important;
+  }
+
+  .wg-about-biography .avatar.avatar-circle {
+    width: min(220px, 64vw);
+    height: auto;
+  }
+
+  .wg-about-biography .portrait-title h2 {
+    margin-top: 1.25rem;
+    font-size: 2.2rem;
+  }
+
+  .wg-about-biography .col-lg-8 > h1 {
+    margin-top: 3rem;
+  }
+}
+
+@media (max-width: 575px) {
+  .page-body {
+    padding-top: 0 !important;
+  }
+
+  .home-section {
+    padding: 3rem 0 !important;
+  }
+
+  .home-section.wg-about-biography {
+    padding-top: 2.5rem !important;
+  }
+
+  .wg-about-biography .avatar.avatar-circle {
+    width: min(190px, 58vw);
+  }
+
+  .wg-about-biography .network-icon {
+    margin-top: 1rem;
+  }
+
+  .article-container.pt-3,
+  .universal-wrapper.pt-3 {
+    padding-top: 2.5rem !important;
+  }
+
+  .form-row {
+    gap: 0.5rem 0;
+  }
+
+  .pub-list-item.view-citation {
+    padding: 1rem;
+  }
+}
+
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -459,5 +685,14 @@ ul.rz-list li::before {
   .home-publications-item:hover,
   .network-icon a:hover {
     transform: none !important;
+  }
+  html.js .rz-reveal,
+  html.js .rz-reveal.is-visible,
+  html.js .wg-about-biography.rz-reveal #profile,
+  html.js .wg-about-biography.rz-reveal .col-lg-8 {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    transition: none !important;
   }
 }
