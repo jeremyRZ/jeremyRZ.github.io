@@ -2,8 +2,8 @@
   "name": "Rui ZHAO's homepage",
   "short_name": "Rui ZHAO's homepage",
   "lang": "en-us",
-  "theme_color": "#1565c0",
-  "background_color": "#1565c0",
+  "theme_color": "#0071e3",
+  "background_color": "#f5f5f7",
   "icons": [{
     "src": "/media/Web_Logo.png",
     "sizes": "192x192",
