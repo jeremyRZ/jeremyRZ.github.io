@@ -161,7 +161,7 @@
 
     <meta name="author" content="Rui ZHAO" />
 
-    <meta name="description" content="Publications by Rui ZHAO — journal articles, conference papers, and preprints on blockchain, AI, and digital twins." />
+    <meta name="description" content="Publications by Rui ZHAO: journal articles and conference papers on blockchain, AI, and digital twins." />
 
     <link
       rel="alternate"
@@ -196,7 +196,7 @@
       property="og:title"
       content="Publications | Rui ZHAO&#39;s homepage"
     />
-    <meta property="og:description" content="Publications by Rui ZHAO — journal articles, conference papers, and preprints on blockchain, AI, and digital twins." />
+    <meta property="og:description" content="Publications by Rui ZHAO: journal articles and conference papers on blockchain, AI, and digital twins." />
     <meta
       property="og:image"
       content="https://jeremyrz.github.io/media/og-image.png"
@@ -215,7 +215,7 @@
           margin-left: auto;
         }
       }
-                /* ===== Design polish — Emil Kowalski principles ===== */
+                /* ===== Design polish - Emil Kowalski principles ===== */
             :root {
               --rz-ease: cubic-bezier(0.23, 1, 0.32, 1);     /* strong ease-out */
               --rz-ease-io: cubic-bezier(0.77, 0, 0.175, 1); /* ease-in-out */
@@ -296,7 +296,7 @@
               .btn:hover { transform: none; }
             }
     </style>
-      <link rel="stylesheet" href="/css/apple-theme.css?v=5" />
+      <link rel="stylesheet" href="/css/apple-theme.css?v=8" />
 </head>
 
   <body
@@ -307,6 +307,7 @@
     class="page-wrapper"
     data-wc-page-id="3a079e7dad19be978a318345a7749d34"
   >
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <script src="/js/wowchemy-init.min.ec9d49ca50e4b80bdb08f0417a28ed84.js"></script>
 
     <div class="page-header header--fixed">
@@ -341,8 +342,8 @@
                 <li class="nav-item">
                   <a class="nav-link" href="/"><span>Home</span></a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/publication/"
+                <li class="nav-item active">
+                  <a class="nav-link active" href="/publication/" aria-current="page"
                     ><span>Publications</span></a
                   >
                 </li>
@@ -366,29 +367,60 @@
       </header>
     </div>
 
-    <div class="page-body">
-      <div class="universal-wrapper pt-3">
-        <h1>Publications</h1>
-      </div>
+    <main id="main-content" class="page-body academic-index-page publication-page">
+      <header class="universal-wrapper academic-shell academic-hero rz-reveal">
+        <div>
+          <p class="academic-kicker">Research output</p>
+          <h1>Publications</h1>
+          <p class="academic-intro">
+            Peer-reviewed research across blockchain, artificial intelligence,
+            digital twins, and intelligent construction.
+          </p>
+        </div>
+        <div class="academic-overview" aria-label="Publication summary">
+          <div class="academic-overview-item">
+            <strong>20</strong>
+            <span>Publications</span>
+          </div>
+          <div class="academic-overview-item">
+            <strong>14</strong>
+            <span>Journal articles</span>
+          </div>
+          <div class="academic-overview-item">
+            <strong>6</strong>
+            <span>Conference papers</span>
+          </div>
+        </div>
+      </header>
 
-      <div class="universal-wrapper">
+      <div class="universal-wrapper academic-shell academic-content">
         <div class="row">
           <div class="col-lg-12">
-            <div class="form-row mb-4">
-              <div class="col-auto">
+            <div class="publication-toolbar">
+              <span class="publication-toolbar-label">Filter publications</span>
+              <div class="form-row">
+                <div class="col-auto">
+                  <label class="sr-only" for="publication-search"
+                    >Search publications</label
+                  >
                 <input
+                  id="publication-search"
                   type="search"
                   class="filter-search form-control form-control-sm"
-                  placeholder="Search..."
+                  placeholder="Search publications"
                   autocapitalize="off"
                   autocomplete="off"
                   autocorrect="off"
                   role="textbox"
                   spellcheck="false"
                 />
-              </div>
-              <div class="col-auto">
+                </div>
+                <div class="col-auto">
+                  <label class="sr-only" for="publication-type"
+                    >Publication type</label
+                  >
                 <select
+                  id="publication-type"
                   class="pub-filters pubtype-select form-control form-control-sm"
                   data-filter-group="pubtype"
                 >
@@ -401,10 +433,14 @@
                   <!-- <option value=".pubtype-3">Preprint</option>
 
                   <option value=".pubtype-7">Thesis</option> -->
-                </select>
-              </div>
-              <div class="col-auto">
+                  </select>
+                </div>
+                <div class="col-auto">
+                  <label class="sr-only" for="publication-year"
+                    >Publication year</label
+                  >
                   <select
+                    id="publication-year"
                     class="pub-filters form-control form-control-sm"
                     data-filter-group="year"
                   >
@@ -423,7 +459,8 @@
                   <option value=".year-2021">2021</option>
 
                   <option value=".year-2020">2020</option>
-                </select>
+                  </select>
+                </div>
               </div>
             </div>
 
@@ -1296,7 +1333,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </main>
 
     <div class="page-footer">
       <div class="container">
@@ -1313,7 +1350,7 @@
               rel="noopener"
               >Wowchemy</a
             >
-            — the free,
+            , the free,
             <a
               href="https://github.com/wowchemy/wowchemy-hugo-themes"
               target="_blank"
@@ -1416,6 +1453,6 @@
       src="/js/wowchemy-publication.68f8d7090562ca65fc6d3cb3f8f2d2cb.js"
       type="module"
     ></script>
-    <script src="/js/site-ui.js" defer></script>
+    <script src="/js/site-ui.js?v=2" defer></script>
 </body>
 </html>

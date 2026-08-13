@@ -152,7 +152,7 @@
           margin-left: auto;
         }
       }
-                /* ===== Design polish — Emil Kowalski principles ===== */
+                /* ===== Design polish - Emil Kowalski principles ===== */
             :root {
               --rz-ease: cubic-bezier(0.23, 1, 0.32, 1);     /* strong ease-out */
               --rz-ease-io: cubic-bezier(0.77, 0, 0.175, 1); /* ease-in-out */
@@ -233,7 +233,7 @@
               .btn:hover { transform: none; }
             }
     </style>
-      <link rel="stylesheet" href="/css/apple-theme.css?v=5" />
+      <link rel="stylesheet" href="/css/apple-theme.css?v=8" />
 </head>
 
   <body
@@ -243,6 +243,7 @@
     data-target="#TableOfContents"
     class="page-wrapper"
   >
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <script src="/js/wowchemy-init.min.ec9d49ca50e4b80bdb08f0417a28ed84.js"></script>
 
     <div class="page-header header--fixed">
@@ -282,8 +283,10 @@
                     ><span>Publications</span></a
                   >
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/project/"><span>Projects</span></a>
+                <li class="nav-item active">
+                  <a class="nav-link active" href="/project/" aria-current="page"
+                    ><span>Projects</span></a
+                  >
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="/teaching/"
@@ -302,35 +305,64 @@
       </header>
     </div>
 
-    <div class="page-body">
-      <article class="article">
-        <div class="article-container pt-3">
-          <h1>Projects</h1>
-
-          <div class="article-metadata"></div>
-        </div>
-
-        <div class="article-container">
-          <div class="article-style projects-section">
-            <h2>Current Projects</h2>
-            <p>Coming soon.</p>
-
-            <h2>Selected Project</h2>
-            <ul>
-              <li>
-                <strong>BIMSqu: Blockchain-enabled IoT-BIM Platform</strong>
-                <br />
-                A platform that integrates permissioned blockchain, IoT, and BIM
-                for modular construction supply chain management and onsite
-                assembly accuracy.
-                <br />
-                <a href="/project/BIMSqu/">Learn more about BIMSqu &raquo;</a>
-              </li>
-            </ul>
+    <main id="main-content" class="page-body academic-index-page projects-page">
+      <article class="article academic-shell">
+        <header class="academic-hero">
+          <div>
+            <p class="academic-kicker">Research prototypes</p>
+            <h1>Projects</h1>
+            <p class="academic-intro">
+              Research prototypes connecting trusted data infrastructure with
+              intelligent construction workflows.
+            </p>
           </div>
+          <div class="academic-overview" aria-label="Project themes">
+            <div class="academic-overview-item">
+              <strong>Blockchain</strong>
+              <span>Trusted data</span>
+            </div>
+            <div class="academic-overview-item">
+              <strong>IoT</strong>
+              <span>Field sensing</span>
+            </div>
+            <div class="academic-overview-item">
+              <strong>BIM</strong>
+              <span>Digital delivery</span>
+            </div>
+          </div>
+        </header>
+
+        <div class="article-style projects-section academic-content">
+          <section class="academic-panel project-feature-card">
+            <div class="project-feature-media">
+              <img
+                src="/project/BIMSqu/Picture1-1024x672-1.jpg"
+                alt="BIMSqu blockchain-enabled IoT and BIM platform architecture"
+                width="1024"
+                height="672"
+                decoding="async"
+              />
+            </div>
+            <div class="project-feature-copy">
+              <h2>BIMSqu: Blockchain-enabled IoT-BIM Platform</h2>
+              <p>
+                A platform that integrates permissioned blockchain, IoT, and
+                BIM for modular construction supply chain management and onsite
+                assembly accuracy.
+              </p>
+              <ul class="topic-list" aria-label="BIMSqu research topics">
+                <li>Permissioned blockchain</li>
+                <li>IoT integration</li>
+                <li>Modular construction</li>
+              </ul>
+              <a class="academic-link" href="/project/BIMSqu/">
+                Explore BIMSqu <i class="fas fa-arrow-right" aria-hidden="true"></i>
+              </a>
+            </div>
+          </section>
         </div>
       </article>
-    </div>
+    </main>
 
     <div class="page-footer">
       <div class="container">
@@ -347,7 +379,7 @@
               rel="noopener"
               >Wowchemy</a
             >
-            — the free,
+            , the free,
             <a
               href="https://github.com/wowchemy/wowchemy-hugo-themes"
               target="_blank"
@@ -395,6 +427,6 @@
     ></script>
 
     <script src="/en/js/wowchemy.min.85070d5fe00d43eaedff44310b81dc2c.js"></script>
-    <script src="/js/site-ui.js" defer></script>
+    <script src="/js/site-ui.js?v=2" defer></script>
 </body>
 </html>

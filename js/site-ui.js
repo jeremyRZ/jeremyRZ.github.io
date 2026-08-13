@@ -6,11 +6,15 @@
   function ready() {
     var navbar = document.querySelector('.navbar');
     if (navbar) {
-      var updateNavbar = function () {
-        navbar.classList.toggle('is-scrolled', window.scrollY > 8);
-      };
-      updateNavbar();
-      window.addEventListener('scroll', updateNavbar, { passive: true });
+      var navSentinel = document.createElement('span');
+      navSentinel.className = 'nav-scroll-sentinel';
+      navSentinel.setAttribute('aria-hidden', 'true');
+      document.body.prepend(navSentinel);
+
+      var navObserver = new IntersectionObserver(function (entries) {
+        navbar.classList.toggle('is-scrolled', !entries[0].isIntersecting);
+      }, { threshold: 1 });
+      navObserver.observe(navSentinel);
     }
 
     var targets = document.querySelectorAll('.home-section, .page-body > .article, .page-body > .universal-wrapper');

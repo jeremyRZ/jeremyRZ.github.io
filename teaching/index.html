@@ -159,7 +159,7 @@
           margin-left: auto;
         }
       }
-                /* ===== Design polish — Emil Kowalski principles ===== */
+                /* ===== Design polish - Emil Kowalski principles ===== */
             :root {
               --rz-ease: cubic-bezier(0.23, 1, 0.32, 1);     /* strong ease-out */
               --rz-ease-io: cubic-bezier(0.77, 0, 0.175, 1); /* ease-in-out */
@@ -240,7 +240,7 @@
               .btn:hover { transform: none; }
             }
     </style>
-      <link rel="stylesheet" href="/css/apple-theme.css?v=5" />
+      <link rel="stylesheet" href="/css/apple-theme.css?v=8" />
 </head>
 
   <body
@@ -250,6 +250,7 @@
     data-target="#TableOfContents"
     class="page-wrapper"
   >
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <script src="/js/wowchemy-init.min.ec9d49ca50e4b80bdb08f0417a28ed84.js"></script>
 
     <div class="page-header header--fixed">
@@ -292,8 +293,8 @@
                 <li class="nav-item">
                   <a class="nav-link" href="/project/"><span>Projects</span></a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/teaching/"
+                <li class="nav-item active">
+                  <a class="nav-link active" href="/teaching/" aria-current="page"
                     ><span>Teaching</span></a
                   >
                 </li>
@@ -309,44 +310,74 @@
       </header>
     </div>
 
-    <div class="page-body">
-      <article class="article">
-        <div class="article-container pt-3">
-          <h1>Teaching</h1>
+    <main id="main-content" class="page-body academic-index-page teaching-page">
+      <article class="article academic-shell">
+        <header class="academic-hero">
+          <div>
+            <p class="academic-kicker">Learning by building</p>
+            <h1>Teaching</h1>
+            <p class="academic-intro">
+              Courses connecting foundational web technologies with
+              interdisciplinary engineering practice.
+            </p>
+          </div>
+          <div class="academic-overview" aria-label="Teaching summary">
+            <div class="academic-overview-item">
+              <strong>2</strong>
+              <span>Current courses</span>
+            </div>
+            <div class="academic-overview-item">
+              <strong>SE112</strong>
+              <span>Web technology</span>
+            </div>
+            <div class="academic-overview-item">
+              <strong>BEIE306</strong>
+              <span>Capstone project</span>
+            </div>
+          </div>
+        </header>
 
-          <div class="article-metadata"></div>
-        </div>
-
-        <div class="article-container">
-          <div class="article-style teaching-section">
+        <div class="article-style teaching-section academic-content">
+          <section class="academic-panel">
             <h2>Current Courses</h2>
-            <ul>
-              <li>
-                <strong>SE112: Web Technology</strong>
-                <br />
-                Undergraduate course on modern web development, covering HTTP,
-                HTML5, CSS, JavaScript, and basic backend architecture.
-                <br />
-                Course dashboard:
+            <div class="course-grid">
+              <article class="course-card">
+                <div class="course-card-header">
+                  <span class="course-code">SE112</span>
+                  <span class="course-level">Undergraduate</span>
+                </div>
+                <h3>Web Technology</h3>
+                <p>
+                  Modern web development covering HTTP, HTML5, CSS,
+                  JavaScript, and basic backend architecture.
+                </p>
                 <a
-                  href="https://jeremyrz.github.io/SE112/00_Index.html"
+                  class="academic-link"
+                  href="/SE112/00_Index.html"
                   target="_blank"
                   rel="noopener"
-                  >https://jeremyrz.github.io/SE112/00_Index.html</a
                 >
-              </li>
-              <li>
-                <strong>BEIE306: Interdisciplinary Final Year Project</strong>
-                <br />
-                Capstone project course where students work in
-                interdisciplinary teams to design, implement, and present a
-                comprehensive engineering project.
-              </li>
-            </ul>
-          </div>
+                  Open course dashboard
+                  <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                </a>
+              </article>
+
+              <article class="course-card">
+                <div class="course-card-header">
+                  <span class="course-code">BEIE306</span>
+                  <span class="course-level">Capstone</span>
+                </div>
+                <h3>Interdisciplinary Final Year Project</h3>
+                <p>
+                  Students work in interdisciplinary teams to design,
+                  implement, and present a comprehensive engineering project.
+                </p>
+              </article>
+            </div>
+          </section>
         </div>
       </article>
-    </div>
+    </main>
 
     <div class="page-footer">
       <div class="container">
@@ -363,7 +394,7 @@
               rel="noopener"
               >Wowchemy</a
             >
-            — the free,
+            , the free,
             <a
               href="https://github.com/wowchemy/wowchemy-hugo-themes"
               target="_blank"
@@ -411,6 +442,6 @@
     ></script>
 
     <script src="/en/js/wowchemy.min.85070d5fe00d43eaedff44310b81dc2c.js"></script>
-    <script src="/js/site-ui.js" defer></script>
+    <script src="/js/site-ui.js?v=2" defer></script>
 </body>
 </html>

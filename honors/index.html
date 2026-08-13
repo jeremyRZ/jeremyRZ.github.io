@@ -166,7 +166,7 @@
           margin-left: auto;
         }
       }
-                /* ===== Design polish — Emil Kowalski principles ===== */
+                /* ===== Design polish - Emil Kowalski principles ===== */
             :root {
               --rz-ease: cubic-bezier(0.23, 1, 0.32, 1);     /* strong ease-out */
               --rz-ease-io: cubic-bezier(0.77, 0, 0.175, 1); /* ease-in-out */
@@ -247,7 +247,7 @@
               .btn:hover { transform: none; }
             }
     </style>
-      <link rel="stylesheet" href="/css/apple-theme.css?v=5" />
+      <link rel="stylesheet" href="/css/apple-theme.css?v=8" />
 </head>
 
   <body
@@ -258,6 +258,7 @@
     class="page-wrapper"
     data-wc-page-id="995096301e136877103eac415620a4b8"
   >
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <script src="/js/wowchemy-init.min.ec9d49ca50e4b80bdb08f0417a28ed84.js"></script>
 
     <div class="page-header header--fixed">
@@ -305,8 +306,8 @@
                     ><span>Teaching</span></a
                   >
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/honors/"
+                <li class="nav-item active">
+                  <a class="nav-link active" href="/honors/" aria-current="page"
                     ><span>Honors &amp; Activities</span></a
                   >
                 </li>
@@ -317,93 +318,120 @@
       </header>
     </div>
 
-    <div class="page-body">
-      <article class="article">
-        <div class="article-container pt-3">
-          <h1>Honors &amp; Professional Activities</h1>
+    <main id="main-content" class="page-body academic-index-page honors-page">
+      <article class="article academic-shell">
+        <header class="academic-hero">
+          <div>
+            <p class="academic-kicker">Recognition and service</p>
+            <h1>Honors &amp; Professional Activities</h1>
+            <p class="academic-intro">
+              Selected awards, reviewing roles, and professional service across
+              academia and engineering communities.
+            </p>
+          </div>
+          <div class="academic-overview" aria-label="Honors and service summary">
+            <div class="academic-overview-item">
+              <strong>13</strong>
+              <span>Honors and awards</span>
+            </div>
+            <div class="academic-overview-item">
+              <strong>2</strong>
+              <span>Reviewing roles</span>
+            </div>
+            <div class="academic-overview-item">
+              <strong>3</strong>
+              <span>Service roles</span>
+            </div>
+          </div>
+        </header>
 
-          <div class="article-metadata"></div>
-        </div>
-
-        <div class="article-container">
-          <div class="article-style honors-section">
+        <div class="article-style honors-section academic-content honors-layout">
+          <section class="academic-panel honors-awards">
             <h2>Honors and Awards</h2>
-            <p>
-              [2025] <strong>Top 10%/Excellent PhD thesis</strong>, the
-              University of Hong Kong
-            </p>
-            <p>
-              [2024] <strong>Merit Award</strong>, Hong Kong openBIM/openGIS
-              Award
-            </p>
-            <p>
-              [2022] <strong>Best Paper Award</strong>, ASCE Journal of
-              Management in Engineering
-            </p>
-            <p>
-              [2021] <strong>Winner for Professional Research</strong>,
-              buildingSMART International Awards
-            </p>
-            <p>
-              [2021] <strong>HKU Postgraduate Scholarship</strong>, the
-              University of Hong Kong
-            </p>
-            <p>
-              [2018] <strong>Outstanding Team Award</strong>, Hong Kong Applied
-              Science and Technology Research Institute
-            </p>
-            <p>
-              [2016] <strong>Dean Scholarship</strong>, Macau University of
-              Science and Technology
-            </p>
-            <p>
-              [2016] <strong>Second Prize</strong>, Cultural and Academic
-              Excellence Award of MUST
-            </p>
-            <p>
-              [2015] <strong>Second Prize</strong>, Cultural and Academic
-              Excellence Award of MUST
-            </p>
-            <p>
-              [2015] <strong>Excellent Referee</strong>, The 7th Asia-Pacific
-              Robot Contest
-            </p>
-            <p>
-              [2015] <strong>Excellent Paper</strong>, "Shenzhen Cup"
-              Mathematical Modeling Summer Camp
-            </p>
-            <p>
-              [2015] <strong>Third Prize</strong>, "Changping Cup" Cross-Strait
-              Smart Robot Competition
-            </p>
-            <p>
-              [2014] <strong>Second Prize</strong>, China Undergraduate
-              Mathematical Contest in Modeling (CUMCM)
-            </p>
+            <div class="honors-awards-list">
+              <p>
+                [2025] <strong>Top 10%/Excellent PhD thesis</strong>, the
+                University of Hong Kong
+              </p>
+              <p>
+                [2024] <strong>Merit Award</strong>, Hong Kong openBIM/openGIS
+                Award
+              </p>
+              <p>
+                [2022] <strong>Best Paper Award</strong>, ASCE Journal of
+                Management in Engineering
+              </p>
+              <p>
+                [2021] <strong>Winner for Professional Research</strong>,
+                buildingSMART International Awards
+              </p>
+              <p>
+                [2021] <strong>HKU Postgraduate Scholarship</strong>, the
+                University of Hong Kong
+              </p>
+              <p>
+                [2018] <strong>Outstanding Team Award</strong>, Hong Kong Applied
+                Science and Technology Research Institute
+              </p>
+              <p>
+                [2016] <strong>Dean Scholarship</strong>, Macau University of
+                Science and Technology
+              </p>
+              <p>
+                [2016] <strong>Second Prize</strong>, Cultural and Academic
+                Excellence Award of MUST
+              </p>
+              <p>
+                [2015] <strong>Second Prize</strong>, Cultural and Academic
+                Excellence Award of MUST
+              </p>
+              <p>
+                [2015] <strong>Excellent Referee</strong>, The 7th Asia-Pacific
+                Robot Contest
+              </p>
+              <p>
+                [2015] <strong>Excellent Paper</strong>, "Shenzhen Cup"
+                Mathematical Modeling Summer Camp
+              </p>
+              <p>
+                [2015] <strong>Third Prize</strong>, "Changping Cup" Cross-Strait
+                Smart Robot Competition
+              </p>
+              <p>
+                [2014] <strong>Second Prize</strong>, China Undergraduate
+                Mathematical Contest in Modeling (CUMCM)
+              </p>
+            </div>
+          </section>
 
-            <h2>Professional Activities</h2>
-            <p>
-              <strong>[Journal Reviewer]</strong> IEEE Transactions on
-              Information Forensics and Security (<strong>TIFS</strong>)
-              [CCF A, SCI-Q1]
-            </p>
-            <p>
-              <strong>[Journal Reviewer]</strong> The Journal of Supercomputing
-              [CCF C, SCI-Q2]
-            </p>
+          <div class="honors-side">
+            <section class="academic-panel">
+              <h2>Professional Activities</h2>
+              <p>
+                <strong>Journal Reviewer</strong>, IEEE Transactions on
+                Information Forensics and Security (<strong>TIFS</strong>)
+                [CCF A, SCI-Q1]
+              </p>
+              <p>
+                <strong>Journal Reviewer</strong>, The Journal of Supercomputing
+                [CCF C, SCI-Q2]
+              </p>
+            </section>
 
-            <h2>Professional Services</h2>
-            <p>
-              Advisory Board Member, Master of Science in Innovative Design
-              and Artificial Intelligence, Lingnan University, Hong Kong
-              (2027-2029)
-            </p>
-            <p>Chair, IEEE Macau Young Professionals Affinity Group</p>
-            <p>Supervisor, IEEE Macau Section</p>
+            <section class="academic-panel">
+              <h2>Professional Services</h2>
+              <p>
+                Advisory Board Member, Master of Science in Innovative Design
+                and Artificial Intelligence, Lingnan University, Hong Kong
+                (2027-2029)
+              </p>
+              <p>Chair, IEEE Macau Young Professionals Affinity Group</p>
+              <p>Supervisor, IEEE Macau Section</p>
+            </section>
           </div>
         </div>
       </article>
-    </div>
+    </main>
 
     <div class="page-footer">
       <div class="container">
@@ -420,7 +448,7 @@
               rel="noopener"
               >Wowchemy</a
             >
-            — the free,
+            , the free,
             <a
               href="https://github.com/wowchemy/wowchemy-hugo-themes"
               target="_blank"
@@ -511,6 +539,6 @@
       src="/js/wowchemy-publication.68f8d7090562ca65fc6d3cb3f8f2d2cb.js"
       type="module"
     ></script>
-    <script src="/js/site-ui.js" defer></script>
+    <script src="/js/site-ui.js?v=2" defer></script>
 </body>
 </html>
