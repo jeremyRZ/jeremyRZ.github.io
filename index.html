@@ -67,12 +67,6 @@
         border-radius: 2px;
       }
 
-      @media (prefers-color-scheme: dark) {
-        .home-section.wg-about h1::after {
-          background-color: #f3f4f6;
-        }
-      }
-
       /* Latest publications -> card style with hover lift */
       .home-publications-list {
         display: flex;
@@ -143,28 +137,6 @@
         .home-publications-item {
           flex-direction: column;
           gap: 0.4rem;
-        }
-      }
-
-      @media (prefers-color-scheme: dark) {
-        :root {
-          --rz-ink: #e2e8f0;
-          --rz-muted: #a0aec0;
-        }
-        .home-publications-item {
-          background: #1a202c;
-          border-color: #2d3748;
-        }
-        .home-publications-item:hover {
-          border-color: #4a5568;
-          box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
-        }
-        .home-publications-badge {
-          color: #90cdf4;
-          background: #1a365d;
-        }
-        .text-muted.border-left {
-          border-left-color: #4a5568 !important;
         }
       }
 
@@ -346,7 +318,7 @@
         }
       }
     </style>
-      <link rel="stylesheet" href="/css/apple-theme.css?v=8" />
+      <link rel="stylesheet" href="/css/apple-theme.css?v=13" />
 </head>
 
   <body
@@ -357,6 +329,21 @@
     class="page-wrapper"
     data-wc-page-id="3976528693a0108357f4928017600865"
   >
+    <svg class="svg-symbols" aria-hidden="true">
+      <symbol id="icon-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.5.5l2-2a5 5 0 0 0-7-7l-1.2 1.2"/><path d="M14 11a5 5 0 0 0-7.5-.5l-2 2a5 5 0 0 0 7 7l1.2-1.2"/></symbol>
+      <symbol id="icon-chip" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 1v5m6-5v5M9 18v5m6-5v5M1 9h5m-5 6h5m12-6h5m-5 6h5"/></symbol>
+      <symbol id="icon-boxes" viewBox="0 0 24 24"><path d="m12 2 4 2.3v4.6L12 11 8 8.9V4.3L12 2Zm-6 9 4 2.3v4.6L6 20l-4-2.1v-4.6L6 11Zm12 0 4 2.3v4.6L18 20l-4-2.1v-4.6L18 11Z"/></symbol>
+      <symbol id="icon-scan" viewBox="0 0 24 24"><path d="M4 7V4h3m10 0h3v3M4 17v3h3m10 0h3v-3M8 12h8m-4-4v8"/></symbol>
+      <symbol id="icon-cap" viewBox="0 0 24 24"><path d="m2 9 10-5 10 5-10 5L2 9Z"/><path d="M6 11.5V16c3.4 2.7 8.6 2.7 12 0v-4.5M22 9v6"/></symbol>
+      <symbol id="icon-building" viewBox="0 0 24 24"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-5h6v5M8 11h1m6 0h1"/></symbol>
+      <symbol id="icon-book" viewBox="0 0 24 24"><path d="M4 5.5A3.5 3.5 0 0 1 7.5 2H11v18H7.5A3.5 3.5 0 0 0 4 23V5.5ZM20 5.5A3.5 3.5 0 0 0 16.5 2H13v18h3.5A3.5 3.5 0 0 1 20 23V5.5Z"/></symbol>
+      <symbol id="icon-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+      <symbol id="icon-code" viewBox="0 0 24 24"><path d="m8 9-4 3 4 3m8-6 4 3-4 3m-2-9-4 12"/></symbol>
+      <symbol id="icon-flask" viewBox="0 0 24 24"><path d="M9 3h6m-5 0v6l-5 9a2 2 0 0 0 1.8 3h10.4A2 2 0 0 0 19 18l-5-9V3M8 15h8"/></symbol>
+      <symbol id="icon-bulb" viewBox="0 0 24 24"><path d="M9 18h6m-5 3h4m3.5-6.5A7 7 0 1 0 6.5 14.5C8 16 8.5 17 8.5 18h7c0-1 .5-2 2-3.5Z"/></symbol>
+      <symbol id="icon-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/></symbol>
+    </svg>
+    <script src="/js/light-theme.js?v=1"></script>
     <script src="/js/wowchemy-init.min.ec9d49ca50e4b80bdb08f0417a28ed84.js"></script>
 
     <div class="page-header header--fixed">
@@ -533,38 +520,38 @@
               </div>
 
               <div class="row">
-                <div class="col-md-5">
+                <div class="col-md-6">
                   <div class="section-subheading">Research Interests</div>
-                  <ul class="ul-interests fa-ul mb-0">
+                  <ul class="ul-interests mb-0">
                     <li>
-                      <i class="fa-li fa-solid fa-link"></i>
+                      <svg class="ui-icon" aria-hidden="true"><use href="#icon-link"/></svg>
                       Fintech and Blockchain Applications (Cross-Chain, Zero-Knowledge Proof)
                     </li>
 
                     <li>
-                      <i class="fa-li fa-solid fa-microchip"></i>
+                      <svg class="ui-icon" aria-hidden="true"><use href="#icon-chip"/></svg>
                       Artificial Intelligence (Automated Machine Learning,
                       Interpretable Machine Learning)
                     </li>
 
                     <li>
-                      <i class="fa-li fa-solid fa-cubes"></i>
+                      <svg class="ui-icon" aria-hidden="true"><use href="#icon-boxes"/></svg>
                       Digital Twin and AIoT (Smart Systems, Edge Intelligence)
                     </li>
 
                     <li>
-                      <i class="fa-li fa-solid fa-satellite-dish"></i>
+                      <svg class="ui-icon" aria-hidden="true"><use href="#icon-scan"/></svg>
                       Urban Sensing (LiDAR, 4D Point Cloud)
                     </li>
 
                   </ul>
                 </div>
 
-                <div class="col-md-7">
+                <div class="col-md-6">
                   <div class="section-subheading">Education</div>
-                  <ul class="ul-edu fa-ul mb-0">
+                  <ul class="ul-edu mb-0">
                     <li>
-                      <i class="fa-li fa-solid fa-graduation-cap"></i>
+                      <svg class="ui-icon" aria-hidden="true"><use href="#icon-cap"/></svg>
                       <div class="description">
                         <p class="course">
                           PhD in Digital Transformation, 2021-2025
@@ -575,7 +562,7 @@
                       </div>
                     </li>
                     <li>
-                      <i class="fa-li fa-solid fa-building-columns"></i>
+                      <svg class="ui-icon" aria-hidden="true"><use href="#icon-building"/></svg>
                       <div class="description">
                         <p class="course">
                           MSc in Information System, 2016-2018
@@ -587,7 +574,7 @@
                     </li>
 
                     <li>
-                      <i class="fa-li fa-solid fa-school"></i>
+                      <svg class="ui-icon" aria-hidden="true"><use href="#icon-book"/></svg>
                       <div class="description">
                         <p class="course">BSc in Computer Science, 2012-2016</p>
                         <p class="institution">
@@ -622,9 +609,9 @@
                 <div class="recruit-positions">
                   <span class="recruit-label">Open Positions</span>
                   <div class="recruit-pills">
-                    <span class="recruit-pill"><i class="fas fa-user-graduate mr-1"></i>Ph.D. Students</span>
-                    <span class="recruit-pill"><i class="fas fa-code mr-1"></i>M.Sc. Students</span>
-                    <span class="recruit-pill"><i class="fas fa-flask mr-1"></i>UG Research Assistants</span>
+                    <span class="recruit-pill"><svg class="ui-icon" aria-hidden="true"><use href="#icon-cap"/></svg>Ph.D. Students</span>
+                    <span class="recruit-pill"><svg class="ui-icon" aria-hidden="true"><use href="#icon-code"/></svg>M.Sc. Students</span>
+                    <span class="recruit-pill"><svg class="ui-icon" aria-hidden="true"><use href="#icon-flask"/></svg>UG Research Assistants</span>
                   </div>
                 </div>
 
@@ -632,28 +619,28 @@
                   <span class="recruit-label">Requirements</span>
                   <div class="recruit-req-list">
                     <div class="recruit-req-item">
-                      <span class="recruit-req-icon"><i class="fas fa-user"></i></span>
+                      <svg class="ui-icon" aria-hidden="true"><use href="#icon-user"/></svg>
                       <div class="recruit-req-body">
                         <span class="recruit-req-tag">Background</span>
                         <p>Applicants from CS, Software Engineering, Data Science, or a related field are welcome; interdisciplinary backgrounds are especially encouraged.</p>
                       </div>
                     </div>
                     <div class="recruit-req-item">
-                      <span class="recruit-req-icon"><i class="fas fa-code"></i></span>
+                      <svg class="ui-icon" aria-hidden="true"><use href="#icon-code"/></svg>
                       <div class="recruit-req-body">
                         <span class="recruit-req-tag">Skills</span>
                         <p>Solid programming skills (Python/C++ preferred) and mathematical foundations in linear algebra, probability, and statistics.</p>
                       </div>
                     </div>
                     <div class="recruit-req-item">
-                      <span class="recruit-req-icon"><i class="fas fa-lightbulb"></i></span>
+                      <svg class="ui-icon" aria-hidden="true"><use href="#icon-bulb"/></svg>
                       <div class="recruit-req-body">
                         <span class="recruit-req-tag">Research Readiness</span>
                         <p>We value self-motivation and curiosity; prior research experience is a plus.</p>
                       </div>
                     </div>
                     <div class="recruit-req-item">
-                      <span class="recruit-req-icon"><i class="fas fa-shield-halved"></i></span>
+                      <svg class="ui-icon" aria-hidden="true"><use href="#icon-shield"/></svg>
                       <div class="recruit-req-body">
                         <span class="recruit-req-tag">Professional Conduct</span>
                         <p>Never take private conversations out of context. Quoting or sharing partial excerpts that distort the original meaning is strictly prohibited and unwelcome.</p>
@@ -663,7 +650,7 @@
                 </div>
 
                 <p class="recruit-cta">
-                  <i class="fas fa-arrow-right mr-1"></i>Interested candidates please refer to the <strong>contact information in the sidebar</strong> to send your CV, transcript, and links to representative projects or papers.
+                  Interested candidates please refer to the <strong>contact information in the sidebar</strong> to send your CV, transcript, and links to representative projects or papers.
                 </p>
               </div>
             </div>

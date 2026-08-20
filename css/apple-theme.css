@@ -15,8 +15,8 @@
   --apple-bg: #f7f8fa;
   --apple-bg-elevated: #ffffff;
   --apple-text: #111827;
-  --apple-text-secondary: #4b5563;
-  --apple-text-tertiary: #6b7280;
+  --apple-text-secondary: #374151;
+  --apple-text-tertiary: #4b5563;
   --apple-blue: #2563eb;
   --apple-blue-hover: #1d4ed8;
   --apple-blue-active: #1e40af;
@@ -40,41 +40,40 @@
   --rz-muted: #4b5563;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --apple-bg: #000000;
-    --apple-bg-elevated: #1d1d1f;
-    --apple-text: #f5f5f7;
-    --apple-text-secondary: #a1a1a6;
-    --apple-text-tertiary: #86868b;
-    --apple-blue: #2997ff;
-    --apple-blue-hover: #2997ff;
-    --apple-blue-active: #2997ff;
-    --apple-border: #38383a;
-    --apple-border-strong: #52525b;
-    --apple-blue-tint: rgba(41, 151, 255, 0.16);
-    --apple-nav-bg: rgba(22, 22, 23, 0.72);
-    --apple-nav-border: rgba(255, 255, 255, 0.12);
-    --apple-card-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-
-    --rz-ink: #f5f5f7;
-    --rz-muted: #a1a1a6;
-  }
-}
-
 /* ---------- Typography: uniform sans, optical tracking ---------- */
 html {
+  color-scheme: light;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+}
+
+.svg-symbols {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.ui-icon {
+  width: 1.05rem;
+  height: 1.05rem;
+  flex: 0 0 1.05rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  color: var(--apple-blue);
 }
 
 body {
   font-family: var(--apple-sans) !important;
   background-color: var(--apple-bg);
   color: var(--apple-text);
+  font-size: 17px;
   letter-spacing: -0.011em;
-  line-height: 1.5;
+  line-height: 1.62;
 }
 
 h1, h2, h3, h4, h5, h6,
@@ -194,7 +193,7 @@ ul.rz-list li::before {
 .nav-link {
   color: var(--apple-text-secondary) !important;
   font-weight: 400;
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 .nav-link:hover {
   color: var(--apple-text) !important;
@@ -323,8 +322,8 @@ ul.rz-list li::before {
   color: var(--apple-text);
 }
 .portrait-title h3 {
-  font-size: 1.1rem;
-  font-weight: 400;
+  font-size: 1.125rem;
+  font-weight: 500;
   color: var(--apple-text-secondary);
   line-height: 1.4;
 }
@@ -339,8 +338,40 @@ ul.rz-list li::before {
 }
 .article-style {
   color: var(--apple-text-secondary);
-  font-size: 1.06rem;
-  line-height: 1.7;
+  font-size: 1.075rem;
+  line-height: 1.75;
+}
+
+.ul-interests,
+.ul-edu {
+  margin: 0;
+  padding: 0 !important;
+  list-style: none;
+}
+
+.ul-interests li,
+.ul-edu li {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
+  margin: 0 0 0.7rem;
+  padding: 0 !important;
+}
+
+.ul-interests li {
+  line-height: 1.6;
+}
+
+.ul-interests .ui-icon,
+.ul-edu .ui-icon {
+  margin-top: 0.28em;
+}
+
+.ul-edu .description,
+.ul-edu .course,
+.ul-edu .institution {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
 }
 
 /* ---------- FA icons: unified Apple gray (no brand colors) ---------- */
@@ -365,7 +396,7 @@ ul.rz-list li::before {
 }
 
 #recruit .recruit-intro {
-  font-size: 0.95rem !important;
+  font-size: 1rem !important;
   color: var(--apple-text-secondary) !important;
   margin-bottom: 1.5rem !important;
   line-height: 1.6 !important;
@@ -377,7 +408,7 @@ ul.rz-list li::before {
 
 #recruit .recruit-label {
   display: block !important;
-  font-size: 0.7rem !important;
+  font-size: 0.82rem !important;
   font-weight: 600 !important;
   color: var(--apple-text-tertiary) !important;
   text-transform: uppercase !important;
@@ -409,23 +440,20 @@ ul.rz-list li::before {
   border: 1px solid var(--apple-border) !important;
   border-radius: 8px !important;
   padding: 9px 14px !important;
-  font-size: 0.88rem !important;
+  font-size: 0.95rem !important;
   font-weight: 500 !important;
   color: var(--apple-text) !important;
   text-decoration: none !important;
   transition: border-color 180ms var(--apple-ease), transform 150ms var(--apple-ease) !important;
   flex: 1 1 0 !important;
 }
+#recruit .recruit-pill .ui-icon {
+  margin-right: 0.35rem;
+}
 #recruit .recruit-pill:hover {
   border-color: var(--apple-blue) !important;
   transform: translateY(-1px) !important;
 }
-#recruit .recruit-pill i {
-  color: var(--apple-blue) !important;
-  font-size: 0.8rem !important;
-  margin-right: 4px !important;
-}
-
 /* Requirements: clean stacked items */
 #recruit .recruit-requirements {
   margin-bottom: 1.5rem !important;
@@ -441,38 +469,29 @@ ul.rz-list li::before {
 #recruit .recruit-req-item {
   display: flex !important;
   align-items: flex-start !important;
-  gap: 11px !important;
-  padding: 12px 15px !important;
+  gap: 12px !important;
+  padding: 14px 18px !important;
   background: var(--apple-bg-elevated) !important;
   border: 1px solid var(--apple-border) !important;
   border-radius: 8px !important;
   transition: border-color 180ms var(--apple-ease) !important;
   list-style: none !important;
 }
+#recruit .recruit-req-item > .ui-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  flex-basis: 1.2rem;
+  margin-top: 0.15rem;
+}
 #recruit .recruit-req-item:hover {
   border-color: var(--apple-blue) !important;
-}
-#recruit .recruit-req-icon {
-  width: 28px !important;
-  height: 28px !important;
-  border-radius: 7px !important;
-  background: var(--apple-blue-tint) !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  flex-shrink: 0 !important;
-  font-size: 0.78rem !important;
-  color: var(--apple-blue) !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  border: none !important;
 }
 #recruit .recruit-req-body {
   flex: 1 !important;
   min-width: 0 !important;
 }
 #recruit .recruit-req-tag {
-  font-size: 0.85rem !important;
+  font-size: 0.95rem !important;
   font-weight: 600 !important;
   color: var(--apple-text) !important;
   display: block !important;
@@ -482,7 +501,7 @@ ul.rz-list li::before {
   border: none !important;
 }
 #recruit .recruit-req-body p {
-  font-size: 0.87rem !important;
+  font-size: 0.95rem !important;
   color: var(--apple-text-secondary) !important;
   margin: 0 !important;
   line-height: 1.55 !important;
@@ -491,7 +510,7 @@ ul.rz-list li::before {
 
 /* CTA */
 #recruit .recruit-cta {
-  font-size: 0.88rem !important;
+  font-size: 0.95rem !important;
   color: var(--apple-text-secondary) !important;
   margin-top: 4px !important;
   padding: 13px 16px !important;
@@ -510,9 +529,8 @@ ul.rz-list li::before {
 
 @media (max-width: 767px) {
   #recruit .recruit-pills { gap: 6px !important; }
-  #recruit .recruit-pill { padding: 6px 11px !important; font-size: 0.84rem !important; }
-  #recruit .recruit-req-item { gap: 9px !important; padding: 9px 12px !important; }
-  #recruit .recruit-req-icon { width: 24px !important; height: 24px !important; font-size: 0.72rem !important; }
+  #recruit .recruit-pill { padding: 8px 11px !important; font-size: 0.95rem !important; }
+  #recruit .recruit-req-item { gap: 10px !important; padding: 12px 14px !important; }
 }
 
 /* ---------- Academic page polish ---------- */
@@ -555,8 +573,8 @@ ul.rz-list li::before {
 .academic-index-page .article-style {
   max-width: none;
   color: var(--apple-text-secondary);
-  font-size: 1rem;
-  line-height: 1.62;
+  font-size: 1.05rem;
+  line-height: 1.68;
 }
 
 .academic-hero {
@@ -587,7 +605,7 @@ ul.rz-list li::before {
 .academic-kicker {
   margin: 0 0 0.65rem;
   color: var(--apple-blue);
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   font-weight: 650;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -646,7 +664,7 @@ ul.rz-list li::before {
 .academic-overview-item span {
   margin-top: 0.28rem;
   color: var(--apple-text-tertiary);
-  font-size: 0.72rem;
+  font-size: 0.82rem;
   font-weight: 550;
   letter-spacing: 0.02em;
   line-height: 1.3;
@@ -720,7 +738,7 @@ ul.rz-list li::before {
 .publication-toolbar-label {
   padding: 0 0.3rem;
   color: var(--apple-text-secondary);
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   font-weight: 650;
   white-space: nowrap;
 }
@@ -761,8 +779,15 @@ ul.rz-list li::before {
 }
 
 .publication-page .pub-list-item .title-block {
-  font-size: 1.02rem;
-  line-height: 1.42;
+  font-size: 1.08rem;
+  line-height: 1.48;
+}
+
+.publication-page .article-metadata,
+.publication-page .pub-publication,
+.publication-page .pub-list-item .btn {
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 .publication-page .article-metadata.li-cite-author span::after {
@@ -810,7 +835,7 @@ ul.rz-list li::before {
 
 .projects-page .academic-overview-item strong {
   overflow-wrap: anywhere;
-  font-size: 0.82rem;
+  font-size: 0.92rem;
   letter-spacing: -0.02em;
 }
 
@@ -828,7 +853,7 @@ ul.rz-list li::before {
   color: var(--apple-text-secondary);
   background: var(--apple-blue-tint);
   border-radius: var(--apple-radius-pill);
-  font-size: 0.78rem;
+  font-size: 0.88rem;
   font-weight: 600;
 }
 
@@ -861,14 +886,14 @@ ul.rz-list li::before {
 .course-code {
   color: var(--apple-blue);
   font-family: var(--apple-mono) !important;
-  font-size: 0.82rem;
+  font-size: 0.92rem;
   font-weight: 700;
   letter-spacing: 0.02em;
 }
 
 .course-level {
   color: var(--apple-text-tertiary);
-  font-size: 0.78rem;
+  font-size: 0.88rem;
   font-weight: 550;
 }
 
@@ -969,7 +994,7 @@ ul.rz-list li::before {
   }
 
   .projects-page .academic-overview-item strong {
-    font-size: 0.78rem;
+    font-size: 0.9rem;
     letter-spacing: -0.025em;
   }
 
@@ -1273,5 +1298,346 @@ html.js .wg-about-biography.rz-reveal.is-visible .network-icon li {
   }
   .nav-link span::after {
     transition: none !important;
+  }
+}
+
+/* ============================================================
+   Readable index system — full-width lists, not card grids
+   ============================================================ */
+.academic-index-page .academic-shell {
+  width: min(1120px, calc(100% - 3rem));
+}
+
+.academic-hero {
+  display: block;
+  overflow: visible;
+  padding: 2.75rem 0 2.25rem !important;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--apple-border);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.academic-hero::after {
+  display: none;
+}
+
+.academic-kicker {
+  margin-bottom: 0.8rem;
+}
+
+.academic-hero h1,
+.academic-index-page .academic-hero h1 {
+  max-width: none;
+  font-size: clamp(2.5rem, 5vw, 4.25rem);
+  line-height: 1.06;
+  text-wrap: balance;
+}
+
+.academic-intro {
+  max-width: 72ch;
+  font-size: 1.12rem;
+  line-height: 1.65;
+}
+
+.academic-overview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  margin-top: 1.6rem;
+}
+
+.academic-overview-item {
+  display: flex;
+  gap: 0.45rem;
+  align-items: baseline;
+  width: auto;
+  padding: 0 1.15rem;
+  background: transparent;
+  border: 0;
+  border-left: 1px solid var(--apple-border);
+  border-radius: 0;
+}
+
+.academic-overview-item:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.academic-overview-item strong,
+.academic-overview-item span {
+  display: inline;
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.academic-overview-item strong {
+  font-size: 1.05rem;
+}
+
+.academic-content {
+  margin-top: 0 !important;
+}
+
+.academic-panel {
+  padding: 2.5rem 0;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--apple-border);
+  border-radius: 0;
+}
+
+/* Publications: one complete, aligned reading list. */
+.publication-toolbar {
+  margin: 1.5rem 0 0;
+  padding: 0 0 1.25rem;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--apple-border);
+  border-radius: 0;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.publication-page #container-publications {
+  margin: 0;
+}
+
+.publication-page #container-publications .isotope-item {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 0 !important;
+}
+
+.publication-page .pub-list-item.view-citation,
+.pub-list-item.view-citation {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.45rem 2rem;
+  min-height: 0;
+  height: auto;
+  max-width: none;
+  margin: 0 !important;
+  padding: 1.55rem 0;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--apple-border);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.publication-page .author-highlighted {
+  color: var(--apple-blue);
+  text-decoration-color: color-mix(in srgb, var(--apple-blue) 55%, transparent);
+}
+
+.publication-page .pub-list-item .title-block {
+  grid-column: 1;
+  font-size: 1.16rem;
+  line-height: 1.45;
+  overflow-wrap: normal;
+  word-break: normal;
+  text-wrap: pretty;
+}
+
+.publication-page .pub-list-item .metadata-block,
+.publication-page .pub-list-item .journal-block {
+  grid-column: 1;
+  max-width: 90ch;
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+.publication-page .pub-list-item p:last-child {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  align-self: center;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.publication-page .pub-list-item .btn {
+  min-height: 38px;
+  margin: 0 0 0 0.35rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .publication-page .pub-list-item.view-citation:hover,
+  .course-card:hover {
+    transform: none;
+    background: var(--apple-blue-tint);
+    box-shadow: none;
+  }
+}
+
+/* Honors and service: a single chronological list. */
+.honors-layout {
+  display: block;
+}
+
+.honors-side {
+  display: block;
+}
+
+.honors-awards-list {
+  display: block;
+}
+
+.honors-awards-list p,
+.honors-side p {
+  margin: 0;
+  padding: 1rem 0;
+  color: var(--apple-text-secondary);
+  background: transparent;
+  border-bottom: 1px solid var(--apple-border);
+  border-radius: 0;
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.honors-awards-list p:last-child,
+.honors-side p:last-child {
+  border-bottom: 0;
+}
+
+.honors-side p + p {
+  margin-top: 0;
+}
+
+/* Teaching: courses read as rows, with room for full titles. */
+.course-grid {
+  display: block;
+}
+
+.course-card {
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr) auto;
+  gap: 0.4rem 1.5rem;
+  min-height: 0;
+  padding: 1.5rem 0;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--apple-border);
+  border-radius: 0;
+}
+
+.course-card:first-child {
+  border-top: 1px solid var(--apple-border);
+}
+
+.course-card-header {
+  grid-column: 1;
+  display: block;
+}
+
+.course-code,
+.course-level {
+  display: block;
+}
+
+.course-level {
+  margin-top: 0.35rem;
+}
+
+.course-card h3,
+.course-card p {
+  grid-column: 2;
+}
+
+.course-card h3 {
+  margin: 0;
+}
+
+.course-card p {
+  margin: 0;
+}
+
+.course-card .academic-link {
+  grid-column: 3;
+  grid-row: 1 / span 3;
+  align-self: center;
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* Projects: media and description form one list row. */
+.project-feature-card {
+  grid-template-columns: minmax(240px, 34%) minmax(0, 1fr);
+  gap: 2rem;
+  align-items: center;
+}
+
+.project-feature-media {
+  min-height: 0;
+  border-radius: 0;
+}
+
+.project-feature-copy {
+  padding: 0;
+}
+
+.topic-list li {
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+}
+
+.topic-list li:not(:last-child)::after {
+  content: "·";
+  margin-left: 0.55rem;
+  color: var(--apple-text-tertiary);
+}
+
+@media (max-width: 767px) {
+  .academic-index-page .academic-shell {
+    width: min(100% - 1.5rem, 1120px);
+  }
+
+  .academic-hero {
+    padding: 2rem 0 1.5rem !important;
+  }
+
+  .academic-hero h1,
+  .academic-index-page .academic-hero h1 {
+    font-size: clamp(2.25rem, 11vw, 3.25rem);
+  }
+
+  .academic-overview-item {
+    width: 100%;
+    padding: 0.3rem 0;
+    border-left: 0;
+  }
+
+  .publication-toolbar {
+    padding-bottom: 1rem;
+  }
+
+  .publication-page .pub-list-item.view-citation,
+  .pub-list-item.view-citation,
+  .course-card,
+  .project-feature-card {
+    display: block;
+  }
+
+  .publication-page .pub-list-item p:last-child {
+    margin-top: 0.85rem;
+  }
+
+  .publication-page .pub-list-item .btn {
+    margin: 0 0.35rem 0 0;
+  }
+
+  .course-card-header,
+  .course-card h3,
+  .course-card p,
+  .course-card .academic-link {
+    margin-bottom: 0.65rem;
+  }
+
+  .project-feature-media {
+    margin-bottom: 1.25rem;
   }
 }
