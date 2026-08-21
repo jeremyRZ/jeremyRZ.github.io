@@ -7,19 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="generator" content="Wowchemy 5.7.0 for Hugo" />
     
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-
     <link
       rel="stylesheet"
       href="/css/vendor-bundle.min.047268c6dd09ad74ba54a0ba71837064.css"
-      media="print"
-      onload="this.media='all'"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/academicons@1.9.2/css/academicons.min.css"
-      integrity="sha512-KlJCpRsLf+KKu2VQa5vmRuClRFjxc5lXO03ixZt82HZUk41+1I0bD8KBSA0fY290ayMfWYI9udIqeOWSu1/uZg=="
-      crossorigin="anonymous"
       media="print"
       onload="this.media='all'"
     />
@@ -198,47 +188,11 @@
           background-color 160ms var(--rz-ease), border-color 160ms var(--rz-ease);
       }
 
-      /* Section scroll-reveal (JS adds .is-visible) */
-      html.js .rz-reveal {
-        opacity: 0;
-        transform: translateY(16px);
-        transition: opacity 520ms var(--rz-ease), transform 520ms var(--rz-ease);
-        will-change: opacity, transform;
-      }
-      html.js .rz-reveal.is-visible {
-        opacity: 1;
-        transform: none;
-      }
-
       @media (prefers-reduced-motion: reduce) {
-        html.js .rz-reveal,
-        html.js .rz-reveal.is-visible {
-          opacity: 1 !important;
-          transform: none !important;
-          transition: none !important;
-        }
         .home-publications-item:hover,
         .btn:hover { transform: none; }
       }
     </style>
-    <link
-      rel="stylesheet"
-      href="/css/libs/chroma/github-light.min.css"
-      title="hl-light"
-      media="print"
-      onload="this.media='all'"
-    />
-    <link
-      rel="stylesheet"
-      href="/css/libs/chroma/dracula.min.css"
-      title="hl-dark"
-      media="print"
-      onload="this.media='all'"
-      disabled
-    />
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZB8YWTTCYZ"></script>
-    <script src="/js/analytics.js"></script>
-
     <meta name="author" content="Rui ZHAO" />
 
     <meta name="description" content="Rui ZHAO is an Assistant Professor at Macau University of Science and Technology, researching blockchain, artificial intelligence, and digital twins for the construction industry." />
@@ -342,6 +296,7 @@
       <symbol id="icon-flask" viewBox="0 0 24 24"><path d="M9 3h6m-5 0v6l-5 9a2 2 0 0 0 1.8 3h10.4A2 2 0 0 0 19 18l-5-9V3M8 15h8"/></symbol>
       <symbol id="icon-bulb" viewBox="0 0 24 24"><path d="M9 18h6m-5 3h4m3.5-6.5A7 7 0 1 0 6.5 14.5C8 16 8.5 17 8.5 18h7c0-1 .5-2 2-3.5Z"/></symbol>
       <symbol id="icon-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/></symbol>
+      <symbol id="icon-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
     </svg>
     <script src="/js/light-theme.js?v=1"></script>
     <script src="/js/wowchemy-init.min.ec9d49ca50e4b80bdb08f0417a28ed84.js"></script>
@@ -418,6 +373,8 @@
                   height="270"
                   src="/authors/admin/avatar.png"
                   alt="Rui ZHAO"
+                  decoding="async"
+                  fetchpriority="high"
                 />
 
                 <div class="portrait-title">
@@ -440,7 +397,7 @@
                       href="mailto:zhaorui@must.edu.mo"
                       aria-label="envelope"
                     >
-                      <i class="fas fa-envelope big-icon"></i>
+                      <svg class="ui-icon big-icon" aria-hidden="true"><use href="#icon-mail"/></svg>
                     </a>
                   </li>
 
@@ -451,7 +408,7 @@
                       rel="noopener"
                       aria-label="google-scholar"
                     >
-                      <i class="ai ai-google-scholar big-icon"></i>
+                      <svg class="ui-icon big-icon" aria-hidden="true"><use href="#icon-cap"/></svg>
                     </a>
                   </li>
 
@@ -462,7 +419,7 @@
                       rel="noopener"
                       aria-label="orcid"
                     >
-                      <i class="ai ai-orcid big-icon"></i>
+                      <svg class="ui-icon big-icon" aria-hidden="true"><use href="#icon-link"/></svg>
                     </a>
                   </li>
 
@@ -473,7 +430,7 @@
                       rel="noopener"
                       aria-label="dblp"
                     >
-                      <i class="ai ai-dblp big-icon"></i>
+                      <svg class="ui-icon big-icon" aria-hidden="true"><use href="#icon-book"/></svg>
                     </a>
                   </li>
 
@@ -484,7 +441,7 @@
                       rel="noopener"
                       aria-label="researchgate"
                     >
-                      <i class="ai ai-researchgate big-icon"></i>
+                      <svg class="ui-icon big-icon" aria-hidden="true"><use href="#icon-link"/></svg>
                     </a>
                   </li>
 
@@ -839,16 +796,6 @@
 
     <script src="/js/vendor-bundle.min.938a3a7554cd9f6602290411f64d2617.js"></script>
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js"
-      integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc="
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/gh/metafizzy/isotope@v3.0.6/dist/isotope.pkgd.min.js"
-      integrity="sha512-Zq2BOxyhvnRFXu0+WE6ojpZLOU2jdnqbrM1hmVdGzyeCa1DgM3X5Q4A/Is9xA1IkbUeDd7755dNNI/PzSf2Pew=="
-      crossorigin="anonymous"
-    ></script>
     <script id="search-hit-fuse-template" type="text/x-template">
       <div class="search-hit" id="summary-{{key}}">
         <div class="search-hit-content">
@@ -861,16 +808,6 @@
       </div>
     </script>
 
-    <script
-      src="https://cdn.jsdelivr.net/gh/krisk/Fuse@v3.2.1/dist/fuse.min.js"
-      integrity="sha512-o38bmzBGX+hD3JHWUFCDA09btWaqrNmoJ3RXLlrysA7PP01Kgs4UlE4MhelE1v5dJR3+cxlR4qQlotsW7jKsnw=="
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/gh/julmot/mark.js@8.11.1/dist/jquery.mark.min.js"
-      integrity="sha512-mhbv5DqBMgrWL+32MmsDOt/OAvqr/cHimk6B8y/bx/xS88MVkYGPiVv2ixKVrkywF2qHplNRUvFsAHUdxZ3Krg=="
-      crossorigin="anonymous"
-    ></script>
     <script id="page-data" type="application/json">
       {
         "use_headroom": false
@@ -914,10 +851,7 @@
         </div>
       </div>
     </div>
-    <script
-      src="/js/wowchemy-publication.68f8d7090562ca65fc6d3cb3f8f2d2cb.js"
-      type="module"
-    ></script>
-    <script src="/js/site-ui.js?v=2" defer></script>
+    <script src="/js/site-ui.js?v=3" defer></script>
+    <script src="/js/analytics.js?v=2" defer></script>
   </body>
 </html>
