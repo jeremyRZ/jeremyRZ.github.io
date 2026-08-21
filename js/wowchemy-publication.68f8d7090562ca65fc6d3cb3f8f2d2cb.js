@@ -1,1 +1,81 @@
-var a={},c,r,l=$("#container-publications");if(l.length){l.isotope({itemSelector:".isotope-item",percentPosition:!0,masonry:{columnWidth:".grid-sizer"},filter:function(){let t=$(this),i=c?t.text().match(c):!0,o=r?t.is(r):!0;return i&&o}});let e=$(".filter-search").keyup(p(function(){c=new RegExp(e.val(),"gi"),l.isotope()}));$(".pub-filters").on("change",function(){let i=$(this)[0].getAttribute("data-filter-group");if(a[i]=this.value,r=f(a),l.isotope(),i==="pubtype"){let o=$(this).val();o.substr(0,9)===".pubtype-"?window.location.hash=o.substr(9):window.location.hash=""}})}function p(e,t){let i;return t=t||100,function(){clearTimeout(i);let u=arguments,n=this;function s(){e.apply(n,u)}i=setTimeout(s,t)}}function f(e){let t="";for(let i in e)t+=e[i];return t}function d(){if(!l.length)return;let e=window.location.hash.replace("#",""),t="*";e!=""&&!isNaN(e)&&(t=".pubtype-"+e);let i="pubtype";a[i]=t,r=f(a),l.isotope(),$(".pubtype-select").val(t)}document.addEventListener("DOMContentLoaded",function(){$(".pub-filters-select")&&d(),$(".js-cite-modal").click(function(e){e.preventDefault();let t=$(this).attr("data-filename"),i=$("#modal");i.find(".modal-body code").load(t,function(o,u,n){if(u=="error"){let s="Error: ";$("#modal-error").html(s+n.status+" "+n.statusText)}else $(".js-download-cite").attr("href",t)}),i.modal("show")}),$(".js-copy-cite").click(function(e){e.preventDefault();let t=document.querySelector("#modal .modal-body code").innerHTML;navigator.clipboard.writeText(t).then(function(){console.debug("Citation copied!")}).catch(function(){console.error("Citation copy failed!")})})});
+(function () {
+  'use strict';
+
+  var container = document.getElementById('container-publications');
+
+  function initFilters() {
+    if (!container) return;
+
+    var items = Array.prototype.slice.call(container.querySelectorAll('.isotope-item'));
+    var searchInput = document.querySelector('.filter-search');
+    var filters = { pubtype: '*', year: '*' };
+
+    function applyFilters() {
+      var query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+      items.forEach(function (item) {
+        var matchesText = !query || item.textContent.toLowerCase().indexOf(query) !== -1;
+        var matchesType = filters.pubtype === '*' || item.matches(filters.pubtype);
+        var matchesYear = filters.year === '*' || item.matches(filters.year);
+        item.hidden = !(matchesText && matchesType && matchesYear);
+      });
+    }
+
+    document.querySelectorAll('.pub-filters').forEach(function (select) {
+      var group = select.getAttribute('data-filter-group');
+      select.addEventListener('change', function () {
+        filters[group] = select.value;
+        if (group === 'pubtype') {
+          var nextUrl = select.value.indexOf('.pubtype-') === 0
+            ? '#' + select.value.substring(9)
+            : window.location.pathname + window.location.search;
+          window.history.replaceState(null, '', nextUrl);
+        }
+        applyFilters();
+      });
+    });
+
+    if (searchInput) searchInput.addEventListener('input', applyFilters);
+
+    var hashType = window.location.hash.substring(1);
+    if (/^\d+$/.test(hashType)) {
+      var typeFilter = '.pubtype-' + hashType;
+      var typeSelect = document.querySelector('.pubtype-select');
+      if (typeSelect && typeSelect.querySelector('option[value="' + typeFilter + '"]')) {
+        typeSelect.value = typeFilter;
+        filters.pubtype = typeFilter;
+      }
+    }
+
+    applyFilters();
+  }
+
+  function initCitationModal() {
+    if (!window.jQuery) return;
+    var $ = window.jQuery;
+
+    $('.js-cite-modal').on('click', function (event) {
+      event.preventDefault();
+      var filename = $(this).attr('data-filename');
+      var modal = $('#modal');
+      modal.find('.modal-body code').load(filename, function (_response, status, request) {
+        if (status === 'error') {
+          $('#modal-error').text('Error: ' + request.status + ' ' + request.statusText);
+        } else {
+          $('.js-download-cite').attr('href', filename);
+        }
+      });
+      modal.modal('show');
+    });
+
+    $('.js-copy-cite').on('click', function (event) {
+      event.preventDefault();
+      var citation = document.querySelector('#modal .modal-body code');
+      if (citation && navigator.clipboard) navigator.clipboard.writeText(citation.textContent);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    initFilters();
+    initCitationModal();
+  });
+})();

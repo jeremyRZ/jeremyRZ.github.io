@@ -48,6 +48,14 @@ html {
   text-rendering: optimizeLegibility;
 }
 
+/* Content visibility must never depend on JavaScript or reveal observers. */
+html.js .rz-reveal,
+html.js .rz-reveal.is-visible {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
 .svg-symbols {
   position: absolute;
   width: 0;
