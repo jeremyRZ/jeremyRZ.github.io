@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="The 14-week learning architecture for CS210 Mobile Application Development.">
+  <title>Course Architecture · CS210</title>
+  <style>
+    :root { --bg:#f5f6f8; --card:#fff; --text:#151922; --muted:#697180; --line:#dce0e6; --blue:#0969da; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family:Inter,Arial,sans-serif; line-height:1.45; }
+    a { color:inherit; }
+    .page { width:min(1060px,calc(100% - 40px)); margin:auto; padding:34px 0 72px; }
+    .back { display:inline-block; margin-bottom:24px; color:#596273; font-size:13px; text-decoration:none; }
+    .back:hover { color:var(--blue); }
+    .eyebrow { color:var(--blue); font-size:11px; font-weight:800; letter-spacing:.14em; }
+    h1 { margin:7px 0 8px; font-size:32px; letter-spacing:-.035em; }
+    .intro { max-width:720px; margin:0 0 38px; color:var(--muted); font-size:14px; }
+    .stage { --c:#5b5ce2; margin-bottom:38px; }
+    .stage-head { display:grid; grid-template-columns:auto 1fr; align-items:center; gap:12px; padding-bottom:12px; border-bottom:1px solid var(--line); }
+    .stage-label { padding:5px 10px; border-radius:999px; background:var(--c); color:white; font-size:9px; font-weight:800; letter-spacing:.08em; }
+    .stage-head h2 { display:inline; margin:0; font-size:19px; letter-spacing:-.02em; }
+    .stage-meta { margin-left:8px; color:var(--muted); font:10px Consolas,monospace; }
+    .stage-goal { grid-column:2; margin:2px 0 0; color:var(--muted); font-size:12px; }
+    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top:14px; }
+    .week { display:grid; grid-template-columns:42px 1fr; gap:13px; padding:18px; border:1px solid var(--line); border-radius:10px; background:var(--card); box-shadow:0 4px 12px rgba(24,31,45,.045); }
+    .week-no { display:flex; width:38px; height:38px; align-items:center; justify-content:center; border-radius:9px; background:var(--c); color:white; font-size:13px; font-weight:800; }
+    .week-no small { margin-right:2px; font-size:7px; }
+    h3 { margin:0 0 7px; font-size:14px; letter-spacing:-.015em; }
+    .goal { margin:0 0 14px; color:#404754; font-size:11px; }
+    .detail { display:grid; grid-template-columns:76px 1fr; gap:7px; margin-top:7px; font-size:10px; }
+    .detail b { color:var(--c); font-size:9px; letter-spacing:.08em; text-transform:uppercase; }
+    .detail span { color:var(--muted); }
+    @media (max-width:720px) { .grid{grid-template-columns:1fr}.page{width:min(100% - 24px,1060px)}.stage-goal{grid-column:1/-1}.week{padding:15px} }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <a class="back" href="index.html">← Course Index</a>
+    <div class="eyebrow">CS210 · LEARNING ROADMAP</div>
+    <h1>Course Architecture</h1>
+    <p class="intro">The course progresses from understanding the mobile platform to building, structuring, and evaluating a complete Android application. Each week adds one capability and produces one verifiable result.</p>
+    <div id="roadmap"></div>
+  </main>
+  <script>
+    const stages=[
+      ['STAGE 01','Platform Foundations','W1','Understand why mobile applications have different constraints from desktop software.','#5b5ce2'],
+      ['STAGE 02','Building Android Apps','W2–W3','Build a working app and connect multiple screens and system actions.','#0879e6'],
+      ['STAGE 03','Lifecycle and Interface','W4–W5','Preserve state and design interfaces that adapt to mobile devices.','#0795ad'],
+      ['STAGE 04','Navigation and Data','W6–W9','Present collections, organise navigation, and persist application data.','#069368'],
+      ['STAGE 05','Network and Device','W10–W11','Connect to web services and use device capabilities responsibly.','#e87b00'],
+      ['STAGE 06','Background Work and Architecture','W12–W13','Keep the app responsive and organise growing code into maintainable layers.','#7a2ee6'],
+      ['STAGE 07','Product Readiness','W14','Evaluate whether an application is reliable, secure, and ready to ship.','#e6134f']
+    ];
+    const weeks=[
+      [1,0,'Mobile Platforms and the App Model','Explain how mobile constraints shape application design.','Platforms, operating systems, sandbox, permissions, app components','Mobile platform and Android app-model diagram'],
+      [2,1,'Building the First Android App','Create, run, debug, and interact with a complete Android project.','Project structure, Gradle, Manifest, Activity, resources, events','A runnable single-screen interactive app'],
+      [3,1,'Multi-Screen Apps and Intents','Move between screens, pass data, and invoke system capabilities.','Activities, explicit and implicit Intents, extras, Activity Result API','A two-screen app with data transfer and sharing'],
+      [4,2,'Lifecycle and State','Keep user state correct during rotation, backgrounding, and process recreation.','Activity lifecycle, UI state, ViewModel, SavedStateHandle','An app that restores state correctly'],
+      [5,2,'Responsive Mobile UI','Design a usable interface for touch, screen sizes, and accessibility needs.','Layouts, density, resources, Material Design, accessibility','A responsive and accessible form screen'],
+      [6,3,'Efficient Lists','Display and update large collections without unnecessary work.','RecyclerView, Adapter, ViewHolder, ListAdapter','A responsive list-to-detail interface'],
+      [7,3,'App Actions and Navigation','Provide consistent actions and predictable hierarchical navigation.','App bar, menus, Up navigation, share actions','A navigable app with a complete action bar'],
+      [8,3,'Adaptive Navigation','Use one navigation structure across phones and larger screens.','Fragments, Navigation Component, adaptive layouts','A multi-destination adaptive interface'],
+      [9,3,'Local Persistence','Store structured data safely and expose it to the UI.','Room, Entity, DAO, Database, Repository, DataStore','Data that remains available after restart'],
+      [10,4,'Networking and Web APIs','Request remote data and handle success, failure, and authentication boundaries.','HTTP, REST, JSON, Retrofit, error handling','An app that loads and displays API data'],
+      [11,4,'Device Capabilities and Privacy','Use location or notifications with appropriate permission and privacy decisions.','Runtime permissions, location, notifications, device sensors','One permission-aware device feature'],
+      [12,5,'Asynchronous and Background Work','Run non-blocking and scheduled work within Android system limits.','Coroutines, Flow, lifecycleScope, WorkManager','Responsive asynchronous and resumable work'],
+      [13,5,'Modern Android Architecture','Separate UI, state, and data responsibilities as the application grows.','MVVM, ViewModel, Repository, single source of truth','A documented, maintainable app architecture'],
+      [14,6,'Quality, Security and Delivery','Test critical paths, protect sensitive data, and justify release decisions.','Testing, failure handling, performance, security, platform choices','Final project demonstration and architecture note']
+    ];
+    document.getElementById('roadmap').innerHTML=stages.map((s,i)=>`<section class="stage" style="--c:${s[4]}"><header class="stage-head"><span class="stage-label">${s[0]}</span><div><h2>${s[1]}</h2><span class="stage-meta">${s[2]}</span></div><p class="stage-goal">${s[3]}</p></header><div class="grid">${weeks.filter(w=>w[1]===i).map(w=>`<article class="week"><div class="week-no"><small>W</small>${String(w[0]).padStart(2,'0')}</div><div><h3>${w[2]}</h3><p class="goal">${w[3]}</p><div class="detail"><b>Core focus</b><span>${w[4]}</span></div><div class="detail"><b>Outcome</b><span>${w[5]}</span></div></div></article>`).join('')}</div></section>`).join('');
+  </script>
+</body>
+</html>

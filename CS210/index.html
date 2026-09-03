@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="CS210 Mobile Application Development course index, Fall 2026.">
+  <title>CS210 · Mobile Application Development</title>
+  <style>
+    :root {
+      --navy:#101b35; --blue:#1268e8; --sky:#6ed4f4; --paper:#f4f6f9;
+      --white:#fff; --text:#171c26; --muted:#667085; --line:#dce1e8;
+      --sans:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+    }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--text); font-family:var(--sans); line-height:1.5; }
+    a { color:inherit; text-decoration:none; }
+    a:focus-visible { outline:3px solid var(--sky); outline-offset:4px; }
+    .wrap { width:min(1080px,calc(100% - 40px)); margin:auto; }
+    .topbar { padding:17px 0; background:var(--navy); color:#bfc9dc; border-bottom:1px solid rgba(255,255,255,.1); }
+    .topbar .wrap { display:flex; justify-content:space-between; gap:20px; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+    .topbar strong { color:white; }
+    .hero { position:relative; overflow:hidden; padding:78px 0 90px; color:white; background:linear-gradient(120deg,#101b35 0%,#17366f 70%,#1268e8 100%); }
+    .hero::before { content:""; position:absolute; width:520px; height:520px; right:-160px; top:-250px; border:80px solid rgba(110,212,244,.10); border-radius:50%; }
+    .hero::after { content:"</>"; position:absolute; right:max(5vw,40px); bottom:-25px; color:rgba(255,255,255,.08); font:800 180px/1 ui-monospace,monospace; }
+    .hero-content { position:relative; z-index:1; max-width:790px; }
+    .eyebrow { display:flex; align-items:center; gap:10px; margin-bottom:18px; color:#8cdef7; font-size:12px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; }
+    .eyebrow::before { content:""; width:28px; height:3px; background:var(--sky); border-radius:2px; }
+    h1 { margin:0; font-size:clamp(42px,7vw,72px); line-height:1.02; letter-spacing:-.045em; }
+    .hero p { max-width:650px; margin:22px 0 0; color:#cbd7ec; font-size:clamp(16px,2vw,20px); }
+    .facts { position:relative; z-index:2; display:grid; grid-template-columns:repeat(3,1fr); margin-top:-35px; overflow:hidden; border:1px solid var(--line); border-radius:14px; background:white; box-shadow:0 18px 45px rgba(16,27,53,.12); }
+    .fact { padding:22px 25px; border-right:1px solid var(--line); }
+    .fact:last-child { border-right:0; }
+    .fact span { display:block; margin-bottom:5px; color:var(--muted); font-size:10px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+    .fact strong { font-size:15px; }
+    main { padding:65px 0 95px; }
+    .section-label { margin-bottom:8px; color:var(--blue); font-size:11px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; }
+    h2 { margin:0 0 25px; font-size:30px; letter-spacing:-.03em; }
+    .index-card { display:grid; grid-template-columns:105px 1fr auto; align-items:center; gap:27px; padding:28px; border:1px solid var(--line); border-radius:16px; background:white; box-shadow:0 7px 20px rgba(16,27,53,.05); transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease; }
+    .index-card:hover { transform:translateY(-3px); border-color:#b8c7dd; box-shadow:0 16px 34px rgba(16,27,53,.10); }
+    .preview { display:grid; place-items:center; width:105px; height:82px; border-radius:11px; color:white; background:linear-gradient(145deg,#4936df,#1268e8); font:800 32px/1 ui-monospace,monospace; }
+    .preview small { display:block; margin-top:5px; font-size:8px; letter-spacing:.12em; text-align:center; opacity:.8; }
+    .index-card h3 { margin:0 0 6px; font-size:22px; letter-spacing:-.02em; }
+    .index-card p { margin:0; color:var(--muted); font-size:14px; }
+    .tags { display:flex; flex-wrap:wrap; gap:7px; margin-top:13px; }
+    .tag { padding:4px 8px; border:1px solid var(--line); border-radius:5px; color:#586174; font:10px/1.2 ui-monospace,monospace; }
+    .open { display:flex; align-items:center; gap:9px; color:var(--blue); font-size:13px; font-weight:800; white-space:nowrap; }
+    .arrow { display:grid; place-items:center; width:36px; height:36px; border-radius:50%; background:#edf4ff; font-size:18px; transition:transform .2s ease; }
+    .index-card:hover .arrow { transform:translateX(3px); }
+    footer { padding:27px 0; background:var(--navy); color:#94a0b6; font-size:12px; }
+    footer .wrap { display:flex; justify-content:space-between; gap:20px; }
+    @media (max-width:720px) {
+      .topbar .wrap,footer .wrap { flex-direction:column; gap:5px; }
+      .facts { grid-template-columns:1fr; }
+      .fact { border-right:0; border-bottom:1px solid var(--line); }
+      .fact:last-child { border-bottom:0; }
+      .index-card { grid-template-columns:76px 1fr; gap:18px; padding:20px; }
+      .preview { width:76px; height:76px; }
+      .open { grid-column:1/-1; justify-content:flex-end; padding-top:15px; border-top:1px solid var(--line); }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar"><div class="wrap"><strong>CS210</strong><span>Fall 2026 · Course Index</span></div></div>
+  <header class="hero">
+    <div class="wrap hero-content">
+      <div class="eyebrow">Mobile Application Development</div>
+      <h1>Build for the<br>mobile world.</h1>
+      <p>A structured introduction to modern mobile application development, from platform fundamentals to application architecture.</p>
+    </div>
+  </header>
+  <div class="wrap">
+    <section class="facts" aria-label="Course information">
+      <div class="fact"><span>Course</span><strong>CS210</strong></div>
+      <div class="fact"><span>Instructor</span><strong>Prof. Rui (Jeremy) Zhao</strong></div>
+      <div class="fact"><span>School</span><strong>Faculty of Innovation Engineering, MUST</strong></div>
+    </section>
+  </div>
+  <main>
+    <div class="wrap">
+      <div class="section-label">Explore the course</div>
+      <h2>Course Index</h2>
+      <a class="index-card" href="course-architecture.html">
+        <div class="preview">01<small>SECTION</small></div>
+        <div>
+          <h3>Course Architecture</h3>
+          <p>The complete 14-week roadmap, organised into seven progressive learning stages.</p>
+          <div class="tags"><span class="tag">14 WEEKS</span><span class="tag">7 STAGES</span><span class="tag">ROADMAP</span></div>
+        </div>
+        <div class="open">Open page <span class="arrow" aria-hidden="true">→</span></div>
+      </a>
+    </div>
+  </main>
+  <footer><div class="wrap"><span>© 2026 Faculty of Innovation Engineering, MUST</span><span>CS210 · Mobile Application Development</span></div></footer>
+</body>
+</html>
