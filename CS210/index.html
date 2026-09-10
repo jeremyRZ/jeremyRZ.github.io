@@ -37,6 +37,7 @@
     h2 { margin:0 0 25px; font-size:30px; letter-spacing:-.03em; }
     .index-card { display:grid; grid-template-columns:105px 1fr auto; align-items:center; gap:27px; padding:28px; border:1px solid var(--line); border-radius:16px; background:white; box-shadow:0 7px 20px rgba(16,27,53,.05); transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease; }
     .index-card:hover { transform:translateY(-3px); border-color:#b8c7dd; box-shadow:0 16px 34px rgba(16,27,53,.10); }
+    .index-card + .index-card { margin-top:16px; }
     .preview { display:grid; place-items:center; width:105px; height:82px; border-radius:11px; color:white; background:linear-gradient(145deg,#4936df,#1268e8); font:800 32px/1 ui-monospace,monospace; }
     .preview small { display:block; margin-top:5px; font-size:8px; letter-spacing:.12em; text-align:center; opacity:.8; }
     .index-card h3 { margin:0 0 6px; font-size:22px; letter-spacing:-.02em; }
@@ -87,6 +88,15 @@
           <div class="tags"><span class="tag">14 WEEKS</span><span class="tag">7 STAGES</span><span class="tag">ROADMAP</span></div>
         </div>
         <div class="open">Open page <span class="arrow" aria-hidden="true">→</span></div>
+      </a>
+      <a class="index-card" href="week02/index.html">
+        <div class="preview">02<small>WEEK</small></div>
+        <div>
+          <h3>Building the First Android App</h3>
+          <p>Four interactive demonstrations covering app structure, XML layouts, resources, and event flow.</p>
+          <div class="tags"><span class="tag">WEEK 02</span><span class="tag">4 DEMOS</span><span class="tag">INTERACTIVE</span></div>
+        </div>
+        <div class="open">Open demos <span class="arrow" aria-hidden="true">→</span></div>
       </a>
     </div>
   </main>
