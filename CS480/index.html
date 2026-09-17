@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Interactive explanations and practice for CS480 Chapter 3 NumPy.">
+  <title>CS480 · NumPy Interactive Guide</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' fill='%23101b35'/%3E%3Cpath d='M14 44V20h8l12 15V20h8v24h-8L22 29v15z' fill='%236ed4f4'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top"><strong>CS480</strong><span>NumPy Interactive Guide</span></a>
+    <div class="progress" aria-label="Reading progress"><span id="progressBar"></span></div>
+    <span class="chapter">CHAPTER 03</span>
+  </header>
+
+  <div class="shell" id="top">
+    <aside class="sidebar" aria-label="Chapter navigation">
+      <p class="side-label">Learning path</p>
+      <nav>
+        <a class="active" href="#arrays"><span>01</span>Array anatomy</a>
+        <a href="#memory"><span>02</span>View or copy</a>
+        <a href="#indexing"><span>03</span>Indexing</a>
+        <a href="#axis"><span>04</span>Axis</a>
+        <a href="#missing"><span>05</span>Missing values</a>
+        <a href="#broadcast"><span>06</span>Broadcasting</a>
+        <a href="#dtype"><span>07</span>Dtype safety</a>
+        <a href="#operations"><span>08</span>Operations</a>
+        <a href="#check"><span>09</span>Knowledge check</a>
+      </nav>
+      <div class="side-note"><strong>Debugging order</strong><ol><li>shape + dtype</li><li>NaN</li><li>view / copy</li><li>axis</li></ol></div>
+    </aside>
+
+    <main>
+      <section class="intro" aria-labelledby="page-title">
+        <div><p class="eyebrow">NUMERICAL COMPUTING</p><h1 id="page-title">Think in arrays.</h1><p class="lede">NumPy becomes predictable when you read the shape, dtype, memory relationship, and axis before you read the values.</p></div>
+        <div class="array-mark" aria-hidden="true"><span>[</span><div>1&nbsp;&nbsp;2&nbsp;&nbsp;3<br>4&nbsp;&nbsp;5&nbsp;&nbsp;6</div><span>]</span></div>
+      </section>
+
+      <section class="lesson" id="arrays">
+        <header><p>01 · FOUNDATION</p><h2>Array anatomy</h2><span>Shape gives the data meaning</span></header>
+        <div class="explain"><div><h3>Four facts describe an ndarray</h3><p><code>ndim</code> counts dimensions. <code>shape</code> records the length of each dimension. <code>size</code> counts all elements. <code>dtype</code> determines representation and memory cost.</p><pre><code>a = np.array([[1, 2, 3],
+              [4, 5, 6]], dtype=np.float32)</code></pre></div>
+          <div class="lab"><label for="rows">Rows <output id="rowsOut">2</output></label><input id="rows" type="range" min="1" max="5" value="2"><label for="cols">Columns <output id="colsOut">3</output></label><input id="cols" type="range" min="1" max="6" value="3"><label for="bytes">Dtype</label><select id="bytes"><option value="1">uint8 · 1 byte</option><option value="4" selected>float32 · 4 bytes</option><option value="8">float64 · 8 bytes</option></select><div class="result-grid"><div><span>ndim</span><strong>2</strong></div><div><span>shape</span><strong id="shapeOut">(2, 3)</strong></div><div><span>size</span><strong id="sizeOut">6</strong></div><div><span>nbytes</span><strong id="nbytesOut">24</strong></div></div></div>
+        </div><p class="rule"><strong>Habit:</strong> print <code>a.shape</code> and <code>a.dtype</code> before debugging the calculation.</p>
+      </section>
+
+      <section class="lesson" id="memory">
+        <header><p>02 · MEMORY</p><h2>View or copy</h2><span>The first source of silent bugs</span></header>
+        <div class="explain"><div><h3>A view shares memory</h3><p>Basic slicing usually returns another window onto the same data. Fancy indexing and boolean indexing usually create independent data.</p><div class="choice-row" role="group" aria-label="Choose indexing operation"><button class="choice active" data-memory="slice">a[1:4]</button><button class="choice" data-memory="fancy">a[[1,2,3]]</button><button class="choice" data-memory="boolean">a[a &gt; 1]</button></div></div><div class="memory-viz"><p>Original <code>a</code></p><div class="cells" id="originalCells"></div><p id="memoryMessage"></p><button id="mutate">Set result[0] = 99</button></div></div>
+        <div class="compare"><div><strong>Basic slice</strong><span>View · changing it can change the original</span></div><div><strong>Fancy / boolean</strong><span>Copy · changing it does not change the original</span></div><div><strong>Unsure?</strong><span><code>np.shares_memory(a, result)</code></span></div></div>
+      </section>
+
+      <section class="lesson" id="indexing">
+        <header><p>03 · SELECTION</p><h2>Indexing and masks</h2><span>Select first, then verify the result shape</span></header>
+        <div class="explain"><div><h3>Slice a two-dimensional array</h3><p>Rows and columns use separate selectors. The stop position is excluded. A boolean mask selects values and returns a one-dimensional copy.</p><pre><code>x[1:3, 2:5]        # sub-matrix, shape (2, 3)
+x[x &gt; 10]          # matching values, shape (n,)
+x[(x &gt; 5) &amp; (x &lt; 12)]</code></pre></div><div class="lab"><div class="matrix" id="indexMatrix" aria-label="4 by 6 matrix"></div><label for="indexMode">Selection</label><select id="indexMode"><option value="block">x[1:3, 2:5]</option><option value="stride">x[::2, ::3]</option><option value="mask">x[x &gt; 10]</option></select><p class="answer" id="indexAnswer"></p></div></div>
+        <p class="rule"><strong>Combined conditions:</strong> use parentheses with <code>&amp;</code>, <code>|</code>, and <code>~</code>. Python's <code>and</code> and <code>or</code> do not operate element by element.</p>
+      </section>
+
+      <section class="lesson" id="axis">
+        <header><p>04 · REDUCTION</p><h2>Axis removes a dimension</h2><span>Predict the output shape before the values</span></header>
+        <div class="axis-demo"><div><div class="matrix large" id="axisMatrix"></div><div class="axis-buttons"><button class="active" data-axis="0">sum(axis=0)</button><button data-axis="1">sum(axis=1)</button><button data-axis="all">sum()</button></div></div><div class="axis-result"><p id="axisSentence">Remove axis 0. One result remains for each column.</p><strong id="axisValues">[3, 5, 7]</strong><span id="axisShape">shape (3,)</span><label><input type="checkbox" id="keepdims"> keepdims=True</label></div></div>
+        <p class="rule"><strong>Memory anchor:</strong> axis identifies the dimension that disappears. <code>keepdims=True</code> keeps its length as 1 so later broadcasting works.</p>
+      </section>
+
+      <section class="lesson" id="missing">
+        <header><p>05 · REAL DATA</p><h2>Missing values propagate</h2><span>Choose a NaN-aware operation deliberately</span></header>
+        <div class="explain"><div><h3>One NaN can hide the whole result</h3><p>Ordinary aggregation propagates missing values. NaN-aware functions skip them, so the effective sample size changes.</p><pre><code>x = np.array([1.7, -2.3, 3.5, np.nan])
+np.mean(x)     # nan
+np.nanmean(x)  # 0.9666...</code></pre></div><div class="lab"><fieldset><legend>Values included</legend><label><input class="nan-value" type="checkbox" value="1.7" checked> 1.7</label><label><input class="nan-value" type="checkbox" value="-2.3" checked> −2.3</label><label><input class="nan-value" type="checkbox" value="3.5" checked> 3.5</label><label><input class="nan-value" type="checkbox" value="nan" checked> NaN</label></fieldset><div class="result-grid two"><div><span>mean</span><strong id="meanOut">NaN</strong></div><div><span>nanmean</span><strong id="nanmeanOut">0.967</strong></div></div><p class="answer" id="validCount">3 valid values</p></div></div>
+      </section>
+
+      <section class="lesson" id="broadcast">
+        <header><p>06 · SHAPE LOGIC</p><h2>Broadcasting</h2><span>Align shapes from the right</span></header>
+        <div class="broadcast-demo"><div><label>Left shape <input id="shapeA" value="100, 200, 3" inputmode="numeric"></label><label>Right shape <input id="shapeB" value="3" inputmode="numeric"></label><button id="checkBroadcast">Check compatibility</button></div><div class="shape-stack"><div id="alignedA">(100, 200, 3)</div><div id="alignedB">(1, 1, 3)</div><strong id="broadcastResult">Compatible → (100, 200, 3)</strong></div></div>
+        <div class="compare"><div><strong>Compare right to left</strong><span>Dimensions must match or one must be 1</span></div><div><strong>Missing dimensions</strong><span>Pad with 1 on the left</span></div><div><strong>Vector warning</strong><span><code>(5,)</code>, <code>(1,5)</code>, and <code>(5,1)</code> differ</span></div></div>
+      </section>
+
+      <section class="lesson" id="dtype">
+        <header><p>07 · NUMERIC SAFETY</p><h2>Dtype and overflow</h2><span>Automatic conversion does not prevent every error</span></header>
+        <div class="overflow"><div><label for="pixel">uint8 pixel value <output id="pixelOut">250</output></label><input id="pixel" type="range" min="230" max="255" value="250"><label for="addValue">Add <output id="addOut">10</output></label><input id="addValue" type="range" min="1" max="30" value="10"></div><div><p>uint8 calculation</p><strong id="overflowOut">250 + 10 = 4</strong><span>wraps after 255</span></div><div><p>after astype(float32)</p><strong id="safeOut">250 + 10 = 260</strong><span>correct numeric result</span></div></div>
+        <p class="rule"><strong>Safe default:</strong> convert images, sensor readings, and large accumulations to <code>float32</code> or <code>float64</code> before arithmetic.</p>
+      </section>
+
+      <section class="lesson" id="operations">
+        <header><p>08 · COMPUTATION</p><h2>Element-wise or matrix multiplication</h2><span>The operator expresses the mathematical meaning</span></header>
+        <div class="op-grid"><button class="op active" data-op="element"><code>A * B</code><span>element-wise</span></button><button class="op" data-op="matrix"><code>A @ B</code><span>matrix multiplication</span></button><div class="op-explanation"><strong id="opTitle">Pair corresponding positions</strong><p id="opBody">Shapes must be equal or broadcast-compatible. The output follows the broadcast shape.</p><code id="opShape">(2, 3) * (2, 3) → (2, 3)</code></div></div>
+        <p class="rule"><strong>Vectorization:</strong> operate on whole arrays. NumPy runs compiled loops over dense memory instead of executing one Python instruction per element.</p>
+      </section>
+
+      <section class="lesson quiz" id="check">
+        <header><p>09 · SELF-CHECK</p><h2>Knowledge check</h2><span>Answer before revealing the explanation</span></header>
+        <div id="quiz"></div><div class="score" id="score" aria-live="polite">0 of 5 checked</div>
+      </section>
+
+      <footer><strong>CS480 · Data Science</strong><span>Chapter 3 · NumPy Numerical Computing</span><span>Prof. Rui Zhao · MUST</span></footer>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
+
