@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo 03 · The View Hierarchy · CS210</title>
+<link rel="stylesheet" href="week04.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">← CS210 · Lecture 4</a>
+    <span class="here">Demo 03 / 04</span>
+    <span class="spacer"></span>
+    <a class="jump" href="demo4-gravity.html">Next: Demo 04 →</a>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="wrap">
+    <div class="num">DEMO 03</div>
+    <h1>Views and ViewGroups</h1>
+    <p class="lede">An XML layout is not a picture — it is a tree of objects. Click any node and see what class it really is, and what that class can do.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap sec">
+    <div class="grid">
+      <div class="side">
+        <h2>What to do</h2>
+        <p class="why">Click from the top down. The Activity is not a view at all; the DecorView is added by the framework, not by you; everything you wrote lives below that.</p>
+        <div class="ask"><span>Then ask</span>Which of these classes can contain another one?</div>
+        <p class="mini">Turn on <b>Only ViewGroups</b> to see the answer highlighted — those are the only nodes with children.</p>
+      </div>
+
+      <div>
+        <div class="life-cols" style="grid-template-columns:minmax(280px,1fr) minmax(300px,1.15fr);">
+          <div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:12px;">
+              <h3 class="sub" style="margin:0;">activity_stopwatch.xml → the live tree</h3>
+              <button class="btn small" id="bGroups" aria-pressed="false">Only ViewGroups</button>
+            </div>
+            <div class="vtree" id="vtree"></div>
+          </div>
+
+          <div>
+            <div class="preview-mini" style="margin-bottom:18px;">
+              <div class="screen" id="previewScreen"></div>
+            </div>
+            <div class="inspector" id="inspector"></div>
+          </div>
+        </div>
+
+        <div class="status-strip" id="counts"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap sec">
+    <div class="grid">
+      <div class="side">
+        <h2>One class to rule them all</h2>
+        <p class="why">Every widget and every layout descends from the same class. That is why they can all be styled, positioned, hidden and listened to the same way.</p>
+        <div class="ask"><span>Say this out loud</span>“A layout is a view that holds views.”</div>
+      </div>
+
+      <div>
+        <div class="codebox">
+          <div class="file">The inheritance chain that matters</div>
+          <pre>java.lang.Object
+   └── android.view.View              <span class="c">// one thing on screen</span>
+          └── android.view.ViewGroup   <span class="c">// a View that can hold Views</span>
+                 ├── LinearLayout
+                 ├── FrameLayout
+                 ├── RelativeLayout
+                 └── ConstraintLayout
+          └── android.widget.TextView  <span class="c">// note: this one is NOT a ViewGroup</span>
+                 └── android.widget.Button   <span class="c">// a Button IS a TextView</span></pre>
+        </div>
+
+        <div class="fig-row" style="margin-top:26px;">
+          <div class="gcard">
+            <h4>View</h4>
+            <div class="attr">one rectangle on screen</div>
+            <p class="scope">Knows its size and position, can be drawn, can be clicked, can be shown or hidden. A <span style="font-family:var(--mono);font-size:13px;">TextView</span>, a <span style="font-family:var(--mono);font-size:13px;">Button</span>, an <span style="font-family:var(--mono);font-size:13px;">ImageView</span> — all Views.</p>
+          </div>
+          <div class="gcard">
+            <h4>ViewGroup</h4>
+            <div class="attr">a View that contains Views</div>
+            <p class="scope">It has all the abilities of a View <b>plus</b> the job of measuring and positioning its children. Every layout in Android is a subclass of it.</p>
+          </div>
+        </div>
+
+        <div style="margin-top:26px;">
+          <div class="photo fig-photo lift">
+            <img src="../assets/img/tree-boxes.jpg" alt="White storage boxes nested one inside another">
+          </div>
+          <p class="credit">Photo <b>Castorly Stock</b> · Pexels #3912293 · a ViewGroup is a box that holds other boxes — and those boxes can hold boxes.</p>
+        </div>
+
+        <div style="margin-top:34px;">
+          <button class="btn primary" id="whyBtn">Why does build time even matter here?</button>
+          <div class="reveal" id="why">
+            <p style="margin:0 0 12px;font-size:17px;letter-spacing:-.015em;">Because a deep tree is walked every single frame.</p>
+            <p style="margin:0 0 14px;color:var(--ink-2);font-size:15.5px;">When Android draws the screen it walks the whole tree — measuring, then positioning, then drawing each node. A tree that is ten levels deep costs far more than one that is three levels deep, and it happens on <b>every frame</b>.</p>
+            <p style="margin:0 0 14px;color:var(--ink-2);font-size:15.5px;">This is the whole reason <span style="font-family:var(--mono);font-size:14px;">ConstraintLayout</span> exists: it lets you flatten a nest of nested layouts into one level. The rule of thumb for the rest of the semester: <b>nest only when you cannot express the same result any other way</b>.</p>
+            <p style="margin:0;color:var(--ink-2);font-size:15.5px;">In the tree on this page, count the depth of <span style="font-family:var(--mono);font-size:14px;">start_button</span> — four levels below the Activity. Every one of those levels is doing work that a flatter layout would not need.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>CS210 · Mobile Application Development · Fall 2026 · Lecture 4</span>
+    <span>Demo 03 of 04 · works offline</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* depth, id, label, kind, java class, xml, extends, description, chain, previewTarget */
+  var NODES = [
+    { id:'activity', depth:0, label:'StopwatchActivity', kind:'activity',
+      cls:'android.app.Activity', xml:'Activity',
+      ext:'android.content.Context',
+      desc:'This is not a View. An Activity is a screen with a window; it does not draw anything itself. It hands a layout file to setContentView() and then steps out of the way.',
+      chain:['java.lang.Object','android.content.Context','android.app.Activity'],
+      buys:['Lifecycle callbacks','A window of its own','Access to resources','The ability to start another activity'] },
+
+    { id:'decor', depth:1, label:'DecorView', kind:'group',
+      cls:'com.android.internal.policy.DecorView', xml:'— added by the framework —',
+      ext:'android.widget.FrameLayout',
+      desc:'You never write this one. The framework wraps your layout in a window decoration that also carries the status bar and the action bar. It is why your root layout is always one level deeper than you think.',
+      chain:['android.view.View','android.view.ViewGroup','android.widget.FrameLayout','DecorView'],
+      buys:['Everything a ViewGroup has','Owns the window chrome'] },
+
+    { id:'root', depth:2, label:'LinearLayout', kind:'group',
+      cls:'android.widget.LinearLayout', xml:'@+id/root_layout',
+      ext:'android.view.ViewGroup',
+      desc:'The root of activity_stopwatch.xml. With android:orientation="vertical" it lays its children out top to bottom, in document order.',
+      chain:['android.view.View','android.view.ViewGroup','android.widget.LinearLayout'],
+      buys:['size and position','focus handling','click listeners','show / hide','measure and layout its children'] },
+
+    { id:'title', depth:3, label:'TextView  “STOPWATCH”', kind:'view',
+      cls:'android.widget.TextView', xml:'@+id/title',
+      ext:'android.view.View',
+      desc:'A leaf. It has no children and cannot have any — a TextView is not a ViewGroup. It draws text and that is the whole of its job.',
+      chain:['android.view.View','android.widget.TextView'],
+      buys:['size and position','focus handling','click listeners','show / hide'] },
+
+    { id:'time', depth:3, label:'TextView  “00:00.0”', kind:'view',
+      cls:'android.widget.TextView', xml:'@+id/time',
+      ext:'android.view.View',
+      desc:'The number on the screen. This is the view that gets updated a hundred times a minute by the Handler — and the one that shows a stale value if you count wrong.',
+      chain:['android.view.View','android.widget.TextView'],
+      buys:['size and position','focus handling','click listeners','show / hide'] },
+
+    { id:'row', depth:3, label:'LinearLayout', kind:'group',
+      cls:'android.widget.LinearLayout', xml:'@+id/button_row',
+      ext:'android.view.ViewGroup',
+      desc:'A nested layout. With android:orientation="horizontal" the same class now lays its children out left to right. Same class, different behaviour — that is what attributes are for.',
+      chain:['android.view.View','android.view.ViewGroup','android.widget.LinearLayout'],
+      buys:['size and position','focus handling','click listeners','show / hide','measure and layout its children'] },
+
+    { id:'start', depth:4, label:'Button  “Start”', kind:'view',
+      cls:'android.widget.Button', xml:'@+id/start_button',
+      ext:'android.widget.TextView',
+      desc:'A Button is a TextView with a clickable background — literally. That is why every attribute you can put on a TextView also works here. Four levels below the Activity.',
+      chain:['android.view.View','android.widget.TextView','android.widget.Button'],
+      buys:['size and position','focus handling','click listeners','show / hide','everything a TextView can do'] },
+
+    { id:'stop', depth:4, label:'Button  “Stop”', kind:'view',
+      cls:'android.widget.Button', xml:'@+id/stop_button',
+      ext:'android.widget.TextView',
+      desc:'Identical in kind to the Start button. In the real activity its onClick attribute names a different method — that is the only difference between the two.',
+      chain:['android.view.View','android.widget.TextView','android.widget.Button'],
+      buys:['size and position','focus handling','click listeners','show / hide','everything a TextView can do'] }
+  ];
+
+  var treeEl   = document.getElementById('vtree');
+  var inspEl   = document.getElementById('inspector');
+  var prevEl   = document.getElementById('previewScreen');
+  var countsEl = document.getElementById('counts');
+
+  var selected = 'root';
+  var groupsOnly = false;
+
+  /* ---------- preview screen ---------- */
+  function paintPreview() {
+    prevEl.innerHTML =
+      '<div data-node="title" style="font-size:12px;letter-spacing:.06em;color:var(--ink-3);text-align:center;padding:6px 4px;border-radius:6px;">STOPWATCH</div>' +
+      '<div data-node="time" style="font-family:var(--mono);font-size:26px;font-weight:600;text-align:center;padding:10px 4px;border-radius:6px;">00:00.0</div>' +
+      '<div data-node="row" style="display:flex;gap:8px;justify-content:center;padding:10px 4px;border-radius:6px;margin-top:6px;">' +
+        '<span data-node="start" style="padding:6px 14px;border:1px solid var(--line);border-radius:8px;font-size:12px;">Start</span>' +
+        '<span data-node="stop" style="padding:6px 14px;border:1px solid var(--line);border-radius:8px;font-size:12px;">Stop</span>' +
+      '</div>';
+
+    var targets = ['title', 'time', 'row', 'start', 'stop'];
+    for (var i = 0; i < targets.length; i++) {
+      var el = prevEl.querySelector('[data-node="' + targets[i] + '"]');
+      if (el) { el.style.boxShadow = 'none'; el.style.background = 'transparent'; }
+    }
+
+    /* the Activity, the DecorView and the root layout all cover the whole
+       screen, so none of the inner nodes is the right thing to highlight */
+    var wholeScreen = (selected === 'activity' || selected === 'decor' || selected === 'root');
+
+    if (wholeScreen) {
+      prevEl.style.boxShadow = '0 0 0 2px var(--accent)';
+      prevEl.style.background = 'var(--accent-soft)';
+    } else {
+      prevEl.style.boxShadow = 'none';
+      prevEl.style.background = '#fff';
+      var sel = prevEl.querySelector('[data-node="' + selected + '"]');
+      if (sel) {
+        sel.style.boxShadow = '0 0 0 2px var(--accent)';
+        sel.style.background = 'var(--accent-soft)';
+      }
+    }
+  }
+
+  /* ---------- tree ---------- */
+  function paintTree() {
+    var html = '';
+    for (var i = 0; i < NODES.length; i++) {
+      var n = NODES[i];
+      var dim = groupsOnly && n.kind !== 'group';
+      var cls = 'tnode' + (n.id === selected ? ' on' : '') + (n.kind === 'group' ? ' is-group' : '');
+      html += '<div class="' + cls + '" data-id="' + n.id + '" style="margin-left:' + (n.depth * 18) + 'px;' +
+              (dim ? 'opacity:.32;' : '') + '">' +
+                '<span class="tag">' + escapeHtml(n.label) + '</span>' +
+                '<span class="cnt">' + (n.kind === 'group' ? 'ViewGroup' : n.kind === 'view' ? 'View' : 'Activity') + '</span>' +
+              '</div>';
+    }
+    treeEl.innerHTML = html;
+
+    var groups = 0, views = 0;
+    for (var j = 0; j < NODES.length; j++) {
+      if (NODES[j].kind === 'group') { groups += 1; }
+      if (NODES[j].kind === 'view') { views += 1; }
+    }
+    countsEl.innerHTML =
+      '<span>Nodes in this tree: <b>' + NODES.length + '</b></span>' +
+      '<span>ViewGroups: <b>' + groups + '</b></span>' +
+      '<span>Plain Views: <b>' + views + '</b></span>' +
+      '<span>Deepest level: <b>4</b> — start_button</span>';
+  }
+
+  function escapeHtml(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  /* ---------- inspector ---------- */
+  function paintInspector() {
+    var n = null;
+    for (var i = 0; i < NODES.length; i++) { if (NODES[i].id === selected) { n = NODES[i]; } }
+    if (!n) { return; }
+
+    var chain = '';
+    for (var j = 0; j < n.chain.length; j++) {
+      if (j > 0) { chain += '<span class="arw">→</span>'; }
+      var short = n.chain[j].split('.').pop();
+      var on = (n.chain[j] === n.cls) ? ' on' : '';
+      chain += '<span class="link' + on + '">' + short + '</span>';
+    }
+
+    var buys = '';
+    for (var k = 0; k < n.buys.length; k++) {
+      buys += '<span class="pill" style="font-size:13px;padding:4px 11px;">' + n.buys[k] + '</span>';
+    }
+
+    inspEl.innerHTML =
+      '<h4>' + escapeHtml(n.label) + '</h4>' +
+      '<div class="kind">' + n.cls + '</div>' +
+      '<p class="desc">' + n.desc + '</p>' +
+      '<dl class="kv">' +
+        '<dt>Extends</dt><dd>' + n.ext + '</dd>' +
+        '<dt>In the XML</dt><dd>' + escapeHtml(n.xml) + '</dd>' +
+        '<dt>Can contain</dt><dd>' + (n.kind === 'group' ? 'yes — it is a ViewGroup' : 'no — it is a leaf View') + '</dd>' +
+      '</dl>' +
+      '<h3 class="sub" style="margin-bottom:9px;">Inheritance chain</h3>' +
+      '<div class="chain">' + chain + '</div>' +
+      '<h3 class="sub" style="margin:20px 0 9px;">What being a View buys it</h3>' +
+      '<div>' + buys + '</div>';
+  }
+
+  /* ---------- wiring ---------- */
+  treeEl.addEventListener('click', function (e) {
+    var row = e.target.closest ? e.target.closest('.tnode') : null;
+    if (!row) { return; }
+    selected = row.getAttribute('data-id');
+    paintTree(); paintInspector(); paintPreview();
+  });
+
+  document.getElementById('bGroups').addEventListener('click', function () {
+    groupsOnly = !groupsOnly;
+    this.setAttribute('aria-pressed', groupsOnly ? 'true' : 'false');
+    paintTree();
+  });
+
+  document.getElementById('whyBtn').addEventListener('click', function () {
+    document.getElementById('why').classList.toggle('show');
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === '1') { location.href = 'demo1-lifecycle.html'; }
+    if (e.key === '2') { location.href = 'demo2-state.html'; }
+    if (e.key === '3') { location.href = 'demo3-viewhierarchy.html'; }
+    if (e.key === '4') { location.href = 'demo4-gravity.html'; }
+    if (e.key === '0' || e.key === 'i') { location.href = 'index.html'; }
+  });
+
+  paintTree(); paintInspector(); paintPreview();
+}());
+</script>
+</body>
+</html>
+

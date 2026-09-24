@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo 04 · Gravity and Layout Gravity · CS210</title>
+<link rel="stylesheet" href="week04.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">← CS210 · Lecture 4</a>
+    <span class="here">Demo 04 / 04</span>
+    <span class="spacer"></span>
+    <a class="jump" href="demo1-lifecycle.html">Back to Demo 01 →</a>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="wrap">
+    <div class="num">DEMO 04</div>
+    <h1>Gravity and layout_gravity</h1>
+    <p class="lede">Two attributes, almost the same name, completely different jobs. Click the same square on both sides and watch which one moves.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap sec">
+    <div class="grid">
+      <div class="side">
+        <h2>What to do</h2>
+        <p class="why">Click <b>bottom end</b> on both sides. On the left the words move; on the right the button moves. Same value, different target.</p>
+        <div class="ask"><span>Then ask</span>Which of the two needs a parent that is bigger than the view?</div>
+        <p class="mini">Only one of them can do anything at all if the view is already filling its parent. That is the giveaway.</p>
+      </div>
+
+      <div>
+        <div class="glab">
+          <div class="gcard">
+            <h4>android:gravity</h4>
+            <div class="attr" id="gAttr">android:gravity="top|start"</div>
+            <p class="scope">Where the <b>contents</b> sit inside this view. The view itself never moves — only the text inside it does.</p>
+            <div class="frame">
+              <div class="box" id="gBox" style="flex:1;">
+                <span class="t">Content</span>
+                <span class="s">this is inside the view</span>
+              </div>
+            </div>
+            <div class="posgrid" id="gGrid"></div>
+          </div>
+
+          <div class="gcard">
+            <h4>android:layout_gravity</h4>
+            <div class="attr" id="lgAttr">android:layout_gravity="top|start"</div>
+            <p class="scope">Where this <b>view</b> sits inside its parent. The contents stay put — the whole box moves.</p>
+            <div class="frame" id="lgFrame">
+              <div class="box" id="lgBox">
+                <span class="t">Button</span>
+                <span class="s">this is the view</span>
+              </div>
+            </div>
+            <div class="posgrid" id="lgGrid"></div>
+          </div>
+        </div>
+
+        <div class="attrout">
+          <div class="codebox">
+            <div class="file">activity_main.xml — the two attributes side by side</div>
+            <pre><span class="c">&lt;!-- the parent decides where its children go --&gt;</span>
+&lt;LinearLayout
+    android:layout_width=<span class="s">"match_parent"</span>
+    android:layout_height=<span class="s">"match_parent"</span>
+    android:orientation=<span class="s">"vertical"</span>&gt;
+
+    <span class="c">&lt;!-- gravity: aligns the TEXT inside this TextView --&gt;</span>
+    &lt;TextView
+        android:layout_width=<span class="s">"match_parent"</span>
+        android:layout_height=<span class="s">"0dp"</span>
+        android:layout_weight=<span class="s">"1"</span>
+        android:gravity=<span class="s" id="xmlGravity">"top|start"</span>
+        android:text=<span class="s">"Content"</span> /&gt;
+
+    <span class="c">&lt;!-- layout_gravity: aligns THIS BUTTON inside its parent --&gt;</span>
+    &lt;Button
+        android:layout_width=<span class="s">"wrap_content"</span>
+        android:layout_height=<span class="s">"wrap_content"</span>
+        android:layout_gravity=<span class="s" id="xmlLayoutGravity">"top|start"</span>
+        android:text=<span class="s">"Button"</span> /&gt;
+
+&lt;/LinearLayout&gt;</pre>
+          </div>
+        </div>
+
+        <div class="verdict" id="verdict">
+          <span class="tag">The rule</span>
+          <b>gravity</b> is about the inside. <b>layout_gravity</b> is about the outside. The <span style="font-family:var(--mono);font-size:14px;">layout_</span> prefix always means “my position inside my parent” — that is true of <span style="font-family:var(--mono);font-size:14px;">layout_width</span>, <span style="font-family:var(--mono);font-size:14px;">layout_margin</span> and <span style="font-family:var(--mono);font-size:14px;">layout_weight</span> too.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap sec">
+    <div class="grid">
+      <div class="side">
+        <h2>Stacking instead of lining up</h2>
+        <p class="why">Linear and Relative lay views out side by side. A FrameLayout puts them on top of each other, in the order you write them — the last one wins.</p>
+        <div class="ask"><span>Then ask</span>Which view is drawn on top?</div>
+      </div>
+
+      <div>
+        <div class="overlap" id="overlap">
+          <img src="../assets/img/life-stopwatch.jpg" alt="A mechanical stopwatch on a wooden panel">
+          <div class="ov">
+            <div class="big">Text on top of an image</div>
+            <div class="sm">Both children of the same FrameLayout — the TextView is written second, so it draws last.</div>
+          </div>
+        </div>
+        <p class="credit">Photo <b>Anton Makarenko</b> · Pexels #1078057</p>
+
+        <div class="layerbtns">
+          <button class="btn small" id="bImg" aria-pressed="true">ImageView</button>
+          <button class="btn small" id="bTxt" aria-pressed="true">TextView</button>
+        </div>
+
+        <div class="codebox" style="margin-top:22px;">
+          <div class="file">activity_main.xml — the order of children is the z-order</div>
+          <pre>&lt;FrameLayout
+    android:layout_width=<span class="s">"match_parent"</span>
+    android:layout_height=<span class="s">"match_parent"</span>&gt;
+
+    <span class="c">&lt;!-- drawn first: bottom of the stack --&gt;</span>
+    &lt;ImageView
+        android:src=<span class="s">"@drawable/stopwatch"</span>
+        android:scaleType=<span class="s">"centerCrop"</span> /&gt;
+
+    <span class="c">&lt;!-- drawn second: on top --&gt;</span>
+    &lt;TextView
+        android:layout_gravity=<span class="s">"bottom|start"</span>
+        android:text=<span class="s">"Text on top of an image"</span> /&gt;
+
+&lt;/FrameLayout&gt;</pre>
+        </div>
+
+        <div style="margin-top:26px;">
+          <div class="photo fig-photo lift">
+            <img src="../assets/img/tree-stacked.jpg" alt="A grid of white boxes, one knocked out of alignment">
+          </div>
+          <p class="credit">Photo <b>Dalila Dalprat</b> · Pexels #10938208 · every box sits in its parent. Move one and only one moves — that is <span style="font-family:var(--mono);">layout_gravity</span>.</p>
+        </div>
+
+        <div style="margin-top:34px;">
+          <button class="btn primary" id="whyBtn">Why does “center” sometimes do nothing?</button>
+          <div class="reveal" id="why">
+            <p style="margin:0 0 12px;font-size:17px;letter-spacing:-.015em;">Because there is no spare room to move into.</p>
+            <p style="margin:0 0 14px;color:var(--ink-2);font-size:15.5px;">If a view already fills its parent — <span style="font-family:var(--mono);font-size:14px;">layout_width="match_parent"</span> and <span style="font-family:var(--mono);font-size:14px;">layout_height="match_parent"</span> — then <span style="font-family:var(--mono);font-size:14px;">layout_gravity</span> has nothing to do. The view occupies every available pixel, so “bottom” and “top” describe the same rectangle.</p>
+            <p style="margin:0 0 14px;color:var(--ink-2);font-size:15.5px;">That is the single most common reason a student's centring “just does not work”: the four attributes are fighting each other. Try it on the right-hand panel above — set the box to <b>match_parent</b> in both directions and watch the position picker stop having any effect.</p>
+            <p style="margin:0;color:var(--ink-2);font-size:15.5px;"><b>The mental test:</b> <span style="font-family:var(--mono);font-size:14px;">gravity</span> is pointless if the contents already fill the view; <span style="font-family:var(--mono);font-size:14px;">layout_gravity</span> is pointless if the view already fills the parent.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>CS210 · Mobile Application Development · Fall 2026 · Lecture 4</span>
+    <span>Demo 04 of 04 · works offline</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* 3 x 3 → (vertical, horizontal) */
+  var CELLS = [
+    ['top',     'start',  'top start'],
+    ['top',     'center', 'top center'],
+    ['top',     'end',    'top end'],
+    ['center',  'start',  'center start'],
+    ['center',  'center', 'center'],
+    ['center',  'end',    'center end'],
+    ['bottom',  'start',  'bottom start'],
+    ['bottom',  'center', 'bottom center'],
+    ['bottom',  'end',    'bottom end']
+  ];
+
+  var V_MAP = { top: 'top', center: 'center_vertical', bottom: 'bottom' };
+  var H_MAP = { start: 'start', center: 'center_horizontal', end: 'end' };
+
+  function attrValue(v, h) {
+    if (v === 'center' && h === 'center') { return 'center'; }
+    return V_MAP[v] + '|' + H_MAP[h];
+  }
+
+  var state = { gravity: { v: 'top', h: 'start' }, layout: { v: 'top', h: 'start' } };
+
+  var gBox   = document.getElementById('gBox');
+  var gAttr  = document.getElementById('gAttr');
+  var gGrid  = document.getElementById('gGrid');
+  var gXml   = document.getElementById('xmlGravity');
+
+  var lgFrame = document.getElementById('lgFrame');
+  var lgBox   = document.getElementById('lgBox');
+  var lgAttr  = document.getElementById('lgAttr');
+  var lgGrid  = document.getElementById('lgGrid');
+  var lgXml   = document.getElementById('xmlLayoutGravity');
+
+  var JUSTIFY = { start: 'flex-start', center: 'center', end: 'flex-end' };
+  var ALIGN   = { top: 'flex-start', center: 'center', bottom: 'flex-end' };
+
+  function buildGrid(el, which) {
+    var html = '';
+    for (var i = 0; i < CELLS.length; i++) {
+      var c = CELLS[i];
+      html += '<button data-v="' + c[0] + '" data-h="' + c[1] + '">' + c[2] + '</button>';
+    }
+    el.innerHTML = html;
+    el.addEventListener('click', function (e) {
+      var b = e.target.closest ? e.target.closest('button') : null;
+      if (!b) { return; }
+      state[which] = { v: b.getAttribute('data-v'), h: b.getAttribute('data-h') };
+      paint();
+    });
+  }
+
+  function markGrid(el, s) {
+    var btns = el.querySelectorAll('button');
+    for (var i = 0; i < btns.length; i++) {
+      var b = btns[i];
+      var on = (b.getAttribute('data-v') === s.v && b.getAttribute('data-h') === s.h);
+      b.className = on ? 'on' : '';
+    }
+  }
+
+  function paint() {
+    var g = state.gravity;
+    var l = state.layout;
+
+    /* android:gravity — moves the CONTENTS inside the view */
+    gBox.style.justifyContent = ALIGN[g.v];
+    gBox.style.alignItems = JUSTIFY[g.h];
+    gAttr.textContent = 'android:gravity="' + attrValue(g.v, g.h) + '"';
+    gXml.textContent = '"' + attrValue(g.v, g.h) + '"';
+    markGrid(gGrid, g);
+
+    /* android:layout_gravity — moves the VIEW inside its parent */
+    lgFrame.style.justifyContent = JUSTIFY[l.h];
+    lgFrame.style.alignItems = ALIGN[l.v];
+    lgAttr.textContent = 'android:layout_gravity="' + attrValue(l.v, l.h) + '"';
+    lgXml.textContent = '"' + attrValue(l.v, l.h) + '"';
+    markGrid(lgGrid, l);
+  }
+
+  buildGrid(gGrid, 'gravity');
+  buildGrid(lgGrid, 'layout');
+
+  /* ---------- FrameLayout overlap ---------- */
+  var overlapEl = document.getElementById('overlap');
+  var imgBtn = document.getElementById('bImg');
+  var txtBtn = document.getElementById('bTxt');
+  var imgOn = true, txtOn = true;
+
+  imgBtn.addEventListener('click', function () {
+    imgOn = !imgOn;
+    overlapEl.classList.toggle('hide-img', !imgOn);
+    imgBtn.setAttribute('aria-pressed', imgOn ? 'true' : 'false');
+  });
+  txtBtn.addEventListener('click', function () {
+    txtOn = !txtOn;
+    overlapEl.classList.toggle('hide-text', !txtOn);
+    txtBtn.setAttribute('aria-pressed', txtOn ? 'true' : 'false');
+  });
+
+  document.getElementById('whyBtn').addEventListener('click', function () {
+    document.getElementById('why').classList.toggle('show');
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === '1') { location.href = 'demo1-lifecycle.html'; }
+    if (e.key === '2') { location.href = 'demo2-state.html'; }
+    if (e.key === '3') { location.href = 'demo3-viewhierarchy.html'; }
+    if (e.key === '4') { location.href = 'demo4-gravity.html'; }
+    if (e.key === '0' || e.key === 'i') { location.href = 'index.html'; }
+  });
+
+  paint();
+}());
+</script>
+</body>
+</html>
+
