@@ -123,6 +123,49 @@
           border-color 0.2s ease, box-shadow 0.2s ease;
       }
 
+      .scholar-metrics {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.75rem;
+        margin: 1.5rem 0;
+      }
+
+      .scholar-metric {
+        padding: 1rem;
+        border: 1px solid #d7e1ec;
+        border-radius: 10px;
+        background: #f8fafc;
+      }
+
+      .scholar-metric strong,
+      .scholar-metric span {
+        display: block;
+      }
+
+      .scholar-metric strong {
+        color: var(--rz-accent);
+        font-size: 1.65rem;
+        line-height: 1.1;
+      }
+
+      .scholar-metric span {
+        margin-top: 0.35rem;
+        color: var(--rz-muted);
+        font-size: 0.9rem;
+      }
+
+      .scholar-metrics-note {
+        margin: -0.85rem 0 1.5rem;
+        color: var(--rz-muted);
+        font-size: 0.85rem;
+      }
+
+      @media (max-width: 575.98px) {
+        .scholar-metrics {
+          grid-template-columns: 1fr;
+        }
+      }
+
       @media (max-width: 575.98px) {
         .home-publications-item {
           flex-direction: column;
@@ -479,6 +522,30 @@
                   Electronics Society (2026).
                 </p>
               </div>
+
+              <div class="scholar-metrics" aria-label="Google Scholar metrics">
+                <div class="scholar-metric">
+                  <strong>1,459</strong>
+                  <span>Citations</span>
+                </div>
+                <div class="scholar-metric">
+                  <strong>11</strong>
+                  <span>h-index</span>
+                </div>
+                <div class="scholar-metric">
+                  <strong>12</strong>
+                  <span>i10-index</span>
+                </div>
+              </div>
+              <p class="scholar-metrics-note">
+                Google Scholar metrics, last refreshed October 27, 2026.
+                <a
+                  href="https://scholar.google.com/citations?user=-8lB0z4AAAAJ&amp;hl=en"
+                  target="_blank"
+                  rel="noopener"
+                  >View profile</a
+                >
+              </p>
 
               <div class="row">
                 <div class="col-md-6">
