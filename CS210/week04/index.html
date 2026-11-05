@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CS210 · Lecture 4 Interactive Demos</title>
+<link rel="stylesheet" href="week04.css">
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">CS210 · Mobile Application Development · Fall 2026</p>
+    <h1>Four demos for<br>lifecycle and layout.</h1>
+    <p class="lede">Lecture 4 has a moment where the screen resets and nobody knows why. These four pages let the class cause that moment, then remove it — and see the view tree underneath while it happens.</p>
+    <p class="meta">Macau University of Science and Technology · Faculty of Innovation Engineering · Prof. Rui ZHAO</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="idx-grid">
+
+    <a class="idx-card" href="demo1-lifecycle.html">
+      <div class="top">
+        <div class="thumb">
+          <img src="../assets/img/life-stopwatch.jpg" alt="A mechanical stopwatch on a wooden panel">
+        </div>
+        <div>
+          <div class="no">DEMO 01</div>
+          <h2>Being an Activity</h2>
+          <p class="why">Press Home, Back, a dialog and a rotation. The Logcat fills with the real callbacks, and a running clock shows what each one costs you.</p>
+        </div>
+      </div>
+      <div class="foot"><span>Hour 1 · the lifecycle</span><span class="open">Open →</span></div>
+    </a>
+
+    <a class="idx-card" href="demo2-state.html">
+      <div class="top">
+        <div class="thumb">
+          <img src="../assets/img/life-phone-stopwatch.jpg" alt="A phone showing a stopwatch stopped at zero">
+        </div>
+        <div>
+          <div class="no">DEMO 02</div>
+          <h2>Save and Restore the Stopwatch</h2>
+          <p class="why">Rotate with the fix off and the clock dies. Switch it on and the same rotation keeps the value — with the real Bundle contents on screen.</p>
+        </div>
+      </div>
+      <div class="foot"><span>Hour 1 · the fix</span><span class="open">Open →</span></div>
+    </a>
+
+    <a class="idx-card" href="demo3-viewhierarchy.html">
+      <div class="top">
+        <div class="thumb">
+          <img src="../assets/img/tree-boxes.jpg" alt="White storage boxes nested inside one another">
+        </div>
+        <div>
+          <div class="no">DEMO 03</div>
+          <h2>Views and ViewGroups</h2>
+          <p class="why">Click any node of the real layout tree. See what class it is, what it inherits — and which nodes are allowed to contain children.</p>
+        </div>
+      </div>
+      <div class="foot"><span>Hour 2 · the view tree</span><span class="open">Open →</span></div>
+    </a>
+
+    <a class="idx-card" href="demo4-gravity.html">
+      <div class="top">
+        <div class="thumb">
+          <img src="../assets/img/tree-stacked.jpg" alt="A grid of white boxes, one knocked out of alignment">
+        </div>
+        <div>
+          <div class="no">DEMO 04</div>
+          <h2>Gravity and layout_gravity</h2>
+          <p class="why">The same click on both attributes, side by side. Watch which one moves the text and which one moves the box — plus stacking with a FrameLayout.</p>
+        </div>
+      </div>
+      <div class="foot"><span>Hour 2 · layout</span><span class="open">Open →</span></div>
+    </a>
+
+  </div>
+
+  <div class="tips">
+    <div class="box">
+      <h3 class="sub">Using these in class</h3>
+      <ul>
+        <li>Each demo is a single self-contained page — open it directly, or press <b>1</b>–<b>4</b> from this index. <b>0</b> comes back here.</li>
+        <li>Nothing here needs the network. The whole folder works offline, projector network or not.</li>
+        <li><b>Demo 01 and Demo 02 are a pair.</b> Do not explain the rotation away in the first one — let them watch the clock reset, then move to the second and fix it. Two minutes of “why did that happen?” is worth more than the slide.</li>
+        <li>Demo 03 and Demo 04 are the second half of the lecture. Both are reference tools: leave the tab open while you talk, and click through it rather than describing it.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>CS210 · Mobile Application Development · Fall 2026 · Lecture 4 Interactive Demos</span>
+    <span>Single folder · works offline</span>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('keydown', function (e) {
+  var map = {
+    '1': 'demo1-lifecycle.html',
+    '2': 'demo2-state.html',
+    '3': 'demo3-viewhierarchy.html',
+    '4': 'demo4-gravity.html'
+  };
+  if (map[e.key]) { window.location.href = map[e.key]; }
+});
+</script>
+</body>
+</html>
+

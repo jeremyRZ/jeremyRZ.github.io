@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo 02 · Save the State · CS210</title>
+<link rel="stylesheet" href="week04.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">← CS210 · Lecture 4</a>
+    <span class="here">Demo 02 / 04</span>
+    <span class="spacer"></span>
+    <a class="jump" href="demo3-viewhierarchy.html">Next: Demo 03 →</a>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="wrap">
+    <div class="num">DEMO 02</div>
+    <h1>Save and Restore the Stopwatch</h1>
+    <p class="lede">Run the clock. Rotate the phone. With the fix switched off it resets to zero; switch the fix on and the same rotation keeps the value.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap sec">
+    <div class="grid">
+      <div class="side">
+        <h2>What to do</h2>
+        <p class="why">Start the clock, let it reach about ten seconds, then hit <b>Rotate the device</b> with the switch <b>off</b>. Watch the number. Then switch it <b>on</b> and do exactly the same thing again.</p>
+        <div class="ask"><span>Then ask</span>Where exactly does the value get written down?</div>
+        <p class="mini">The Bundle panel on the right answers it — it shows the real key/value pairs, filled in at the moment the activity is taken down.</p>
+      </div>
+
+      <div>
+        <div class="stage">
+          <div class="dev" id="dev">
+            <div class="dev-bar"><span>9:41</span><span id="orient">portrait</span></div>
+            <div class="dev-body">
+              <div class="appscreen">
+                <div class="apptitle">STOPWATCH</div>
+                <div class="clockface" id="clock">00:00.0</div>
+                <div class="buttons">
+                  <button class="btn small" id="bGo">Start</button>
+                  <button class="btn small" id="bZero">Reset</button>
+                </div>
+                <div id="flash" style="text-align:center;font-size:12.5px;color:var(--danger);margin-top:16px;min-height:19px;font-weight:600;"></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="flex:1 1 400px;min-width:320px;">
+            <div class="bundle">
+              <div class="head">What gets written down before the activity dies</div>
+              <div id="bundleBody"></div>
+            </div>
+
+            <div class="logbox" style="margin-top:20px;">
+              <div class="head"><span>Lifecycle during rotation</span><button id="clearLog">Clear</button></div>
+              <ol class="log" id="log" style="min-height:196px;max-height:196px;">
+                <li class="empty">Rotate the device to see the sequence.</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <div class="ctl-grid">
+          <div class="ctl">
+            <div class="lab">The fix</div>
+            <div class="row">
+              <button class="btn small" id="bFix" aria-pressed="false">onSaveInstanceState() — off</button>
+            </div>
+          </div>
+          <div class="ctl">
+            <div class="lab">Force a configuration change</div>
+            <div class="row">
+              <button class="btn primary small" id="bRotate">Rotate the device</button>
+            </div>
+          </div>
+          <div class="ctl">
+            <div class="lab">The clock</div>
+            <div class="row">
+              <button class="btn small" id="bRun">Start</button>
+              <button class="btn small" id="bReset">Reset</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="status-strip" id="flags"></div>
+        <div class="verdict" id="verdict">
+          <span class="tag">Ready</span>
+          Start the clock and rotate the device with the fix off. Keep the number in your head — you are about to lose it.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap sec">
+    <div class="grid">
+      <div class="side">
+        <h2>The code that decides</h2>
+        <p class="why">Seven lines. The only difference between a stopwatch that survives rotation and one that does not.</p>
+        <div class="ask"><span>Point at</span>the two matching key names.</div>
+      </div>
+
+      <div>
+        <div class="fig-row" style="grid-template-columns:1fr;">
+          <div class="gcard">
+            <h4>Without it</h4>
+            <div class="attr" style="color:var(--danger);">the value dies with the activity</div>
+            <div class="codebox" style="margin-top:6px;">
+              <div class="file">StopwatchActivity.java</div>
+              <pre><span class="k">@Override</span>
+<span class="k">protected void</span> onCreate(Bundle savedInstanceState) {
+    <span class="k">super</span>.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_stopwatch);
+    <span class="c">// nothing is read back — a fresh activity starts from zero</span>
+    seconds = <span class="a">0</span>;
+}</pre>
+            </div>
+          </div>
+
+          <div class="gcard">
+            <h4>With it</h4>
+            <div class="attr" style="color:var(--ok);">the value outlives the activity object</div>
+            <div class="codebox" style="margin-top:6px;">
+              <div class="file">StopwatchActivity.java</div>
+              <pre><span class="k">@Override</span>
+<span class="k">protected void</span> onCreate(Bundle savedInstanceState) {
+    <span class="k">super</span>.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_stopwatch);
+    <span class="k">if</span> (savedInstanceState != <span class="k">null</span>) {          <span class="c">// arriving back from a rotation</span>
+        seconds = savedInstanceState.getInt(<span class="s">"seconds"</span>);
+        running = savedInstanceState.getBoolean(<span class="s">"running"</span>);
+    }
+}
+
+<span class="k">@Override</span>
+<span class="k">protected void</span> onSaveInstanceState(Bundle outState) {
+    <span class="k">super</span>.onSaveInstanceState(outState);
+    outState.putInt(<span class="s">"seconds"</span>, seconds);          <span class="c">// write it down before you die</span>
+    outState.putBoolean(<span class="s">"running"</span>, running);
+}</pre>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:26px;">
+          <div class="photo fig-photo lift">
+            <img src="../assets/img/life-phone-stopwatch.jpg" alt="A phone displaying a stopwatch stopped at 00:00.00">
+          </div>
+          <p class="credit">Photo <b>Image Hunter</b> · Pexels #21792124 · the number the user sees after a rotation that nobody handled.</p>
+        </div>
+
+        <div style="margin-top:34px;">
+          <button class="btn primary" id="askBtn">Why not just use a static field?</button>
+          <div class="reveal" id="ask">
+            <p style="margin:0 0 12px;font-size:17px;letter-spacing:-.015em;">A static field survives rotation — and that is exactly the problem.</p>
+            <p style="margin:0 0 14px;color:var(--ink-2);font-size:15.5px;">It also survives the user leaving the app, coming back tomorrow, and opening a <b>second</b> copy of the activity. You have created state that belongs to the process but is being used as if it belonged to the screen — the classic source of “why is my app showing yesterday's data?”.</p>
+            <p style="margin:0 0 14px;color:var(--ink-2);font-size:15.5px;"><span style="font-family:var(--mono);font-size:14px;">onSaveInstanceState()</span> has the right lifetime: it lives exactly as long as the task the user is looking at, and dies when they genuinely finish the activity.</p>
+            <p style="margin:0;color:var(--ink-2);font-size:15.5px;"><b>One rule to remember:</b> keep it small. The Bundle is passed through the system, so it is limited to roughly half a megabyte and it can only carry primitives and <span style="font-family:var(--mono);font-size:14px;">Parcelable</span> values. Store the <i>minimum</i> needed to rebuild the screen — a number, a flag, an id — never a bitmap or a list of objects.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>CS210 · Mobile Application Development · Fall 2026 · Lecture 4</span>
+    <span>Demo 02 of 04 · works offline</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  var clockEl   = document.getElementById('clock');
+  var flashEl   = document.getElementById('flash');
+  var bundleEl  = document.getElementById('bundleBody');
+  var logEl     = document.getElementById('log');
+  var flagsEl   = document.getElementById('flags');
+  var verdictEl = document.getElementById('verdict');
+  var fixBtn    = document.getElementById('bFix');
+  var devEl     = document.getElementById('dev');
+  var orientEl  = document.getElementById('orient');
+
+  var ms = 0;
+  var running = false;
+  var fixOn = false;
+  var landscape = false;
+  var seq = 0;
+
+  /* ---------- clock ---------- */
+  setInterval(function () {
+    if (running) { ms += 100; paintClock(); }
+  }, 100);
+
+  function fmt(m) {
+    var t = m / 1000;
+    return (Math.floor(t / 60) < 10 ? '0' : '') + Math.floor(t / 60) + ':' +
+           (Math.floor(t % 60) < 10 ? '0' : '') + Math.floor(t % 60) + '.' +
+           Math.floor((m % 1000) / 100);
+  }
+  function paintClock() { clockEl.textContent = fmt(ms); }
+
+  /* ---------- log ---------- */
+  function addLine(method, kind, why, args) {
+    var ph = logEl.querySelector('.empty');
+    if (ph) { logEl.removeChild(ph); }
+    seq += 1;
+    var li = document.createElement('li');
+    li.className = kind || '';
+    var n = document.createElement('span'); n.className = 'n'; n.textContent = String(seq).padStart(2, '0');
+    var m = document.createElement('span'); m.className = 'm'; m.textContent = method;
+    li.appendChild(n); li.appendChild(m);
+    if (args) {
+      var a = document.createElement('span'); a.className = 'a'; a.textContent = args; li.appendChild(a);
+    }
+    if (why) {
+      var w = document.createElement('span'); w.className = 'why'; w.textContent = why; li.appendChild(w);
+    }
+    logEl.appendChild(li);
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+
+  /* ---------- bundle panel ---------- */
+  function paintBundle(values) {
+    if (!values) {
+      bundleEl.innerHTML = '<div class="empty">Empty. Nothing was written down before the activity was destroyed — so there is nothing to hand back.</div>';
+      return;
+    }
+    var rows = '';
+    for (var k in values) {
+      if (Object.prototype.hasOwnProperty.call(values, k)) {
+        rows += '<tr><td class="k">"' + k + '"</td><td class="v">' + values[k] + '</td>' +
+                '<td style="color:var(--ink-3);">' + (typeof values[k] === 'boolean' ? 'boolean' : 'int') + '</td></tr>';
+      }
+    }
+    bundleEl.innerHTML = '<table><thead><tr><th>key</th><th>value</th><th>type</th></tr></thead><tbody>' + rows + '</tbody></table>';
+  }
+
+  /* ---------- flags ---------- */
+  function paintFlags(extra) {
+    flagsEl.innerHTML =
+      '<span>Clock: <b>' + fmt(ms) + '</b></span>' +
+      '<span>Running: <b class="' + (running ? 'good' : '') + '">' + (running ? 'yes' : 'no') + '</b></span>' +
+      '<span>onSaveInstanceState(): <b class="' + (fixOn ? 'good' : 'bad') + '">' + (fixOn ? 'wired up' : 'not implemented') + '</b></span>' +
+      (extra ? '<span>' + extra + '</span>' : '');
+  }
+
+  function say(kind, tag, text) {
+    verdictEl.className = 'verdict ' + (kind === 'bad' ? 'bad' : kind === 'good' ? 'good' : '');
+    verdictEl.innerHTML = '<span class="tag">' + tag + '</span>' + text;
+  }
+
+  /* ---------- rotation ---------- */
+  function rotate() {
+    landscape = !landscape;
+    devEl.classList.toggle('landscape', landscape);
+    orientEl.textContent = landscape ? 'landscape' : 'portrait';
+    flashEl.textContent = '';
+
+    var before = ms;
+
+    addLine('onPause()', 'exit', 'configuration change');
+
+    var handed = null;
+    if (fixOn) {
+      handed = { seconds: Math.floor(before / 1000), running: running };
+      addLine('onSaveInstanceState()', 'enter', 'the last chance to write anything down');
+      paintBundle(handed);
+    } else {
+      addLine('onSaveInstanceState()', 'note', 'not implemented — nothing is written');
+      paintBundle(null);
+    }
+
+    addLine('onStop()', 'exit', 'configuration change');
+    addLine('onDestroy()', 'dead', 'the old activity object is thrown away');
+    ms = 0;
+    running = false;
+    paintClock();
+
+    addLine('onCreate()', 'born', 'a brand new object is built',
+            handed ? '(savedInstanceState = ' + (handed.seconds) + 's, running=' + handed.running + ')' : '(savedInstanceState = null)');
+
+    if (fixOn) {
+      ms = handed.seconds * 1000;
+      running = handed.running;
+      paintClock();
+      addLine('onRestoreInstanceState()', 'enter', 'values read back out of the Bundle');
+    }
+
+    addLine('onStart()', 'enter', '');
+    addLine('onResume()', 'enter', '');
+
+    if (fixOn) {
+      say('good', 'Value kept',
+          'The clock reads <b>' + fmt(ms) + '</b> — the same number as before the rotation. It never lived through the rotation itself; it was written into the Bundle and read back out by the new activity.');
+      paintFlags('Survived: <b class="good">yes</b>');
+    } else {
+      ms = 0; running = false; paintClock();
+      flashEl.textContent = 'value lost — the clock went back to 00:00';
+      say('bad', 'Value lost',
+          'The clock reads <b>00:00.0</b>. The activity that held ' + fmt(before) + ' no longer exists, and nobody wrote the number down before it was destroyed.');
+      paintFlags('Survived: <b class="bad">no</b>');
+    }
+
+    document.getElementById('bRun').disabled = false;
+    syncRunButtons();
+  }
+
+  /* ---------- run / reset ---------- */
+  function syncRunButtons() {
+    document.getElementById('bGo').textContent = running ? 'Stop' : 'Start';
+    document.getElementById('bRun').textContent = running ? 'Stop' : 'Start';
+  }
+
+  function toggleRun() {
+    running = !running;
+    syncRunButtons();
+    paintFlags();
+  }
+
+  function reset() {
+    ms = 0; running = false;
+    paintClock(); syncRunButtons(); paintFlags();
+    flashEl.textContent = '';
+  }
+
+  /* ---------- wiring ---------- */
+  fixBtn.addEventListener('click', function () {
+    fixOn = !fixOn;
+    fixBtn.setAttribute('aria-pressed', fixOn ? 'true' : 'false');
+    fixBtn.textContent = 'onSaveInstanceState() — ' + (fixOn ? 'on' : 'off');
+    paintFlags();
+  });
+
+  document.getElementById('bRotate').addEventListener('click', rotate);
+  document.getElementById('bGo').addEventListener('click', toggleRun);
+  document.getElementById('bRun').addEventListener('click', toggleRun);
+  document.getElementById('bZero').addEventListener('click', reset);
+  document.getElementById('bReset').addEventListener('click', reset);
+
+  document.getElementById('clearLog').addEventListener('click', function () {
+    seq = 0;
+    logEl.innerHTML = '<li class="empty">Rotate the device to see the sequence.</li>';
+  });
+
+  document.getElementById('askBtn').addEventListener('click', function () {
+    document.getElementById('ask').classList.toggle('show');
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === '1') { location.href = 'demo1-lifecycle.html'; }
+    if (e.key === '2') { location.href = 'demo2-state.html'; }
+    if (e.key === '3') { location.href = 'demo3-viewhierarchy.html'; }
+    if (e.key === '4') { location.href = 'demo4-gravity.html'; }
+    if (e.key === '0' || e.key === 'i') { location.href = 'index.html'; }
+  });
+
+  paintClock();
+  paintBundle(null);
+  paintFlags();
+  syncRunButtons();
+}());
+</script>
+</body>
+</html>
+

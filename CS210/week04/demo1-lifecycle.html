@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo 01 · Activity Lifecycle Simulator · CS210</title>
+<link rel="stylesheet" href="week04.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">← CS210 · Lecture 4</a>
+    <span class="here">Demo 01 / 04</span>
+    <span class="spacer"></span>
+    <a class="jump" href="demo2-state.html">Next: Demo 02 →</a>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="wrap">
+    <div class="num">DEMO 01</div>
+    <h1>Being an Activity</h1>
+    <p class="lede">Press the buttons. Every one of them makes Android call a different method on the same object — and the log on the right is the proof.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap sec">
+    <div class="grid">
+      <div class="side">
+        <h2>What to do</h2>
+        <p class="why">Launch it. Let the clock run for a few seconds. Then press <b>Home</b>, wait, and come back — the seconds are still there. Now press <b>Rotate</b>. They are gone.</p>
+        <div class="ask"><span>Then ask</span>Why did Home keep the value, but rotation lose it?</div>
+        <p class="mini">Do not answer yet. Demo 02 fixes it, and it only lands if they have felt the loss first.</p>
+      </div>
+
+      <div>
+        <div class="stage">
+          <div class="dev" id="dev">
+            <div class="dev-bar">
+              <span id="statusBar">9:41</span>
+              <span id="procLabel">— no process —</span>
+            </div>
+            <div class="dev-body">
+              <div class="appscreen" id="app" style="display:none;">
+                <div class="apptitle">STOPWATCH</div>
+                <div class="clockface" id="clock">00:00.0</div>
+                <div class="buttons">
+                  <button class="btn small" id="appReset">Reset</button>
+                </div>
+              </div>
+              <div class="screen-empty" id="empty">
+                The app has not been launched yet.<br>No activity object exists in memory.
+              </div>
+              <div class="screen-cover" id="dialogCover" style="display:none;">
+                <div class="q">Leave without saving?</div>
+                <div class="s">A dialog is drawn on top of the activity</div>
+                <button class="btn" id="dismissDialog">Dismiss</button>
+              </div>
+            </div>
+            <div class="dev-foot">
+              <span class="sysbtn" id="sysBack">◁ Back</span>
+              <span class="sysbtn" id="sysHome">○ Home</span>
+            </div>
+          </div>
+
+          <div class="life-cols" style="flex:1 1 440px;min-width:340px;">
+            <div class="ladder" id="ladder"></div>
+            <div class="logbox">
+              <div class="head"><span>Logcat</span><button id="clearLog">Clear</button></div>
+              <ol class="log" id="log"><li class="empty">Nothing has run yet. Press “Launch the app”.</li></ol>
+            </div>
+          </div>
+        </div>
+
+        <div class="ctl-grid">
+          <div class="ctl">
+            <div class="lab">Lifecycle</div>
+            <div class="row">
+              <button class="btn primary small" id="bLaunch">Launch the app</button>
+              <button class="btn small" id="bRotate">Rotate the device</button>
+            </div>
+          </div>
+          <div class="ctl">
+            <div class="lab">Leave and come back</div>
+            <div class="row">
+              <button class="btn small" id="bHome">Home</button>
+              <button class="btn small" id="bReturn">Return to the app</button>
+            </div>
+          </div>
+          <div class="ctl">
+            <div class="lab">Partly covered</div>
+            <div class="row">
+              <button class="btn small" id="bDialog">Show a dialog</button>
+            </div>
+          </div>
+          <div class="ctl">
+            <div class="lab">Done with it</div>
+            <div class="row">
+              <button class="btn small" id="bBack">Back button</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="status-strip" id="flags"></div>
+        <div class="verdict" id="verdict">
+          <span class="tag">Waiting</span>
+          Launch the app to begin. The strip above tracks four things at once: is it visible, is it interactive, does the object still exist, and does your timer value survive.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap sec">
+    <div class="grid">
+      <div class="side">
+        <h2>Six callbacks, three pairs</h2>
+        <p class="why">Do not make them memorise the ring. Three pairs carry the whole idea, and each pair answers one question about the activity.</p>
+        <div class="ask"><span>Say this out loud</span>“Born and dies. Visible or not. Interactive or not.”</div>
+      </div>
+
+      <div>
+        <div class="fig-row">
+          <div class="gcard">
+            <h4>onCreate() ⇄ onDestroy()</h4>
+            <div class="attr" style="color:var(--accent);">created or destroyed</div>
+            <p class="scope">Fires <b>once per activity instance</b>. This is the pair that decides whether the object exists at all.</p>
+          </div>
+          <div class="gcard">
+            <h4>onStart() ⇄ onStop()</h4>
+            <div class="attr" style="color:var(--accent);">visible or not</div>
+            <p class="scope">The user can see the screen, or cannot. The object is still alive during <b>onStop()</b> — just off screen.</p>
+          </div>
+          <div class="gcard">
+            <h4>onResume() ⇄ onPause()</h4>
+            <div class="attr" style="color:var(--accent);">interactive or not</div>
+            <p class="scope">Does the activity have the focus? A dialog on top takes the focus without hiding the activity.</p>
+          </div>
+        </div>
+
+        <div class="codebox" style="margin-top:26px;">
+          <div class="file">Logcat — what one rotation actually prints</div>
+          <pre><span class="c">// the activity is destroyed and rebuilt, in this exact order</span>
+onPause()
+onStop()
+onDestroy()          <span class="c">// the old object is gone for good</span>
+onCreate(savedInstanceState = <span class="k">null</span>)   <span class="c">// a brand new object</span>
+onStart()
+onResume()</pre>
+        </div>
+
+        <div style="margin-top:26px;">
+          <div class="photo fig-photo lift">
+            <img src="../assets/img/life-stopwatch.jpg" alt="A mechanical stopwatch lying on a wooden panel">
+          </div>
+          <p class="credit">Photo <b>Anton Makarenko</b> · Pexels #1078057 · the Stopwatch app is the thread that runs through this whole lecture.</p>
+        </div>
+
+        <div style="margin-top:34px;">
+          <button class="btn primary" id="whyBtn">Why is onRestart() not in that list?</button>
+          <div class="reveal" id="why">
+            <p style="margin:0 0 12px;font-size:17px;letter-spacing:-.015em;">Because the activity never went through <span style="font-family:var(--mono);font-size:16px;">onStop()</span> on its way down.</p>
+            <p style="margin:0 0 14px;color:var(--ink-2);font-size:15.5px;">Rotation is a <b>configuration change</b>: Android takes the activity down to <span style="font-family:var(--mono);font-size:14px;">onDestroy()</span> and builds a new one. <span style="font-family:var(--mono);font-size:14px;">onRestart()</span> only fires when an existing, still-alive activity comes back from <span style="font-family:var(--mono);font-size:14px;">onStop()</span> — which is exactly the Home-and-return case.</p>
+            <p style="margin:0;color:var(--ink-2);font-size:15.5px;">Run both paths in the simulator and compare the log. That difference — <b>onRestart() present or absent</b> — is the single fastest way to tell which of the two happened.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>CS210 · Mobile Application Development · Fall 2026 · Lecture 4</span>
+    <span>Demo 01 of 04 · works offline</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  var STATES = [
+    ['none',      'Not created', 'nothing has run yet'],
+    ['created',   'Created',     'onCreate() ran — the object exists'],
+    ['started',   'Started',     'onStart() ran — visible, not interactive'],
+    ['resumed',   'Resumed',     'onResume() ran — running and interactive'],
+    ['paused',    'Paused',      'onPause() ran — visible, no focus'],
+    ['stopped',   'Stopped',     'onStop() ran — invisible, object alive'],
+    ['destroyed', 'Destroyed',   'onDestroy() ran — the object is gone']
+  ];
+
+  var logEl     = document.getElementById('log');
+  var ladderEl  = document.getElementById('ladder');
+  var clockEl   = document.getElementById('clock');
+  var appEl     = document.getElementById('app');
+  var emptyEl   = document.getElementById('empty');
+  var coverEl   = document.getElementById('dialogCover');
+  var flagsEl   = document.getElementById('flags');
+  var verdictEl = document.getElementById('verdict');
+  var procEl    = document.getElementById('procLabel');
+
+  var state = 'none';
+  var ms = 0;
+  var seq = 0;
+  var destroyedOnce = false;
+
+  /* ---------- ticking clock ---------- */
+  var tick = setInterval(function () {
+    if (state !== 'none' && state !== 'destroyed') {
+      ms += 100;
+      paintClock();
+    }
+  }, 100);
+
+  function paintClock() {
+    var t = ms / 1000;
+    var m = Math.floor(t / 60);
+    var s = Math.floor(t % 60);
+    var d = Math.floor((ms % 1000) / 100);
+    clockEl.textContent = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s + '.' + d;
+  }
+
+  /* ---------- logging ---------- */
+  function clearPlaceholder() {
+    var ph = logEl.querySelector('.empty');
+    if (ph) { logEl.removeChild(ph); }
+  }
+
+  function addLine(method, args, kind, why) {
+    clearPlaceholder();
+    seq += 1;
+    var li = document.createElement('li');
+    li.className = kind || '';
+    var n = document.createElement('span');
+    n.className = 'n';
+    n.textContent = String(seq).padStart(2, '0');
+    var m = document.createElement('span');
+    m.className = 'm';
+    m.textContent = method;
+    li.appendChild(n);
+    li.appendChild(m);
+    if (args) {
+      var a = document.createElement('span');
+      a.className = 'a';
+      a.textContent = args;
+      li.appendChild(a);
+    }
+    if (why) {
+      var w = document.createElement('span');
+      w.className = 'why';
+      w.textContent = why;
+      li.appendChild(w);
+    }
+    logEl.appendChild(li);
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+
+  function note(text) {
+    clearPlaceholder();
+    var li = document.createElement('li');
+    li.className = 'note';
+    var m = document.createElement('span');
+    m.className = 'm';
+    m.textContent = text;
+    li.appendChild(m);
+    logEl.appendChild(li);
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+
+  function resetLog() {
+    seq = 0;
+    logEl.innerHTML = '<li class="empty">Nothing has run yet. Press “Launch the app”.</li>';
+  }
+
+  /* ---------- callbacks: log + move state ---------- */
+  function onPause(why)    { addLine('onPause()',   '', 'exit',  why); setState('paused'); }
+  function onStop(why)     { addLine('onStop()',    '', 'exit',  why); setState('stopped'); }
+  function onDestroy(why)  { addLine('onDestroy()', '', 'dead',  why); setState('destroyed'); }
+  function onRestart(why)  { addLine('onRestart()', '', 'enter', why); }
+  function onStart(why)    { addLine('onStart()',   '', 'enter', why); setState('started'); }
+  function onResume(why)   { addLine('onResume()',  '', 'enter', why); setState('resumed'); }
+  function onCreate(args, why) { addLine('onCreate()', args, 'born', why); setState('created'); }
+
+  /* ---------- actions ---------- */
+  function launch() {
+    if (state !== 'none' && state !== 'destroyed') { return; }
+    if (destroyedOnce) {
+      note('// a new activity instance is created');
+    }
+    onCreate('(savedInstanceState = null)', 'first launch');
+    onStart();
+    onResume();
+    say('good', 'Running', 'The activity is visible and interactive. The clock is counting — and every one of these numbers lives in the activity object.');
+    paint();
+  }
+
+  function home() {
+    if (state !== 'resumed') { return; }
+    onPause('Home pressed — the activity loses focus');
+    onStop('Home pressed — it is no longer visible');
+    note('// the object is still alive. The timer keeps its value.');
+    say('ok', 'Stopped, not destroyed', 'The user cannot see it, but the activity object is still in memory — so the seconds survive. Press “Return to the app”.');
+    paint();
+  }
+
+  function comeBack() {
+    if (state !== 'stopped') { return; }
+    onRestart('coming back from onStop()');
+    onStart();
+    onResume();
+    say('good', 'Back in the foreground', 'onRestart() fires here and nowhere else. Same object, same value — nothing was ever thrown away.');
+    paint();
+  }
+
+  function rotate() {
+    if (state !== 'resumed') { return; }
+    onPause('configuration change');
+    onStop('configuration change');
+    onDestroy('configuration change');
+    var lost = ms;
+    ms = 0;
+    destroyedOnce = true;
+    paintClock();
+    note('// the activity object is gone — ' + fmt(lost) + ' of timer state is lost with it');
+    onCreate('(savedInstanceState = null)', 'rebuilt from scratch');
+    onStart();
+    onResume();
+    say('bad', 'The value is gone', 'Rotation does not “refresh” the screen — it throws the activity away and builds a new one. Anything you only kept in a field reset to zero. This is what Demo 02 fixes.');
+    paint();
+  }
+
+  function dialog() {
+    if (state === 'resumed') {
+      onPause('a dialog is drawn on top of the activity');
+      say('ok', 'Paused, still visible', 'The activity lost the focus but not the screen. Note which callback did NOT run: onStop() never fired, because the user can still see the app.');
+    } else if (state === 'paused') {
+      coverEl.style.display = 'none';
+      onResume('the dialog was dismissed');
+      say('good', 'Focus regained', 'Straight from onPause() back to onResume(). No onStop(), no onRestart().');
+    } else {
+      return;
+    }
+    paint();
+  }
+
+  function back() {
+    if (state === 'resumed' || state === 'paused') {
+      if (state === 'paused') { coverEl.style.display = 'none'; coverVisible = false; }
+      else { onPause('Back pressed — the activity is finishing'); }
+      onStop('Back pressed');
+      onDestroy('Back pressed — the activity is finished');
+      ms = 0;
+      destroyedOnce = true;
+      paintClock();
+      note('// the user finished the activity. Pressing Back later starts a brand new one.');
+      say('bad', 'Finished', 'Back is different from Home. Home only stops the activity; Back destroys it on purpose.');
+      paint();
+    }
+  }
+
+  /* ---------- rendering ---------- */
+  function setState(next) {
+    state = next;
+    paint();
+  }
+
+  function paint() {
+    /* phone */
+    var alive = (state !== 'none' && state !== 'destroyed');
+    appEl.style.display = alive ? 'flex' : 'none';
+    emptyEl.style.display = alive ? 'none' : 'flex';
+    clockEl.className = 'clockface' + (state === 'resumed' ? '' : ' dim');
+    coverEl.style.display = (state === 'paused' && coverVisible) ? 'flex' : 'none';
+
+    procEl.textContent = alive
+      ? (state === 'stopped' ? 'process alive · invisible' : 'process alive · ' + state)
+      : '— no process —';
+
+    /* ladder */
+    var html = '<h4>Where the activity is now</h4>';
+    for (var i = 0; i < STATES.length; i++) {
+      var s = STATES[i];
+      var cls = 'rung';
+      if (s[0] === state) { cls += ' on'; }
+      else if (state === 'none') { cls += ' dead'; }
+      html += '<div class="' + cls + '" data-state="' + s[0] + '">' +
+                '<span class="dot"></span><span class="m">' + s[1] + '</span>' +
+              '</div>';
+    }
+    html += '<div style="margin-top:12px;font-size:12.5px;color:var(--ink-3);line-height:1.45;">' +
+            STATES.filter(function (x) { return x[0] === state; }).map(function (x) { return x[2]; })[0] +
+            '</div>';
+    ladderEl.innerHTML = html;
+
+    /* flags */
+    var visible   = (state === 'created' || state === 'started' || state === 'resumed' || state === 'paused');
+    var inter     = (state === 'resumed');
+    var inMemory  = alive;
+    var keepsVal  = alive;
+
+    flagsEl.innerHTML =
+      '<span>Visible: <b class="' + (visible ? 'good' : 'bad') + '">' + (visible ? 'yes' : 'no') + '</b></span>' +
+      '<span>Interactive: <b class="' + (inter ? 'good' : 'bad') + '">' + (inter ? 'yes' : 'no') + '</b></span>' +
+      '<span>Object in memory: <b class="' + (inMemory ? 'good' : 'bad') + '">' + (inMemory ? 'yes' : 'no') + '</b></span>' +
+      '<span>Timer value survives: <b class="' + (keepsVal ? 'good' : 'bad') + '">' + (keepsVal ? 'yes' : 'no') + '</b></span>';
+
+    /* buttons */
+    document.getElementById('bLaunch').disabled = !(state === 'none' || state === 'destroyed');
+    document.getElementById('bHome').disabled   = (state !== 'resumed');
+    document.getElementById('bReturn').disabled = (state !== 'stopped');
+    document.getElementById('bRotate').disabled = (state !== 'resumed');
+    document.getElementById('bBack').disabled   = !(state === 'resumed' || state === 'paused');
+    document.getElementById('bDialog').disabled = !(state === 'resumed' || state === 'paused');
+    document.getElementById('bDialog').textContent =
+      (state === 'paused' && coverVisible) ? 'Dismiss the dialog' : 'Show a dialog';
+  }
+
+  /* the dialog overlay has its own little sub-state */
+  var coverVisible = false;
+
+  function say(kind, tag, text) {
+    verdictEl.className = 'verdict ' + (kind === 'bad' ? 'bad' : kind === 'good' ? 'good' : '');
+    verdictEl.innerHTML = '<span class="tag">' + tag + '</span>' + text;
+  }
+
+  function fmt(millis) {
+    var t = millis / 1000;
+    return Math.floor(t / 60) + 'm ' + (t % 60).toFixed(1) + 's';
+  }
+
+  /* ---------- wiring ---------- */
+  document.getElementById('bLaunch').addEventListener('click', launch);
+  document.getElementById('bHome').addEventListener('click', home);
+  document.getElementById('bReturn').addEventListener('click', comeBack);
+  document.getElementById('bRotate').addEventListener('click', rotate);
+  document.getElementById('bBack').addEventListener('click', back);
+  document.getElementById('bDialog').addEventListener('click', function () {
+    if (state === 'resumed') { coverVisible = true; dialog(); }
+    else if (state === 'paused' && coverVisible) { coverVisible = false; dialog(); }
+  });
+  document.getElementById('dismissDialog').addEventListener('click', function () {
+    coverVisible = false;
+    dialog();
+  });
+  document.getElementById('sysHome').addEventListener('click', home);
+  document.getElementById('sysBack').addEventListener('click', back);
+  document.getElementById('appReset').addEventListener('click', function () {
+    ms = 0; paintClock();
+  });
+  document.getElementById('clearLog').addEventListener('click', resetLog);
+
+  document.getElementById('whyBtn').addEventListener('click', function () {
+    document.getElementById('why').classList.toggle('show');
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === '1') { location.href = 'demo1-lifecycle.html'; }
+    if (e.key === '2') { location.href = 'demo2-state.html'; }
+    if (e.key === '3') { location.href = 'demo3-viewhierarchy.html'; }
+    if (e.key === '4') { location.href = 'demo4-gravity.html'; }
+    if (e.key === '0' || e.key === 'i') { location.href = 'index.html'; }
+  });
+
+  paintClock();
+  paint();
+}());
+</script>
+</body>
+</html>
+
