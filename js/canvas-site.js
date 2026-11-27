@@ -1,4 +1,4 @@
-import { createRipple } from './canvas-ripple.js';
+import { createRipple } from './canvas-ripple.js?v=3';
 
 const style = document.createElement('style');
 style.textContent = `
@@ -50,7 +50,28 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
   output.className = 'canvas-ui-overlay';
   output.setAttribute('aria-hidden', 'true');
   document.body.append(output);
-  try { createRipple({source, content: document.body, output}, {trigger:'click', amplitude:0.65, refraction:24, shine:0.45, dispersion:0.1}); }
+  try {
+    const ripple = createRipple({source, content: document.body, output}, {
+      trigger: 'none', amplitude: 1.65, wavelength: 52, rings: 3, shine: 1.1,
+    });
+    if (!ripple) output.remove();
+    const heading = document.querySelector('#about h1, .wg-about h1');
+    if (ripple && heading) {
+      const demo = document.createElement('button');
+      demo.type = 'button';
+      demo.className = 'btn btn-outline-primary btn-sm mb-3';
+      demo.textContent = 'Try Canvas UI ripple';
+      heading.after(demo);
+      demo.addEventListener('click', () => {
+        const rect = demo.getBoundingClientRect();
+        ripple.splash(rect.left + rect.width / 2, rect.top + rect.height / 2);
+      });
+    }
+    if (ripple) document.addEventListener('pointerdown', event => {
+      if (event.target.closest('a, button, input, textarea, select, canvas, .paper-preview')) return;
+      ripple.splash(event.clientX, event.clientY, 0.6);
+    }, {passive: true});
+  }
   catch (_) { output.remove(); }
 }
 

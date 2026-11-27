@@ -271,8 +271,8 @@ void main () {
   float shade = pow(clamp(-g * 1.6, 0.0, 1.0), 2.0) * uShine * 0.3;
 
   if (uHasContent < 0.5) {
-    float a = clamp(glint * 0.9 + shade * 0.5, 0.0, 0.85);
-    outColor = vec4(vec3(glint * 0.9), a);
+    float a = clamp(glint * 1.1 + shade * 1.4, 0.0, 0.7);
+    outColor = vec4(vec3(0.02, 0.35, 0.9) * a, a);
     return;
   }
 
