@@ -33,9 +33,13 @@ style.textContent = `
 .paper-preview{position:fixed;z-index:2147483001;width:min(440px,calc(100vw - 24px));height:min(520px,65vh);background:#fff;border:1px solid #cbd5e1;border-radius:10px;box-shadow:0 12px 36px #10243c40;overflow:hidden}
 
 .paper-preview{display:flex;flex-direction:column}
-.paper-preview-summary{padding:1rem 1.15rem;margin:0;overflow:auto}
-.paper-preview.is-summary{height:auto;max-height:65vh}
-.paper-preview.is-summary .paper-preview-stage{display:none}
+
+.paper-with-thumb{position:relative;padding-inline-start:calc(var(--paper-thumb-width) + 16px)!important;min-height:calc(var(--paper-thumb-width) * 1.42 + 10px);--paper-thumb-width:64px}
+.paper-thumb{position:absolute;inset-inline-start:4px;top:4px;display:block;width:var(--paper-thumb-width);line-height:0}
+.home-publications-item.paper-with-thumb .paper-thumb{inset-inline-start:12px;top:14px;width:56px}
+.home-publications-item.paper-with-thumb{padding-inline-start:80px!important}
+.paper-thumb img{display:block;width:100%;aspect-ratio:0.707;object-fit:contain;background:#fff;border:1px solid #cbd5e1;border-radius:3px}
+@media(max-width:600px){.paper-with-thumb{--paper-thumb-width:45px}.home-publications-item.paper-with-thumb{padding-inline-start:60px!important}.home-publications-item.paper-with-thumb .paper-thumb{width:40px}}
 .paper-preview-bar{display:flex;align-items:center;gap:.7rem;padding:.45rem .65rem}
 .paper-preview-stage{position:relative;flex:1;min-height:0;overflow:auto;background:#f1f5f9}
 .paper-preview-stage canvas,.paper-preview-stage img{display:block;width:100%;height:100%;object-fit:contain}
@@ -129,10 +133,8 @@ if (titles.length) {
   stage.addEventListener('pointerleave', () => { fallback.hidden = true; });
   stage.append(fallback);
   bar.append(open, zoom);
-  const summary = document.createElement('p');
-  summary.className = 'paper-preview-summary';
   preview.id = 'paper-preview';
-  preview.append(bar, summary, stage);
+  preview.append(bar, stage);
   document.body.append(preview);
   let timer;
   let active;
@@ -180,30 +182,14 @@ if (titles.length) {
     if (active) active.setAttribute('aria-expanded','false');
     active = null;
   }
-  function show(title, card) {
+  function show(title, pdf, thumbnail) {
     clearTimeout(timer);
     if (active === title && !preview.hidden) return;
     close();
     active = title;
     title.setAttribute('aria-expanded', 'true');
-    const pdf = [...card.querySelectorAll('a[href]')].find(link =>
-      link.origin === location.origin && /^\/publication\/.*\.pdf$/i.test(link.pathname));
-    const external = card.querySelector('a[href*="doi.org"], a[href*="scholar.google."]');
-    const destination = pdf || external;
-    open.hidden = !destination;
-    if (destination) open.href = destination.href;
-    open.textContent = pdf ? 'Open full PDF' : 'View publication';
-    zoom.hidden = !pdf;
-    summary.hidden = Boolean(pdf);
-    preview.classList.toggle('is-summary', !pdf);
-    if (pdf) {
-      image.src = pdf.pathname.replace(/\.pdf$/i, '.preview.jpg');
-    } else {
-      const details = [...card.querySelectorAll('.metadata-block, .journal-block, .pub-meta, .pub-venue')]
-        .map(element => element.textContent.trim().replace(/\s+/g, ' '));
-      summary.textContent = [title.textContent.trim().replace(/\s+/g,' '), ...details].join('\n');
-      summary.style.whiteSpace = 'pre-line';
-    }
+    open.href = pdf.href;
+    image.src = thumbnail;
     preview.hidden = false;
     const rect = title.getBoundingClientRect();
     const width = preview.offsetWidth;
@@ -213,7 +199,7 @@ if (titles.length) {
       ? rect.bottom + 6 : rect.top - height - 6;
     preview.style.left = left + 'px';
     preview.style.top = Math.max(12, preferredTop) + 'px';
-    if (pdf) mountLens();
+    mountLens();
   }
 
   function later() {
@@ -231,15 +217,33 @@ if (titles.length) {
   window.addEventListener('resize', close);
   titles.forEach(title => {
     const card = title.closest('.home-publications-item, .pub-list-item');
+    const pdf = [...card.querySelectorAll('a[href]')].find(link =>
+      link.origin === location.origin && /^\/publication\/.*\.pdf$/i.test(link.pathname));
+    if (!pdf) return;
+    const thumbnail = pdf.pathname.replace(/\.pdf$/i, '.preview.jpg');
+    const thumbLink = document.createElement('a');
+    thumbLink.className = 'paper-thumb';
+    thumbLink.href = pdf.href;
+    thumbLink.target = '_blank';
+    thumbLink.rel = 'noopener';
+    const thumb = document.createElement('img');
+    thumb.alt = 'First page of ' + title.textContent.trim().replace(/\s+/g, ' ');
+    thumb.loading = 'lazy';
+    thumb.src = thumbnail;
+    thumbLink.append(thumb);
+    card.classList.add('paper-with-thumb');
+    card.prepend(thumbLink);
     title.tabIndex = 0;
     title.setAttribute('aria-controls', preview.id);
     title.setAttribute('aria-expanded', 'false');
-    title.addEventListener('pointerenter', event => {
-      if (event.pointerType === 'mouse' || event.pointerType === 'pen') show(title, card);
-    });
-    title.addEventListener('pointerleave', later);
-    title.addEventListener('focus', () => show(title, card));
-    title.addEventListener('blur', later);
+    for (const trigger of [title, thumbLink]) {
+      trigger.addEventListener('pointerenter', event => {
+        if (event.pointerType === 'mouse' || event.pointerType === 'pen') show(title, pdf, thumbnail);
+      });
+      trigger.addEventListener('pointerleave', later);
+      trigger.addEventListener('focus', () => show(title, pdf, thumbnail));
+      trigger.addEventListener('blur', later);
+    }
   });
 }
 const widgets = document.querySelectorAll('[data-canvas-effect]');
