@@ -70,5 +70,5 @@
     ];
     document.getElementById('roadmap').innerHTML=stages.map((s,i)=>`<section class="stage" style="--c:${s[4]}"><header class="stage-head"><span class="stage-label">${s[0]}</span><div><h2>${s[1]}</h2><span class="stage-meta">${s[2]}</span></div><p class="stage-goal">${s[3]}</p></header><div class="grid">${weeks.filter(w=>w[1]===i).map(w=>`<article class="week"><div class="week-no"><small>W</small>${String(w[0]).padStart(2,'0')}</div><div><h3>${w[2]}</h3><p class="goal">${w[3]}</p><div class="detail"><b>Core focus</b><span>${w[4]}</span></div><div class="detail"><b>Outcome</b><span>${w[5]}</span></div></div></article>`).join('')}</div></section>`).join('');
   </script>
-<script type="module" src="/js/canvas-site.js"></script></body>
+<script type="module" src="/js/canvas-site.js?v=2"></script></body>
 </html>

@@ -49,10 +49,10 @@ function createCanvasResizeObserver(onResize) {
         }
     };
 }
-import * as THREE from "https://esm.sh/three@0.180.0";
-import { OrbitControls } from "https://esm.sh/three@0.180.0/addons/controls/OrbitControls.js";
-import { DRACOLoader } from "https://esm.sh/three@0.180.0/addons/loaders/DRACOLoader.js";
-import { GLTFLoader } from "https://esm.sh/three@0.180.0/addons/loaders/GLTFLoader.js";
+import * as THREE from "./vendor/three/build/three.module.min.js";
+import { OrbitControls } from "./vendor/three/examples/jsm/controls/OrbitControls.js";
+import { DRACOLoader } from "./vendor/three/examples/jsm/loaders/DRACOLoader.js";
+import { GLTFLoader } from "./vendor/three/examples/jsm/loaders/GLTFLoader.js";
 function createRectCache(element) {
     let current = element.getBoundingClientRect();
     const refresh = ()=>{

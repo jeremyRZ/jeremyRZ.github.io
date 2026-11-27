@@ -36,6 +36,7 @@ style.textContent = `
 .paper-preview-bar{display:flex;align-items:center;gap:.7rem;padding:.45rem .65rem}
 .paper-preview-stage{position:relative;flex:1;min-height:0;overflow:auto;background:#f1f5f9}
 .paper-preview-stage canvas,.paper-preview-stage img{display:block;width:100%;height:100%;object-fit:contain}
+.paper-preview-stage .paper-fallback-lens{position:absolute;width:140px;height:140px;border:2px solid #0071e3;border-radius:50%;pointer-events:none;background-repeat:no-repeat;box-shadow:0 4px 20px #10243c40}
 .paper-preview-stage .paper-lens{position:absolute;inset:0;pointer-events:none}
 .paper-preview-stage.is-zoomed img{width:180%;height:auto;max-width:none}
 .paper-preview[hidden]{display:none}.paper-preview iframe{width:100%;height:100%;border:0}.paper-preview-button{margin-left:.4rem;cursor:pointer}
@@ -49,7 +50,7 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
   output.className = 'canvas-ui-overlay';
   output.setAttribute('aria-hidden', 'true');
   document.body.append(output);
-  try { createRipple({source, content: document.body, output}, {trigger:'click', amplitude:0.3, refraction:20, shine:0.16, dispersion:0.1}); }
+  try { createRipple({source, content: document.body, output}, {trigger:'click', amplitude:0.65, refraction:24, shine:0.45, dispersion:0.1}); }
   catch (_) { output.remove(); }
 }
 
@@ -84,7 +85,30 @@ if (links.length) {
   stage.className = 'paper-preview-stage';
   const image = document.createElement('img');
   image.alt = 'First page of the paper';
+  const fallback = document.createElement('div');
+  fallback.className = 'paper-fallback-lens';
+  fallback.hidden = true;
   stage.append(image);
+  stage.addEventListener('pointermove', event => {
+    if (lens || !hoverMotion.matches || !image.naturalWidth || stage.classList.contains('is-zoomed')) return;
+    const bounds = stage.getBoundingClientRect();
+    const scale = Math.min(bounds.width / image.naturalWidth, bounds.height / image.naturalHeight);
+    const width = scale * image.naturalWidth;
+    const height = scale * image.naturalHeight;
+    const x = event.clientX - bounds.left;
+    const y = event.clientY - bounds.top;
+    const imageX = x - (bounds.width - width) / 2;
+    const imageY = y - (bounds.height - height) / 2;
+    fallback.hidden = imageX < 0 || imageX > width || imageY < 0 || imageY > height;
+    if (fallback.hidden) return;
+    fallback.style.left = (x - 70) + 'px';
+    fallback.style.top = (y - 70) + 'px';
+    fallback.style.backgroundImage = 'url("' + image.src + '")';
+    fallback.style.backgroundSize = (width * 2) + 'px ' + (height * 2) + 'px';
+    fallback.style.backgroundPosition = (70 - imageX * 2) + 'px ' + (70 - imageY * 2) + 'px';
+  });
+  stage.addEventListener('pointerleave', () => { fallback.hidden = true; });
+  stage.append(fallback);
   bar.append(open, zoom);
   preview.append(bar, stage);
   document.body.append(preview);
@@ -107,17 +131,19 @@ if (links.length) {
       content.style.height = '100%';
       content.append(image);
       source.append(content);
+      fallback.hidden = true;
       stage.append(source, output);
       lens = createMagnify({source, content, output}, {size: 75, zoom: 2});
-      if (!lens) stage.replaceChildren(image);
+      if (!lens) stage.replaceChildren(image, fallback);
     } catch {
-      stage.replaceChildren(image);
+      stage.replaceChildren(image, fallback);
     } finally { pending = false; }
   }
   function removeLens() {
     lens?.destroy();
     lens = null;
-    stage.replaceChildren(image);
+    fallback.hidden = true;
+    stage.replaceChildren(image, fallback);
   }
   zoom.addEventListener('click', () => {
     removeLens();
