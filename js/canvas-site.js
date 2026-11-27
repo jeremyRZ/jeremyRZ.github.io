@@ -44,6 +44,7 @@ style.textContent = `
 `;
 document.head.append(style);
 
+let ripple;
 if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
   const source = document.createElement('canvas');
   const output = document.createElement('canvas');
@@ -51,28 +52,46 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
   output.setAttribute('aria-hidden', 'true');
   document.body.append(output);
   try {
-    const ripple = createRipple({source, content: document.body, output}, {
+    ripple = createRipple({source, content: document.body, output}, {
       trigger: 'none', amplitude: 1.65, wavelength: 52, rings: 3, shine: 1.1,
     });
     if (!ripple) output.remove();
-    const heading = document.querySelector('#about h1, .wg-about h1');
-    if (ripple && heading) {
-      const demo = document.createElement('button');
-      demo.type = 'button';
-      demo.className = 'btn btn-outline-primary btn-sm mb-3';
-      demo.textContent = 'Try Canvas UI ripple';
-      heading.after(demo);
-      demo.addEventListener('click', () => {
-        const rect = demo.getBoundingClientRect();
-        ripple.splash(rect.left + rect.width / 2, rect.top + rect.height / 2);
-      });
-    }
     if (ripple) document.addEventListener('pointerdown', event => {
       if (event.target.closest('a, button, input, textarea, select, canvas, .paper-preview')) return;
       ripple.splash(event.clientX, event.clientY, 0.6);
     }, {passive: true});
   }
-  catch (_) { output.remove(); }
+  catch (error) { output.remove(); console.warn("Canvas UI ripple:", error); }
+}
+
+const heading = document.querySelector('#about h1');
+if (heading) {
+  const demo = document.createElement('button');
+  demo.type = 'button';
+  demo.className = 'btn btn-outline-primary btn-sm mb-3';
+  demo.textContent = 'Try Canvas UI ripple';
+  heading.after(demo);
+  demo.addEventListener('click', () => {
+    const rect = demo.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+    if (ripple && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      ripple.splash(x, y);
+      return;
+    }
+    const ring = document.createElement('span');
+    ring.setAttribute('aria-hidden', 'true');
+    Object.assign(ring.style, {
+      position: 'fixed', left: x - 46 + 'px', top: y - 46 + 'px',
+      width: '92px', height: '92px', borderRadius: '50%',
+      border: '3px solid #0071e3', pointerEvents: 'none', zIndex: 2147483000,
+    });
+    document.body.append(ring);
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      ring.animate([{transform:'scale(.5)', opacity:1}, {transform:'scale(3.5)', opacity:0}], 800);
+    }
+    setTimeout(() => ring.remove(), 800);
+  });
 }
 
 const hoverMotion = matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)');
