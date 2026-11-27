@@ -33,13 +33,16 @@ style.textContent = `
 .paper-preview{position:fixed;z-index:2147483001;width:min(440px,calc(100vw - 24px));height:min(520px,65vh);background:#fff;border:1px solid #cbd5e1;border-radius:10px;box-shadow:0 12px 36px #10243c40;overflow:hidden}
 
 .paper-preview{display:flex;flex-direction:column}
+.paper-preview-summary{padding:1rem 1.15rem;margin:0;overflow:auto}
+.paper-preview.is-summary{height:auto;max-height:65vh}
+.paper-preview.is-summary .paper-preview-stage{display:none}
 .paper-preview-bar{display:flex;align-items:center;gap:.7rem;padding:.45rem .65rem}
 .paper-preview-stage{position:relative;flex:1;min-height:0;overflow:auto;background:#f1f5f9}
 .paper-preview-stage canvas,.paper-preview-stage img{display:block;width:100%;height:100%;object-fit:contain}
 .paper-preview-stage .paper-fallback-lens{position:absolute;width:140px;height:140px;border:2px solid #0071e3;border-radius:50%;pointer-events:none;background-repeat:no-repeat;box-shadow:0 4px 20px #10243c40}
 .paper-preview-stage .paper-lens{position:absolute;inset:0;pointer-events:none}
 .paper-preview-stage.is-zoomed img{width:180%;height:auto;max-width:none}
-.paper-preview[hidden]{display:none}.paper-preview iframe{width:100%;height:100%;border:0}.paper-preview-button{margin-left:.4rem;cursor:pointer}
+.paper-preview[hidden]{display:none}.paper-preview iframe{width:100%;height:100%;border:0}
 @media(max-width:600px){.paper-preview{left:12px!important;top:15vh!important;height:65vh}}
 `;
 document.head.append(style);
@@ -64,36 +67,6 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
   catch (error) { output.remove(); console.warn("Canvas UI ripple:", error); }
 }
 
-const heading = document.querySelector('#about h1');
-if (heading) {
-  const demo = document.createElement('button');
-  demo.type = 'button';
-  demo.className = 'btn btn-outline-primary btn-sm mb-3';
-  demo.textContent = 'Try Canvas UI ripple';
-  heading.after(demo);
-  demo.addEventListener('click', () => {
-    const rect = demo.getBoundingClientRect();
-    const x = rect.left + rect.width / 2;
-    const y = rect.top + rect.height / 2;
-    if (ripple && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      ripple.splash(x, y);
-      return;
-    }
-    const ring = document.createElement('span');
-    ring.setAttribute('aria-hidden', 'true');
-    Object.assign(ring.style, {
-      position: 'fixed', left: x - 46 + 'px', top: y - 46 + 'px',
-      width: '92px', height: '92px', borderRadius: '50%',
-      border: '3px solid #0071e3', pointerEvents: 'none', zIndex: 2147483000,
-    });
-    document.body.append(ring);
-    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      ring.animate([{transform:'scale(.5)', opacity:1}, {transform:'scale(3.5)', opacity:0}], 800);
-    }
-    setTimeout(() => ring.remove(), 800);
-  });
-}
-
 const hoverMotion = matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)');
 document.querySelectorAll('.wg-about, .home-publications-item, .pub-list-item').forEach(card => {
   card.addEventListener('pointermove', event => {
@@ -106,8 +79,8 @@ document.querySelectorAll('.wg-about, .home-publications-item, .pub-list-item').
   card.addEventListener('pointerleave', () => card.classList.remove('canvas-ui-spotlight'));
 });
 
-const links = document.querySelectorAll('a[href$=".pdf" i]');
-if (links.length) {
+const titles = document.querySelectorAll('.home-publications-item .pub-title, .pub-list-item .title-block');
+if (titles.length) {
   const preview = document.createElement('div');
   preview.className = 'paper-preview'; preview.hidden = true;
   preview.setAttribute('role', 'region'); preview.setAttribute('aria-label', 'PDF preview');
@@ -150,11 +123,13 @@ if (links.length) {
   stage.addEventListener('pointerleave', () => { fallback.hidden = true; });
   stage.append(fallback);
   bar.append(open, zoom);
-  preview.append(bar, stage);
+  const summary = document.createElement('p');
+  summary.className = 'paper-preview-summary';
+  preview.id = 'paper-preview';
+  preview.append(bar, summary, stage);
   document.body.append(preview);
   let timer;
   let active;
-  let pinned = false;
   let lens;
   let pending;
   const source = document.createElement('canvas');
@@ -198,43 +173,67 @@ if (links.length) {
     zoom.setAttribute('aria-pressed', 'false');
     if (active) active.setAttribute('aria-expanded','false');
     active = null;
-    pinned = false;
   }
-  function show(button, link) {
+  function show(title, card) {
     clearTimeout(timer);
-    if (active && active !== button) active.setAttribute('aria-expanded','false');
-    active = button; button.setAttribute('aria-expanded','true');
-    const rect = button.getBoundingClientRect();
-    preview.style.left = Math.max(12, Math.min(rect.right + 12, innerWidth - Math.min(440, innerWidth - 24) - 12)) + 'px';
-    preview.style.top = Math.max(12, Math.min(rect.top, innerHeight - Math.min(520, innerHeight * .65) - 12)) + 'px';
-    open.href = link.href;
-    const url = new URL(link.href);
-    url.pathname = url.pathname.replace(/\.pdf$/i, '.preview.jpg');
-    url.hash = '';
-    if (image.src !== url.href) image.src = url.href;
+    if (active === title && !preview.hidden) return;
+    close();
+    active = title;
+    title.setAttribute('aria-expanded', 'true');
+    const pdf = [...card.querySelectorAll('a[href]')].find(link =>
+      link.origin === location.origin && /^\/publication\/.*\.pdf$/i.test(link.pathname));
+    const external = card.querySelector('a[href*="doi.org"], a[href*="scholar.google."]');
+    const destination = pdf || external;
+    open.hidden = !destination;
+    if (destination) open.href = destination.href;
+    open.textContent = pdf ? 'Open full PDF' : 'View publication';
+    zoom.hidden = !pdf;
+    summary.hidden = Boolean(pdf);
+    preview.classList.toggle('is-summary', !pdf);
+    if (pdf) {
+      image.src = pdf.pathname.replace(/\.pdf$/i, '.preview.jpg');
+    } else {
+      const details = [...card.querySelectorAll('.metadata-block, .journal-block, .pub-meta, .pub-venue')]
+        .map(element => element.textContent.trim().replace(/\s+/g, ' '));
+      summary.textContent = [title.textContent.trim().replace(/\s+/g,' '), ...details].join('\n');
+      summary.style.whiteSpace = 'pre-line';
+    }
     preview.hidden = false;
-    mountLens();
+    const rect = title.getBoundingClientRect();
+    const width = preview.offsetWidth;
+    const height = preview.offsetHeight;
+    const left = Math.max(12, Math.min(rect.left, innerWidth - width - 12));
+    const preferredTop = rect.bottom + 6 + height <= innerHeight - 12
+      ? rect.bottom + 6 : rect.top - height - 6;
+    preview.style.left = left + 'px';
+    preview.style.top = Math.max(12, preferredTop) + 'px';
+    if (pdf) mountLens();
   }
-  function later() { clearTimeout(timer); if (!pinned) timer = setTimeout(close, 350); }
+
+  function later() {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      if (!preview.matches(':hover') && !preview.contains(document.activeElement)) close();
+    }, 220);
+  }
+
   preview.addEventListener('focusin', () => clearTimeout(timer));
-  preview.addEventListener('mouseenter', () => clearTimeout(timer));
-  preview.addEventListener('mouseleave', later);
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
-  links.forEach(link => {
-    if (new URL(link.href).origin !== location.origin || !link.pathname.startsWith("/publication/")) return;
-    const button = document.createElement('button'); button.type='button'; button.className='paper-preview-button btn btn-outline-primary btn-sm';
-    button.textContent='Preview'; button.setAttribute('aria-expanded','false'); button.setAttribute('aria-label','Preview PDF');
-    link.insertAdjacentElement('afterend',button);
-    button.addEventListener('mouseenter', () => { if (!pinned) show(button, link); });
-    button.addEventListener('mouseleave',later);
-    button.addEventListener('click', () => {
-      if (active === button && pinned) {
-        close();
-        return;
-      }
-      show(button, link);
-      pinned = true;
+  preview.addEventListener('focusout', later);
+  preview.addEventListener('pointerenter', () => clearTimeout(timer));
+  preview.addEventListener('pointerleave', later);
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') close(); });
+  window.addEventListener('resize', close);
+  titles.forEach(title => {
+    const card = title.closest('.home-publications-item, .pub-list-item');
+    title.tabIndex = 0;
+    title.setAttribute('aria-controls', preview.id);
+    title.setAttribute('aria-expanded', 'false');
+    title.addEventListener('pointerenter', event => {
+      if (event.pointerType === 'mouse' || event.pointerType === 'pen') show(title, card);
     });
+    title.addEventListener('pointerleave', later);
+    title.addEventListener('focus', () => show(title, card));
+    title.addEventListener('blur', later);
   });
 }
 const widgets = document.querySelectorAll('[data-canvas-effect]');
