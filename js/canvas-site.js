@@ -46,6 +46,15 @@ style.textContent = `
 .paper-preview-stage .paper-fallback-lens{position:absolute;width:140px;height:140px;border:2px solid #0071e3;border-radius:50%;pointer-events:none;background-repeat:no-repeat;box-shadow:0 4px 20px #10243c40}
 .paper-preview-stage .paper-lens{position:absolute;inset:0;pointer-events:none}
 .paper-preview-stage.is-zoomed img{width:180%;height:auto;max-width:none}
+
+.paper-reader{padding:0;width:min(1050px,96vw);height:94vh;max-width:none;max-height:none;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:#162238}
+.paper-reader::backdrop{background:#15243c99}
+.paper-reader[open]{display:flex;flex-direction:column}
+.paper-reader header{display:flex;align-items:center;gap:1rem;padding:.65rem 1rem}
+.paper-reader header strong{flex:1}
+.paper-reader iframe{flex:1;width:100%;min-height:0;border:0}
+.paper-reader-title{cursor:pointer}
+.paper-with-thumb a[hidden]{display:none!important}
 .paper-preview[hidden]{display:none}.paper-preview iframe{width:100%;height:100%;border:0}
 @media(max-width:600px){.paper-preview{left:12px!important;top:15vh!important;height:65vh}}
 `;
@@ -98,8 +107,11 @@ if (titles.length) {
   bar.className = 'paper-preview-bar';
   const open = document.createElement('a');
   open.textContent = 'Open full PDF';
-  open.target = '_blank';
-  open.rel = 'noopener';
+  open.addEventListener('click', event => {
+    if (!active) return;
+    event.preventDefault();
+    read(active, open);
+  });
   const zoom = document.createElement('button');
   zoom.type = 'button';
   zoom.textContent = 'Zoom';
@@ -138,6 +150,37 @@ if (titles.length) {
   document.body.append(preview);
   let timer;
   let active;
+  const reader = document.createElement('dialog');
+  reader.className = 'paper-reader';
+  reader.setAttribute('aria-labelledby', 'paper-reader-heading');
+  const toolbar = document.createElement('header');
+  const readerTitle = document.createElement('strong');
+  readerTitle.id = 'paper-reader-heading';
+  const directLink = document.createElement('a');
+  directLink.textContent = 'Open PDF';
+  directLink.target = '_blank';
+  directLink.rel = 'noopener';
+  const dismiss = document.createElement('button');
+  dismiss.type = 'button';
+  dismiss.className = 'btn btn-outline-primary btn-sm';
+  dismiss.textContent = 'Close';
+  dismiss.autofocus = true;
+  const pages = document.createElement('iframe');
+  pages.title = 'Paper PDF reader';
+  toolbar.append(readerTitle, directLink, dismiss);
+  reader.append(toolbar, pages);
+  document.body.append(reader);
+  dismiss.addEventListener('click', () => reader.close());
+  reader.addEventListener('close', () => pages.removeAttribute('src'));
+
+  function read(title, pdf) {
+    close();
+    readerTitle.textContent = title.textContent.trim().replace(/\s+/g, ' ');
+    directLink.href = pdf.href;
+    pages.src = pdf.href + '#page=1&view=FitH';
+    reader.showModal();
+  }
+
   let lens;
   let pending;
   const source = document.createElement('canvas');
@@ -184,7 +227,7 @@ if (titles.length) {
   }
   function show(title, pdf, thumbnail) {
     clearTimeout(timer);
-    if (active === title && !preview.hidden) return;
+    if (reader.open || (active === title && !preview.hidden)) return;
     close();
     active = title;
     title.setAttribute('aria-expanded', 'true');
@@ -219,13 +262,30 @@ if (titles.length) {
     const card = title.closest('.home-publications-item, .pub-list-item');
     const pdf = [...card.querySelectorAll('a[href]')].find(link =>
       link.origin === location.origin && /^\/publication\/.*\.pdf$/i.test(link.pathname));
-    if (!pdf) return;
+    if (!pdf || typeof reader.showModal !== 'function') return;
+    for (const link of card.querySelectorAll('a[href]')) {
+      if (link === pdf || /^(www\.)?doi\.org$/.test(link.hostname)) link.hidden = true;
+    }
+    title.classList.add('paper-reader-title');
+    title.setAttribute('role', 'button');
+    title.setAttribute('aria-haspopup', 'dialog');
+    title.addEventListener('click', () => read(title, pdf));
+    title.addEventListener('keydown', event => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      read(title, pdf);
+    });
     const thumbnail = pdf.pathname.replace(/\.pdf$/i, '.preview.jpg');
     const thumbLink = document.createElement('a');
     thumbLink.className = 'paper-thumb';
     thumbLink.href = pdf.href;
     thumbLink.target = '_blank';
     thumbLink.rel = 'noopener';
+    thumbLink.addEventListener('click', event => {
+      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      read(title, pdf);
+    });
     const thumb = document.createElement('img');
     thumb.alt = 'First page of ' + title.textContent.trim().replace(/\s+/g, ' ');
     thumb.loading = 'lazy';
