@@ -59,6 +59,12 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
       trigger: 'none', amplitude: 1.65, wavelength: 52, rings: 3, shine: 1.1,
     });
     if (!ripple) output.remove();
+    if (ripple) document.addEventListener('pointerover', event => {
+      if (event.pointerType !== 'mouse' || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+      const target = event.target.closest('.navbar .nav-link, .home-publications-item .pub-title, .pub-list-item .title-block');
+      if (!target || target.contains(event.relatedTarget)) return;
+      ripple.splash(event.clientX, event.clientY, 0.85);
+    }, {passive: true});
     if (ripple) document.addEventListener('pointerdown', event => {
       if (event.target.closest('a, button, input, textarea, select, canvas, .paper-preview')) return;
       ripple.splash(event.clientX, event.clientY, 0.6);
