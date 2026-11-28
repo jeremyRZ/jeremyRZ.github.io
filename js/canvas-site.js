@@ -1,8 +1,5 @@
-import { createRipple } from './canvas-ripple.js?v=3';
-
 const style = document.createElement('style');
 style.textContent = `
-.canvas-ui-overlay{position:fixed;inset:0;width:100%;height:100%;z-index:2147483000;pointer-events:none}
 .navbar .nav-link > span {
   text-decoration-line: underline;
   text-decoration-color: transparent;
@@ -59,32 +56,6 @@ style.textContent = `
 @media(max-width:600px){.paper-preview{left:12px!important;top:15vh!important;height:65vh}}
 `;
 document.head.append(style);
-
-let ripple;
-if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  const source = document.createElement('canvas');
-  const output = document.createElement('canvas');
-  output.className = 'canvas-ui-overlay';
-  output.setAttribute('aria-hidden', 'true');
-  document.body.append(output);
-  try {
-    ripple = createRipple({source, content: document.body, output}, {
-      trigger: 'none', amplitude: 1.65, wavelength: 52, rings: 3, shine: 1.1,
-    });
-    if (!ripple) output.remove();
-    if (ripple) document.addEventListener('pointerover', event => {
-      if (event.pointerType !== 'mouse' || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-      const target = event.target.closest('.navbar .nav-link, .home-publications-item .pub-title, .pub-list-item .title-block');
-      if (!target || target.contains(event.relatedTarget)) return;
-      ripple.splash(event.clientX, event.clientY, 0.85);
-    }, {passive: true});
-    if (ripple) document.addEventListener('pointerdown', event => {
-      if (event.target.closest('a, button, input, textarea, select, canvas, .paper-preview')) return;
-      ripple.splash(event.clientX, event.clientY, 0.6);
-    }, {passive: true});
-  }
-  catch (error) { output.remove(); console.warn("Canvas UI ripple:", error); }
-}
 
 const hoverMotion = matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)');
 document.querySelectorAll('.wg-about, .home-publications-item, .pub-list-item').forEach(card => {
